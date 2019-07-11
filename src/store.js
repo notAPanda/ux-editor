@@ -5,15 +5,21 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    selectedElement: {
+      id: null,
+      type: null
+    },
     canvas: {
+      type: 'canvas',
       width: 1024,
       height: 10000
     },
     base: {
       box: {
+        type: 'box',
         selected: false,
-        x: 100,
-        y: 100,
+        x: 0,
+        y: 0,
         scaleX: 1,
         scaleY: 1,
         width: 100,
@@ -30,6 +36,9 @@ export default new Vuex.Store({
     elements: []
   },
   mutations: {
+    selectElement (state, payload) {
+      state.selectedElement = payload
+    },
     addElement (state) {
       state.elements = [...state.elements, { ...state.base.box, id: state.elements.length }]
     },
@@ -38,9 +47,9 @@ export default new Vuex.Store({
         ...state.elements.filter(element => element.id !== payload.id),
         payload
       ]
+      state.selectedElement = payload
     }
   },
   actions: {
-
   }
 })

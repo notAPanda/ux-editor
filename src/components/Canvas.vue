@@ -1,7 +1,14 @@
 <template>
-  <div class="canvas" ref="canvas" :style="getCanvasStyles()">
+  <div class="canvas" 
+    ref="canvas" 
+    :style="getCanvasStyles()"
+    @mousedown="selectCanvas(canvas)"
+  >
     <FreeTransform
       v-for="element in elements"
+      :selected="selectedElement.id === element.id"
+      :selectOn="'mousedown'"
+      @onSelect="selectElement(element)"
       :key="element.id"
       :x="element.x"
       :y="element.y"
@@ -44,9 +51,21 @@ export default {
     },
     canvas () {
       return this.$store.state.canvas
+    },
+    selectedElement () {
+      return this.$store.state.selectedElement
     }
   },
   methods: {
+    selectCanvas (canvas) {
+      this.$store.commit('selectElement', canvas)
+    },
+    selectElement (element){
+      if (this.selectedElement.id === element.id) {
+        return null
+      } 
+      this.$store.commit('selectElement', element)
+    },
     update (element, payload) {
       this.$store.commit('updateElement', {
         ...element,

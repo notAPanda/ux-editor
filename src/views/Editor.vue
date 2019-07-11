@@ -13,19 +13,23 @@
         <Canvas></Canvas>
       </FreeCanvas>
     </div>
-    <section id="properties-panel">properties</section>
+    <section id="properties-panel">
+      <Properties></Properties>
+    </section>
   </div>
 </template>
 
 <script>
 import FreeCanvas from '@/components/FreeCanvas.vue'
 import Canvas from '@/components/Canvas.vue'
+import Properties from '@/components/Properties.vue'
 
 export default {
   name: 'editor',
   components: {
     FreeCanvas,
-    Canvas
+    Canvas,
+    Properties
   },
   methods: {
     addElement () {
