@@ -1,6 +1,6 @@
 <template>
-  <div class="canvas" 
-    ref="canvas" 
+  <div class="canvas"
+    ref="canvas"
     :style="getCanvasStyles()"
     @mousedown="selectCanvas(canvas)"
   >
@@ -60,10 +60,10 @@ export default {
     selectCanvas (canvas) {
       this.$store.commit('selectElement', canvas)
     },
-    selectElement (element){
+    selectElement (element) {
       if (this.selectedElement.id === element.id) {
         return null
-      } 
+      }
       this.$store.commit('selectElement', element)
     },
     update (element, payload) {
