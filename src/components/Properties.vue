@@ -83,13 +83,13 @@ export default {
     }
   },
   methods: {
-      set (value, property) {
-          const payload = {
-              ...this.selectedElement,
-          }
-          payload[property] = parseInt(value)
-          this.$store.commit('updateElement', payload)
+    set (value, property) {
+      const payload = {
+        ...this.selectedElement
       }
+      payload[property] = parseInt(value)
+      this.$store.commit('updateElement', payload)
+    }
   }
 }
 </script>

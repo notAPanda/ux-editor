@@ -28,7 +28,7 @@
 </template>
 
 <script>
-import FreeTransform from 'vue-free-transform'
+import FreeTransform from '@/components/FreeTransform.vue'
 
 export default {
   name: 'Canvas',
@@ -91,83 +91,8 @@ export default {
 </script>
 
 <style lang="scss">
-$point-size: 6px;
-$half-point-size: $point-size / 2;
-
 .canvas {
   background-color: #fff;
   position: relative;
-}
-
-.tr-transform {
-  &--active {
-    position: absolute;
-    z-index: 5;
-    .tr-transform__content {
-      .element {
-        border: 1px solid #006cff;
-      }
-    }
-  }
-  &__content {
-    user-select: none;
-  }
-  &__rotator {
-    top: -20px;
-    left: calc(50% - #{$half-point-size});
-  }
-  &__rotator,
-  &__scale-point {
-    background: #fff;
-    width: $point-size;
-    height: $point-size;
-    // border-radius: 50%;
-    position: absolute;
-    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
-    border: 1px solid #006cff;
-    cursor: pointer;
-  }
-  &__rotator:hover,
-  &__scale-point:hover {
-    background: #f1f5f8;
-  }
-  &__rotator:active,
-  &__scale-point:active {
-    background: #dae1e7;
-  }
-  &__scale-point {
-    &--tl {
-      top: -$half-point-size;
-      left: -$half-point-size;
-    }
-    &--ml {
-      top: calc(50% - #{$half-point-size});
-      left: -$half-point-size;
-    }
-    &--tr {
-      left: calc(100% - #{$half-point-size});
-      top: -$half-point-size;
-    }
-    &--tm {
-      left: calc(50% - #{$half-point-size});
-      top: -$half-point-size;
-    }
-    &--mr {
-      left: calc(100% - #{$half-point-size});
-      top: calc(50% - #{$half-point-size});
-    }
-    &--bl {
-      left: -$half-point-size;
-      top: calc(100% - #{$half-point-size});
-    }
-    &--bm {
-      left: calc(50% - #{$half-point-size});
-      top: calc(100% - #{$half-point-size});
-    }
-    &--br {
-      left: calc(100% - #{$half-point-size});
-      top: calc(100% - #{$half-point-size});
-    }
-  }
 }
 </style>
