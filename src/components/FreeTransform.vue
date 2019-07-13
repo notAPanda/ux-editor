@@ -10,7 +10,7 @@
         <div v-if="selected"
              :class="`${classPrefix}-transform__controls`"
              :style="computedStyles.controls">
-            <div :class="`${classPrefix}-transform__rotator`" @mousedown="handleRotation"></div>
+            <!-- <div :class="`${classPrefix}-transform__rotator`" @mousedown="handleRotation"></div> -->
             <div :class="[`${classPrefix}-transform__scale-point ${classPrefix}-transform__scale-point--tl`]"
                  @mousedown="handleScale('tl',$event)"></div>
             <div :class="[`${classPrefix}-transform__scale-point ${classPrefix}-transform__scale-point--ml`]"
@@ -32,11 +32,10 @@
 </template>
 
 <script>
-import { styler, translate } from 'free-transform'
+import { translate } from 'free-transform'
 import scale from '@/helpers/scale'
 import rotate from '@/helpers/rotate'
-
-// theba obrócić x i y względem punktu centralnego
+import styler from '@/helpers/styler'
 
 export default {
   name: 'Transform',

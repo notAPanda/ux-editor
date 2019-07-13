@@ -47,21 +47,11 @@
         </div>
         <div class="field is-horizontal">
             <div class="field-label is-small">
-                <label class="label">Scale X</label>
+                <label class="label">Angle</label>
             </div>
             <div class="field-body">
                 <div class="control">
-                    <OneWayInput :value="selectedElement.scaleX" type="number" className="input is-small" @valueChanged="set($event, 'scaleX')"></OneWayInput>
-                </div>
-            </div>
-        </div>
-        <div class="field is-horizontal">
-            <div class="field-label is-small">
-                <label class="label">Scale Y</label>
-            </div>
-            <div class="field-body">
-                <div class="control">
-                    <OneWayInput :value="selectedElement.scaleY" type="number" className="input is-small" @valueChanged="set($event, 'scaleY')"></OneWayInput>
+                    <OneWayInput :value="selectedElement.angle" type="number" min="0" max="359" className="input is-small" @valueChanged="set($event, 'angle')"></OneWayInput>
                 </div>
             </div>
         </div>

@@ -1,5 +1,8 @@
-import { getSineCosine, getPoint, getOppositePoint } from './point-finder'
-
+// import {
+//   getSineCosine,
+//   getPoint,
+//   getOppositePoint
+// } from './point-finder'
 export default (scaleType, {
   startX,
   startY,
@@ -16,67 +19,66 @@ export default (scaleType, {
   aspectRatio = false,
   enableAspectRatio = true
 }, onUpdate) => {
-  let point = getPoint(scaleType, { x, y, scaleX, scaleY, width, height, angle, scaleFromCenter })
-  let oppositePoint = getOppositePoint(scaleType, {
-    x,
-    y,
-    scaleX,
-    scaleY,
-    width,
-    height,
-    angle
-  })
+  // let point = getPoint(scaleType, { x, y, scaleX, scaleY, width, height, angle, scaleFromCenter })
+  // let oppositePoint = getOppositePoint(scaleType, {
+  //   x,
+  //   y,
+  //   scaleX,
+  //   scaleY,
+  //   width,
+  //   height,
+  //   angle
+  // })
   const currentProps = {
     x,
     y,
-    scaleX,
-    scaleY
+    width,
+    height
   }
-
   return (event) => {
     const moveDiff = {
       x: event.pageX - startX,
       y: event.pageY - startY
     }
-    const { sin, cos } = getSineCosine(scaleType, angle)
-    const rotatedMoveDiff = {
-      x: Math.round((moveDiff.x * cos) - (moveDiff.y * sin)),
-      y: Math.round((moveDiff.x * sin) + (moveDiff.y * cos))
-    }
     switch (scaleType) {
       case 'ml':
-        currentProps.x = x + rotatedMoveDiff.x
-        currentProps.width = width - rotatedMoveDiff.x
+        currentProps.x = x + moveDiff.x
+        currentProps.width = width - moveDiff.x
         break
       case 'mr':
-        currentProps.width = width + rotatedMoveDiff.x
+        currentProps.width = width + moveDiff.x
         break
       case 'tm':
-        currentProps.y = y + rotatedMoveDiff.y
-        currentProps.height = height - rotatedMoveDiff.y
+          currentProps.y = y + moveDiff.y
+          currentProps.height = height - moveDiff.y
         break
       case 'tl':
-        currentProps.x = x + rotatedMoveDiff.x
-        currentProps.y = y + rotatedMoveDiff.y
-        currentProps.width = width - rotatedMoveDiff.x
-        currentProps.height = height - rotatedMoveDiff.y
+        currentProps.x = x + moveDiff.x
+        currentProps.y = y + moveDiff.y
+        currentProps.width = width - moveDiff.x
+        currentProps.height = height - moveDiff.y
         break
       case 'bm':
-        currentProps.height = height + rotatedMoveDiff.y
+        currentProps.height = height + moveDiff.y
         break
       case 'br':
-        currentProps.width = width + rotatedMoveDiff.x
-        currentProps.height = height + rotatedMoveDiff.y
+        if (!event.shiftKey) {
+          currentProps.width = width + moveDiff.x
+          currentProps.height = height + moveDiff.y
+        } else {
+          currentProps.width = width + moveDiff.x
+          currentProps.height = height + moveDiff.x
+        }
         break
       case 'bl':
-        currentProps.x = x + rotatedMoveDiff.x
-        currentProps.width = width - rotatedMoveDiff.x
-        currentProps.height = height + rotatedMoveDiff.y
+        currentProps.x = x + moveDiff.x
+        currentProps.width = width - moveDiff.x
+        currentProps.height = height + moveDiff.y
         break
       case 'tr':
-        currentProps.y = y + rotatedMoveDiff.y
-        currentProps.width = width + rotatedMoveDiff.x
-        currentProps.height = height - rotatedMoveDiff.y
+        currentProps.y = y + moveDiff.y
+        currentProps.width = width + moveDiff.x
+        currentProps.height = height - moveDiff.y
         break
     }
     if (currentProps.width < 10) {
