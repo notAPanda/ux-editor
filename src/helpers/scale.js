@@ -49,8 +49,8 @@ export default (scaleType, {
         currentProps.width = width + moveDiff.x
         break
       case 'tm':
-          currentProps.y = y + moveDiff.y
-          currentProps.height = height - moveDiff.y
+        currentProps.y = y + moveDiff.y
+        currentProps.height = height - moveDiff.y
         break
       case 'tl':
         currentProps.x = x + moveDiff.x
@@ -76,9 +76,19 @@ export default (scaleType, {
         currentProps.height = height + moveDiff.y
         break
       case 'tr':
-        currentProps.y = y + moveDiff.y
-        currentProps.width = width + moveDiff.x
-        currentProps.height = height - moveDiff.y
+        if (!event.shiftKey) {
+          currentProps.y = y + moveDiff.y
+          currentProps.width = width + moveDiff.x
+          currentProps.height = height - moveDiff.y
+        } else if (moveDiff.x < Math.abs(moveDiff.y) && moveDiff.y < 0) {
+          currentProps.y = y - Math.abs(moveDiff.y)
+          currentProps.width = width + Math.abs(moveDiff.y)
+          currentProps.height = height + Math.abs(moveDiff.y)
+        } else {
+          currentProps.y = y - moveDiff.x
+          currentProps.width = width + moveDiff.x
+          currentProps.height = height + moveDiff.x
+        }
         break
     }
     if (currentProps.width < 10) {
