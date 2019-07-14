@@ -1,9 +1,9 @@
-import { getCenter, getSineCosine, getTL } from './point-finder'
+import { getCenter, getSineCosine } from './point-finder'
 
 export default ({ x, y, scaleX, scaleY, width, height, angle, startX, startY, offsetX, offsetY }, onUpdate) => {
   const oldCenter = getCenter({ x, y, scaleX, scaleY, width, height })
   const { sin, cos } = getSineCosine(null, angle)
-  const prim = getSineCosine(null, -angle)  
+  const prim = getSineCosine(null, -angle)
   
   const center = {
     x: Math.round(cos * (oldCenter.x - x) - sin * (oldCenter.y - y) + x),
@@ -24,6 +24,11 @@ export default ({ x, y, scaleX, scaleY, width, height, angle, startX, startY, of
     
     if (event.shiftKey) {
       ang = (ang / 15 >> 0) * 15
+    }
+
+    const multi = ang / 360
+    if (multi > 1 || multi < -1) {
+      ang = ang - Math.round(multi) * 360 
     }
 
     const { sin, cos } = getSineCosine(null, ang)

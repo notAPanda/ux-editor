@@ -19,17 +19,30 @@ export default (scaleType, {
   aspectRatio = false,
   enableAspectRatio = true
 }, onUpdate) => {
-  let point = getPoint(scaleType, { x, y, scaleX, scaleY, width, height, angle, scaleFromCenter })
-  let oppositePoint = getOppositePoint(scaleType, {
-    x,
-    y,
-    scaleX,
-    scaleY,
-    width,
-    height,
-    angle
-  })
-  console.log(oppositePoint)
+  // let point = getPoint(scaleType, { x, y, scaleX, scaleY, width, height, angle, scaleFromCenter })
+  // let oppositePoint = getOppositePoint(scaleType, {
+  //   x,
+  //   y,
+  //   scaleX,
+  //   scaleY,
+  //   width,
+  //   height,
+  //   angle
+  // })
+
+  /*
+    zrób dobre skalowanie dla konta 0 stopni
+    zrob funkcję, generującą wektor o danym kącie (x: 0, y:-100)
+    zrób funkcje, która obróci element o wskazany kąt (bez udziału myszy)
+    --------------------------------------------------------------------------
+    przelicz wartości dla elementu o przeciwnym kącie
+    przelicz wartość dla wektora zmian uwzględniając przeciwny kąt
+    dokonaj zmian na elemencie przy przeciwnym koncie (powinien wynosic 0)
+
+    obróć element o wskazany kąt
+    narysuj element
+
+  */
   const currentProps = {
     x,
     y,
@@ -41,6 +54,7 @@ export default (scaleType, {
       x: event.pageX - startX,
       y: event.pageY - startY
     }
+    console.log(moveDiff)
     switch (scaleType) {
       case 'ml':
         currentProps.x = x + moveDiff.x
@@ -50,14 +64,13 @@ export default (scaleType, {
         currentProps.width = width + moveDiff.x
         break
       case 'tm':
-        if (angle === 90) {
-          currentProps.x = x + moveDiff.x
-          currentProps.height = height + moveDiff.x
-        }
-        if (angle === 0) {
-          console.log(angle)
+        if (-45 < angle && angle < 45) {
           currentProps.y = y + moveDiff.y
           currentProps.height = height - moveDiff.y
+        }
+        if (45 < angle && angle < 135) {
+          currentProps.x = x + moveDiff.x
+          currentProps.height = height + moveDiff.x
         }
         break
       case 'tl':

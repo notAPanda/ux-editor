@@ -78,6 +78,7 @@ export default {
         ...this.selectedElement
       }
       payload[property] = parseInt(value)
+      payload.changedProperty = property
       this.$store.commit('updateElement', payload)
     }
   }
