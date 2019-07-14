@@ -13,13 +13,15 @@ export default ({ x, y, angle, scaleX, scaleY, width, height, disableScale = fal
       width,
       height,
       transform: `rotate(0deg) translate(${roundTo(x)}px, ${roundTo(y)}px) rotate(${angle}deg)`,
-      position: 'absolute'
+      position: 'absolute',
+      'transform-origin': '0 0 0'
     },
     controls: {
       width,
       height,
       transform: `rotate(0deg) translate(${roundTo(x)}px, ${roundTo(y)}px) rotate(${angle}deg)`,
-      position: 'absolute'
+      position: 'absolute',
+      'transform-origin': '0 0 0'
     }
   }
 }

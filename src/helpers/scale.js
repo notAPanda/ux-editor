@@ -1,8 +1,8 @@
-// import {
-//   getSineCosine,
-//   getPoint,
-//   getOppositePoint
-// } from './point-finder'
+import {
+  getSineCosine,
+  getPoint,
+  getOppositePoint
+} from './point-finder'
 export default (scaleType, {
   startX,
   startY,
@@ -19,16 +19,17 @@ export default (scaleType, {
   aspectRatio = false,
   enableAspectRatio = true
 }, onUpdate) => {
-  // let point = getPoint(scaleType, { x, y, scaleX, scaleY, width, height, angle, scaleFromCenter })
-  // let oppositePoint = getOppositePoint(scaleType, {
-  //   x,
-  //   y,
-  //   scaleX,
-  //   scaleY,
-  //   width,
-  //   height,
-  //   angle
-  // })
+  let point = getPoint(scaleType, { x, y, scaleX, scaleY, width, height, angle, scaleFromCenter })
+  let oppositePoint = getOppositePoint(scaleType, {
+    x,
+    y,
+    scaleX,
+    scaleY,
+    width,
+    height,
+    angle
+  })
+  console.log(oppositePoint)
   const currentProps = {
     x,
     y,
@@ -49,8 +50,15 @@ export default (scaleType, {
         currentProps.width = width + moveDiff.x
         break
       case 'tm':
-        currentProps.y = y + moveDiff.y
-        currentProps.height = height - moveDiff.y
+        if (angle === 90) {
+          currentProps.x = x + moveDiff.x
+          currentProps.height = height + moveDiff.x
+        }
+        if (angle === 0) {
+          console.log(angle)
+          currentProps.y = y + moveDiff.y
+          currentProps.height = height - moveDiff.y
+        }
         break
       case 'tl':
         currentProps.x = x + moveDiff.x

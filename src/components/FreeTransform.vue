@@ -10,7 +10,7 @@
         <div v-if="selected"
              :class="`${classPrefix}-transform__controls`"
              :style="computedStyles.controls">
-            <!-- <div :class="`${classPrefix}-transform__rotator`" @mousedown="handleRotation"></div> -->
+            <div :class="`${classPrefix}-transform__rotator`" @mousedown="handleRotation"></div>
             <div :class="[`${classPrefix}-transform__scale-point ${classPrefix}-transform__scale-point--tl`]"
                  @mousedown="handleScale('tl',$event)"></div>
             <div :class="[`${classPrefix}-transform__scale-point ${classPrefix}-transform__scale-point--ml`]"
