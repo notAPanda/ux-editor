@@ -1,8 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import rotate from '@/helpers/rotate'
-
 Vue.use(Vuex)
 
 export default new Vuex.Store({
