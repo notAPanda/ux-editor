@@ -1,11 +1,3 @@
-// import {
-//   scale,
-//   rotate,
-//   translate,
-//   transform,
-//   toCSS
-// } from 'transformation-matrix'
-// https://stackoverflow.com/questions/15762768/javascript-math-round-to-two-decimal-places
 const roundTo = (n) => Math.round(n)
 export default ({ x, y, angle, scaleX, scaleY, width, height, disableScale = false }) => {
   return {

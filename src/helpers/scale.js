@@ -1,7 +1,5 @@
 import {
   getSineCosine,
-  getPoint,
-  getOppositePoint,
   getCenter
 } from './point-finder'
 
@@ -22,8 +20,8 @@ const transform = (scaleType, moveDiff, width, height, x, y) => {
       currentProps.width = width + moveDiff.x
       break
     case 'tm':
-        currentProps.y = y + moveDiff.y
-        currentProps.height = height - moveDiff.y
+      currentProps.y = y + moveDiff.y
+      currentProps.height = height - moveDiff.y
       break
     case 'tl':
       currentProps.x = x + moveDiff.x
@@ -90,31 +88,6 @@ export default (scaleType, {
   aspectRatio = false,
   enableAspectRatio = true
 }, onUpdate) => {
-  // let point = getPoint(scaleType, { x, y, scaleX, scaleY, width, height, angle, scaleFromCenter })
-  // let oppositePoint = getOppositePoint(scaleType, {
-  //   x,
-  //   y,
-  //   scaleX,
-  //   scaleY,
-  //   width,
-  //   height,
-  //   angle
-  // })
-
-  /*
-    zrób dobre skalowanie dla konta 0 stopni
-    zrob funkcję, generującą wektor o danym kącie (x: 0, y:-100)
-    zrób funkcje, która obróci element o wskazany kąt (bez udziału myszy)
-    --------------------------------------------------------------------------
-    przelicz wartości dla elementu o przeciwnym kącie
-    przelicz wartość dla wektora zmian uwzględniając przeciwny kąt
-    dokonaj zmian na elemencie przy przeciwnym koncie (powinien wynosic 0)
-
-    obróć element o wskazany kąt
-    narysuj element
-
-  */
-
   const negativeAngle = getSineCosine(null, -angle)
   const presentAngle = getSineCosine(null, angle)
   const previousCenter = getCenter({ x, y, scaleX, scaleY, width, height })
@@ -127,7 +100,7 @@ export default (scaleType, {
     x: Math.round(negativeAngle.cos * (x - center.x) - negativeAngle.sin * (y - center.y) + center.x),
     y: Math.round(negativeAngle.sin * (x - center.x) + negativeAngle.cos * (y - center.y) + center.y)
   }
-  
+
   return (event) => {
     const moveDiff = {
       x: event.pageX - startX,
@@ -144,7 +117,7 @@ export default (scaleType, {
       x: Math.round(presentAngle.cos * (zeroAngleProps.x - center.x) - presentAngle.sin * (zeroAngleProps.y - center.y) + center.x),
       y: Math.round(presentAngle.sin * (zeroAngleProps.x - center.x) + presentAngle.cos * (zeroAngleProps.y - center.y) + center.y)
     }
-    const currentProps = { 
+    const currentProps = {
       ...zeroAngleProps,
       x: presentAngleProps.x,
       y: presentAngleProps.y

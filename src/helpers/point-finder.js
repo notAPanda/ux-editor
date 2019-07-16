@@ -10,13 +10,12 @@
  *
  * @returns {{x: number, y: number}} an object holding the position
  */
-const findPoint = ({x, y, angle, center, rad = angle * (Math.PI / 180)}) => ({
-    x: (x - center.x) * Math.cos(rad) - (y - center.y) * Math.sin(rad) + center.x,
-    y: (x - center.x) * Math.sin(rad) + (y - center.y) * Math.cos(rad) + center.y
-  })
-  
-  
-  /**
+const findPoint = ({ x, y, angle, center, rad = angle * (Math.PI / 180) }) => ({
+  x: (x - center.x) * Math.cos(rad) - (y - center.y) * Math.sin(rad) + center.x,
+  y: (x - center.x) * Math.sin(rad) + (y - center.y) * Math.cos(rad) + center.y
+})
+
+/**
    * Get the Center point of a box
    *
    * @param {Object} payload element information
@@ -29,20 +28,20 @@ const findPoint = ({x, y, angle, center, rad = angle * (Math.PI / 180)}) => ({
    *
    * @returns {{x: *, y: *}} the center of point of element
    */
-  export const getCenter = ({x, y, scaleX, scaleY, width, height}) => {
-    const changedWidth = width * scaleX
-    const changedHeight = height * scaleY
-  
-    const changedWidthDiff = changedWidth - width
-    const changedHeightDiff = changedHeight - height
-  
-    return {
-      x: x - changedWidthDiff + changedWidth / 2,
-      y: y - changedHeightDiff + changedHeight / 2
-    }
+export const getCenter = ({ x, y, scaleX, scaleY, width, height }) => {
+  const changedWidth = width * scaleX
+  const changedHeight = height * scaleY
+
+  const changedWidthDiff = changedWidth - width
+  const changedHeightDiff = changedHeight - height
+
+  return {
+    x: x - changedWidthDiff + changedWidth / 2,
+    y: y - changedHeightDiff + changedHeight / 2
   }
-  
-  /**
+}
+
+/**
    * get the TopLeft point position
    *
    * @param {Object} payload element information
@@ -57,25 +56,25 @@ const findPoint = ({x, y, angle, center, rad = angle * (Math.PI / 180)}) => ({
    *
    * @returns {{x: number, y: number}} the position
    */
-  export const getTL = ({
-    x, y, scaleX, scaleY, width, height, angle, center = getCenter({
-      x,
-      y,
-      scaleX,
-      scaleY,
-      width,
-      height
-    })
-  }) => (
-    findPoint({
-      x,
-      y,
-      angle,
-      center
-    })
-  )
-  
-  /**
+export const getTL = ({
+  x, y, scaleX, scaleY, width, height, angle, center = getCenter({
+    x,
+    y,
+    scaleX,
+    scaleY,
+    width,
+    height
+  })
+}) => (
+  findPoint({
+    x,
+    y,
+    angle,
+    center
+  })
+)
+
+/**
    * get the LeftBottom point position
    *
    * @param {Object} payload element information
@@ -90,27 +89,25 @@ const findPoint = ({x, y, angle, center, rad = angle * (Math.PI / 180)}) => ({
    *
    * @returns {{x: number, y: number}} the position
    */
-  export const getBL = ({
-    x, y, scaleX, scaleY, width, height, angle, center = getCenter({
-      x,
-      y,
-      scaleX,
-      scaleY,
-      width,
-      height
-    })
-  }) => {
-  
-    return findPoint({
-      angle,
-      center,
-      x,
-      y: y + (height * scaleY),
-    })
-  }
-  
-  
-  /**
+export const getBL = ({
+  x, y, scaleX, scaleY, width, height, angle, center = getCenter({
+    x,
+    y,
+    scaleX,
+    scaleY,
+    width,
+    height
+  })
+}) => {
+  return findPoint({
+    angle,
+    center,
+    x,
+    y: y + (height * scaleY)
+  })
+}
+
+/**
    * Get TopRight point position
    *
    * @param {Object} payload element information
@@ -125,26 +122,25 @@ const findPoint = ({x, y, angle, center, rad = angle * (Math.PI / 180)}) => ({
    *
    * @returns {{x: number, y: number}} the position
    */
-  export const getTR = ({
-    x, y, scaleX, scaleY, width, height, angle, center = getCenter({
-      x,
-      y,
-      scaleX,
-      scaleY,
-      width,
-      height
-    })
-  }) => (
-    findPoint({
-      angle,
-      center,
-      x: x + (width * scaleX),
-      y,
-    })
-  )
-  
-  
-  /**
+export const getTR = ({
+  x, y, scaleX, scaleY, width, height, angle, center = getCenter({
+    x,
+    y,
+    scaleX,
+    scaleY,
+    width,
+    height
+  })
+}) => (
+  findPoint({
+    angle,
+    center,
+    x: x + (width * scaleX),
+    y
+  })
+)
+
+/**
    * Get BottomRight point position
    *
    * @param {Object} payload element information
@@ -159,25 +155,25 @@ const findPoint = ({x, y, angle, center, rad = angle * (Math.PI / 180)}) => ({
    *
    * @returns {{x: number, y: number}} the position
    */
-  export const getBR = ({
-    x, y, scaleX, scaleY, width, height, angle, center = getCenter({
-      x,
-      y,
-      scaleX,
-      scaleY,
-      width,
-      height
-    })
-  }) => {
-    return findPoint({
-      angle,
-      center,
-      x: x + width * scaleX,
-      y: y + height * scaleY,
-    })
-  }
-  
-  /**
+export const getBR = ({
+  x, y, scaleX, scaleY, width, height, angle, center = getCenter({
+    x,
+    y,
+    scaleX,
+    scaleY,
+    width,
+    height
+  })
+}) => {
+  return findPoint({
+    angle,
+    center,
+    x: x + width * scaleX,
+    y: y + height * scaleY
+  })
+}
+
+/**
    * get MiddleRight point position
    *
    * @param {Object} payload element information
@@ -192,25 +188,25 @@ const findPoint = ({x, y, angle, center, rad = angle * (Math.PI / 180)}) => ({
    *
    * @returns {{x: number, y: number}} the position
    */
-  export const getMR = ({
-    x, y, scaleX, scaleY, width, height, angle, center = getCenter({
-      x,
-      y,
-      scaleX,
-      scaleY,
-      width,
-      height
-    })
-  }) => (
-    findPoint({
-      x: x + (width * scaleX),
-      y: y + (height * scaleY) / 2,
-      center,
-      angle
-    })
-  )
-  
-  /**
+export const getMR = ({
+  x, y, scaleX, scaleY, width, height, angle, center = getCenter({
+    x,
+    y,
+    scaleX,
+    scaleY,
+    width,
+    height
+  })
+}) => (
+  findPoint({
+    x: x + (width * scaleX),
+    y: y + (height * scaleY) / 2,
+    center,
+    angle
+  })
+)
+
+/**
    * get MiddleBottom point position
    *
    * @param {Object} payload element information
@@ -225,25 +221,25 @@ const findPoint = ({x, y, angle, center, rad = angle * (Math.PI / 180)}) => ({
    *
    * @returns {{x: number, y: number}} the position
    */
-  export const getBM = ({
-    x, y, scaleX, scaleY, width, height, angle, center = getCenter({
-      x,
-      y,
-      scaleX,
-      scaleY,
-      width,
-      height
-    })
-  }) => (
-    findPoint({
-      x: x + (width * scaleX) / 2,
-      y: y + (height * scaleY),
-      center,
-      angle
-    })
-  )
-  
-  /**
+export const getBM = ({
+  x, y, scaleX, scaleY, width, height, angle, center = getCenter({
+    x,
+    y,
+    scaleX,
+    scaleY,
+    width,
+    height
+  })
+}) => (
+  findPoint({
+    x: x + (width * scaleX) / 2,
+    y: y + (height * scaleY),
+    center,
+    angle
+  })
+)
+
+/**
    * get MiddleTop point position
    *
    * @param {Object} payload element information
@@ -258,25 +254,25 @@ const findPoint = ({x, y, angle, center, rad = angle * (Math.PI / 180)}) => ({
    *
    * @returns {{x: number, y: number}} the position
    */
-  export const getTM = ({
-    x, y, scaleX, scaleY, width, height, angle, center = getCenter({
-      x,
-      y,
-      scaleX,
-      scaleY,
-      width,
-      height
-    })
-  }) => (
-    findPoint({
-      x: x + (width * scaleX) / 2,
-      y: y,
-      center,
-      angle
-    })
-  )
-  
-  /**
+export const getTM = ({
+  x, y, scaleX, scaleY, width, height, angle, center = getCenter({
+    x,
+    y,
+    scaleX,
+    scaleY,
+    width,
+    height
+  })
+}) => (
+  findPoint({
+    x: x + (width * scaleX) / 2,
+    y: y,
+    center,
+    angle
+  })
+)
+
+/**
    * get MiddleLeft point position
    *
    * @param {Object} payload element information
@@ -291,25 +287,25 @@ const findPoint = ({x, y, angle, center, rad = angle * (Math.PI / 180)}) => ({
    *
    * @returns {{x: number, y: number}} the position
    */
-  export const getML = ({
-    x, y, scaleX, scaleY, width, height, angle, center = getCenter({
-      x,
-      y,
-      scaleX,
-      scaleY,
-      width,
-      height
-    })
-  }) => (
-    findPoint({
-      x: x,
-      y: y + (height * scaleY) / 2,
-      center,
-      angle
-    })
-  )
-  
-  /**
+export const getML = ({
+  x, y, scaleX, scaleY, width, height, angle, center = getCenter({
+    x,
+    y,
+    scaleX,
+    scaleY,
+    width,
+    height
+  })
+}) => (
+  findPoint({
+    x: x,
+    y: y + (height * scaleY) / 2,
+    center,
+    angle
+  })
+)
+
+/**
    * given a point, get it's opposite point
    *
    * @param {string} scaleType scale point position name
@@ -325,63 +321,62 @@ const findPoint = ({x, y, angle, center, rad = angle * (Math.PI / 180)}) => ({
    *
    * @returns {{x:number, y:number}} point position
    */
-  export const getOppositePoint = (scaleType, props) => {
-  
-    let caller
-  
-    const center = getCenter({
-      x: props.x,
-      y: props.y,
-      width: props.width,
-      height: props.height,
-      scaleX: props.scaleX,
-      scaleY: props.scaleY,
-    })
-  
-    props = {
-      center,
-      ...props,
-      x: getOriginalPositionFromScale(props.x, props.width, props.scaleX),
-      y: getOriginalPositionFromScale(props.y, props.height, props.scaleY)
-    }
-  
-    switch (scaleType) {
+export const getOppositePoint = (scaleType, props) => {
+  let caller
+
+  const center = getCenter({
+    x: props.x,
+    y: props.y,
+    width: props.width,
+    height: props.height,
+    scaleX: props.scaleX,
+    scaleY: props.scaleY
+  })
+
+  props = {
+    center,
+    ...props,
+    x: getOriginalPositionFromScale(props.x, props.width, props.scaleX),
+    y: getOriginalPositionFromScale(props.y, props.height, props.scaleY)
+  }
+
+  switch (scaleType) {
     case 'tl':
       caller = getBR
       break
-  
+
     case 'ml':
       caller = getMR
       break
-  
+
     case 'tr' :
       caller = getBL
       break
-  
+
     case 'tm' :
       caller = getBM
       break
-  
+
     case 'bl' :
       caller = getTR
       break
-  
+
     case 'bm' :
       caller = getTM
       break
-  
+
     case 'br' :
       caller = getTL
       break
-  
+
     case 'mr' :
       caller = getML
       break
-    }
-    return caller(props)
   }
-  
-  /**
+  return caller(props)
+}
+
+/**
    * given a point position by it's string name
    *
    * @param {string} scaleType scale point position name
@@ -398,68 +393,66 @@ const findPoint = ({x, y, angle, center, rad = angle * (Math.PI / 180)}) => ({
    *
    * @returns {{x:number, y:number}} point position
    */
-  export const getPoint = (scaleType, props) => {
-  
-    const center = getCenter({
-      x: props.x,
-      y: props.y,
-      width: props.width,
-      height: props.height,
-      scaleX: props.scaleX,
-      scaleY: props.scaleY,
-    })
-  
-    if (props.scaleFromCenter) {
-      return center;
-    }
-  
-    props = {
-      center,
-      ...props,
-      x: getOriginalPositionFromScale(props.x, props.width, props.scaleX),
-      y: getOriginalPositionFromScale(props.y, props.height, props.scaleY)
-    }
-  
-    let caller
-    switch (scaleType) {
-  
+export const getPoint = (scaleType, props) => {
+  const center = getCenter({
+    x: props.x,
+    y: props.y,
+    width: props.width,
+    height: props.height,
+    scaleX: props.scaleX,
+    scaleY: props.scaleY
+  })
+
+  if (props.scaleFromCenter) {
+    return center
+  }
+
+  props = {
+    center,
+    ...props,
+    x: getOriginalPositionFromScale(props.x, props.width, props.scaleX),
+    y: getOriginalPositionFromScale(props.y, props.height, props.scaleY)
+  }
+
+  let caller
+  switch (scaleType) {
     case 'tl':
       caller = getTL
-      break;
-  
+      break
+
     case 'ml':
       caller = getML
-      break;
-  
+      break
+
     case 'tr':
       caller = getTR
-      break;
-  
+      break
+
     case 'tm':
       caller = getTM
-      break;
-  
+      break
+
     case 'bl' :
       caller = getBL
-      break;
-  
+      break
+
     case 'bm' :
       caller = getBM
-      break;
-  
+      break
+
     case 'br' :
       caller = getBR
-      break;
-  
+      break
+
     case 'mr' :
       caller = getMR
-      break;
-    }
-  
-    return caller(props)
+      break
   }
-  
-  /**
+
+  return caller(props)
+}
+
+/**
    * get sine and cosine for a point based on angle and point name
    *
    * @param {string} scaleType scale point position name
@@ -467,8 +460,8 @@ const findPoint = ({x, y, angle, center, rad = angle * (Math.PI / 180)}) => ({
    *
    * @returns {{sin: number, cos: number}} the sine and cosine of scale type
    */
-  export const getSineCosine = (scaleType, angle) => {
-    switch (scaleType) {
+export const getSineCosine = (scaleType, angle) => {
+  switch (scaleType) {
     case 'tr':
     case 'tm':
     case 'bl':
@@ -482,10 +475,10 @@ const findPoint = ({x, y, angle, center, rad = angle * (Math.PI / 180)}) => ({
         sin: Math.sin(angle * (Math.PI / 180)),
         cos: Math.cos(angle * (Math.PI / 180))
       }
-    }
   }
-  
-  /**
+}
+
+/**
    * get the amount of movement for a point
    *
    * @param {string} scaleType scale point position name
@@ -495,20 +488,19 @@ const findPoint = ({x, y, angle, center, rad = angle * (Math.PI / 180)}) => ({
    *
    * @returns {{x: number, y:number}} the new position of moved element
    */
-  export const getMovePoint = (scaleType, oppositePoint, point, moveDiff) => {
-    switch (scaleType) {
-  
+export const getMovePoint = (scaleType, oppositePoint, point, moveDiff) => {
+  switch (scaleType) {
     case 'tl':
       return {
         x: oppositePoint.x - (moveDiff.x + point.x),
-        y: oppositePoint.y - (moveDiff.y + point.y),
+        y: oppositePoint.y - (moveDiff.y + point.y)
       }
     case 'ml':
       return {
         x: oppositePoint.x - moveDiff.x - point.x,
-        y: oppositePoint.y - moveDiff.y - point.y,
+        y: oppositePoint.y - moveDiff.y - point.y
       }
-  
+
     case 'tr' :
     case 'tm':
       return {
@@ -527,10 +519,10 @@ const findPoint = ({x, y, angle, center, rad = angle * (Math.PI / 180)}) => ({
         x: oppositePoint.x - (moveDiff.x + point.x),
         y: point.y + (moveDiff.y - oppositePoint.y)
       }
-    }
   }
-  
-  /**
+}
+
+/**
    * guess the original point position based on scale and the position after scaling
    *
    * @param {number} position the position of x or y
@@ -539,44 +531,42 @@ const findPoint = ({x, y, angle, center, rad = angle * (Math.PI / 180)}) => ({
    *
    * @returns {number} the original point position
    */
-  const getOriginalPositionFromScale = (position, size, scale) => {
-    const changed = size * scale
-  
-    const diff = changed - size
-  
-    return position - diff
-  }
-  
-  
-  /**
+const getOriginalPositionFromScale = (position, size, scale) => {
+  const changed = size * scale
+
+  const diff = changed - size
+
+  return position - diff
+}
+
+/**
    * Find the real position of lowest and highest handle
    *
    * @param  {object} point the point
    * @returns {{x: number, y: number}} the max and min values of  X & Y
    */
-  export const minMax = (point) => {
-  
-    const points = [
-      getTL(point),
-      getTR(point),
-      getBL(point),
-      getBR(point)
-    ];
-  
-    const bounds = points.reduce((bounds, point, c) => {
-      if (c === 0) {
-        bounds.xmin = point.x;
-        bounds.xmax = point.x;
-        bounds.ymin = point.y;
-        bounds.ymax = point.y;
-      } else {
-        bounds.xmin = Math.min(bounds.xmin, point.x);
-        bounds.xmax = Math.max(bounds.xmax, point.x);
-        bounds.ymin = Math.min(bounds.ymin, point.y);
-        bounds.ymax = Math.max(bounds.ymax, point.y);
-      }
-      return bounds
-    }, {});
-  
-    return bounds;
-  }
+export const minMax = (point) => {
+  const points = [
+    getTL(point),
+    getTR(point),
+    getBL(point),
+    getBR(point)
+  ]
+
+  const bounds = points.reduce((bounds, point, c) => {
+    if (c === 0) {
+      bounds.xmin = point.x
+      bounds.xmax = point.x
+      bounds.ymin = point.y
+      bounds.ymax = point.y
+    } else {
+      bounds.xmin = Math.min(bounds.xmin, point.x)
+      bounds.xmax = Math.max(bounds.xmax, point.x)
+      bounds.ymin = Math.min(bounds.ymin, point.y)
+      bounds.ymax = Math.max(bounds.ymax, point.y)
+    }
+    return bounds
+  }, {})
+
+  return bounds
+}
