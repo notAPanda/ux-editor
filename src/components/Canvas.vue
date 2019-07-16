@@ -42,8 +42,9 @@ export default {
     }
   },
   mounted () {
-    this.offsetX = this.$refs.canvas.offsetLeft
-    this.offsetY = this.$refs.canvas.offsetTop
+    this.$refs.canvas.scrollIntoView({ behavior: 'auto', block: 'start', inline: 'center' })
+    this.offsetX = this.$refs.canvas.getBoundingClientRect().x
+    this.offsetY = this.$refs.canvas.getBoundingClientRect().y
   },
   computed: {
     elements () {
@@ -83,7 +84,8 @@ export default {
     getCanvasStyles () {
       return {
         width: `${this.canvas.width}px`,
-        height: `${this.canvas.height}px`
+        height: `${this.canvas.height}px`,
+        margin: `250px auto`
       }
     }
   }
@@ -93,6 +95,5 @@ export default {
 <style lang="scss">
 .canvas {
   background-color: #fff;
-  position: relative;
 }
 </style>

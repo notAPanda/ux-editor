@@ -4,7 +4,6 @@ export default ({ x, y, scaleX, scaleY, width, height, angle, startX, startY, of
   const oldCenter = getCenter({ x, y, scaleX, scaleY, width, height })
   const { sin, cos } = getSineCosine(null, angle)
   const prim = getSineCosine(null, -angle)
-  
   const center = {
     x: Math.round(cos * (oldCenter.x - x) - sin * (oldCenter.y - y) + x),
     y: Math.round(sin * (oldCenter.x - x) + cos * (oldCenter.y - y) + y)
@@ -19,16 +18,14 @@ export default ({ x, y, scaleX, scaleY, width, height, angle, startX, startY, of
 
   return (event) => {
     const degree = Math.atan2((event.pageY - offsetY) - center.y, (event.pageX - offsetX) - center.x) * 180 / Math.PI
-    
     let ang = Math.round(angle + degree - pressAngle)
-    
     if (event.shiftKey) {
       ang = (ang / 15 >> 0) * 15
     }
 
     const multi = ang / 360
     if (multi > 1 || multi < -1) {
-      ang = ang - Math.round(multi) * 360 
+      ang = ang - Math.round(multi) * 360
     }
 
     const { sin, cos } = getSineCosine(null, ang)

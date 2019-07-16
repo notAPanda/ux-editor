@@ -59,8 +59,9 @@ export default {
   #workbench {
     flex: 1;
     background-color: #f6f6f6;
-    overflow: scroll;
+    overflow: auto;
     height: 100%;
+    position: relative;
   }
 }
 </style>

@@ -36,6 +36,7 @@ import { translate } from 'free-transform'
 import scale from '@/helpers/scale'
 import rotate from '@/helpers/rotate'
 import styler from '@/helpers/styler'
+import { getOffset } from '@/helpers/point-finder'
 
 export default {
   name: 'Transform',

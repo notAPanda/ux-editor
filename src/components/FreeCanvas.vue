@@ -1,5 +1,5 @@
 <template>
-  <div 
+  <div
     class="free-canvas"
     ref="freeCanvas"
     :style="getCanvasStyles()"
@@ -17,7 +17,6 @@ export default {
     }
   },
   mounted () {
-    this.$refs.freeCanvas.scrollIntoView({behavior: "auto", inline: "center"})
   },
   methods: {
     getCanvasStyles () {
@@ -30,10 +29,16 @@ export default {
 }
 </script>
 
-<style scoped lang="scss">
-  .free-canvas {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+<style lang="scss">
+.abs {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.free-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  flex-basis: 100%;
+}
 </style>
