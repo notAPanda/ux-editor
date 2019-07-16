@@ -187,8 +187,8 @@ export default {
         width: this.width,
         height: this.height,
         angle: this.angle,
-        offsetX: this.offsetX,
-        offsetY: this.offsetY
+        offsetX: this.$parent.$refs.canvas.getBoundingClientRect().x,
+        offsetY: this.$parent.$refs.canvas.getBoundingClientRect().y
       }, (payload) => {
         this.$emit('update', payload)
       })
