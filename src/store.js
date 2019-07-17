@@ -28,7 +28,10 @@ export default new Vuex.Store({
         classPrefix: 'box',
         text: '',
         styles: {
-          background: 'linear-gradient(135deg, #0FF0B3 0%,#036ED9 100%)'
+          background: '#0FF0B3',
+          'border-radius': 0,
+          opacity: 100,
+          'mix-blend-mode': 'normal'
         },
         disableScale: true
       }
@@ -40,7 +43,7 @@ export default new Vuex.Store({
       state.selectedElement = payload
     },
     addElement (state) {
-      state.elements = [...state.elements, { ...state.base.box, id: state.elements.length }]
+      state.elements = [...state.elements, { ...state.base.box, id: state.elements.length + 1 }]
     },
     removeElement (state, payload) {
       state.elements = [

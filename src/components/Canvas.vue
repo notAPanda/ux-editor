@@ -29,6 +29,7 @@
 
 <script>
 import FreeTransform from '@/components/FreeTransform.vue'
+import hotkeys from 'hotkeys-js'
 
 export default {
   name: 'Canvas',
@@ -42,15 +43,20 @@ export default {
     }
   },
   mounted () {
-    this.$refs.canvas.scrollIntoView({ behavior: 'auto', block: 'start', inline: 'center' })
+    this.$refs.canvas.scrollIntoView({ behavior: 'auto', block: 'start', inline: 'start' })
+
     this.offsetX = this.$refs.canvas.getBoundingClientRect().x
     this.offsetY = this.$refs.canvas.getBoundingClientRect().y
 
-    document.addEventListener('keydown', (e) => {
-      if (e.which === 46 && this.selectElement.type !== 'canvas' && e.target.tagName === 'BODY') {
-        this.$store.commit('removeElement', this.selectedElement)
-        this.$store.commit('selectElement', { id: null, type: null })
-      }
+    hotkeys('command+backspace, delete', (e, handler) => {
+      this.$store.commit('removeElement', this.selectedElement)
+      this.$store.commit('selectElement', { id: null, type: null })
+    })
+    hotkeys('command+c, ctrl+c', (e, handler) => {
+      // copy element to memory
+    })
+    hotkeys('command+v, ctrl+v', (e, handler) => {
+      // paste from memory
     })
   },
   computed: {

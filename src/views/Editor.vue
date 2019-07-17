@@ -1,12 +1,18 @@
 <template>
   <div class="editor">
     <section id="assets-panel">assets</section>
-    <section id="toolbar-panel" class="has-text-centered">
-      <button class="button is-small" @click="addElement">
-        <span class="icon is-small">
-          <fa-icon :icon="['far', 'square']"></fa-icon>
-        </span>
-      </button>
+    <section id="toolbar-panel">
+      <ul class="nav">
+        <li @click="addElement">
+          <span><fa-icon :icon="['far', 'square']"></fa-icon></span>
+        </li>
+        <li @click="addElement">
+          <span><fa-icon :icon="['far', 'circle']"></fa-icon></span>
+        </li>
+        <li @click="addElement">
+          <span>|</span>
+        </li>
+      </ul>
     </section>
     <div id="workbench">
       <FreeCanvas>
@@ -39,7 +45,9 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+$black: #000000;
+
 .editor {
   flex: 1;
   display: flex;
@@ -49,7 +57,6 @@ export default {
     width: 255px;
   }
   #toolbar-panel {
-    margin-top: 3px;
     width: 40px;
     background-color: #f6f6f6;
   }
@@ -62,6 +69,21 @@ export default {
     overflow: auto;
     height: 100%;
     position: relative;
+  }
+}
+ul.nav {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  li {
+    cursor: pointer;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &:hover {
+      background: rgba($black, .2);
+    }
   }
 }
 </style>

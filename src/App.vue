@@ -14,7 +14,8 @@
 </template>
 
 <style lang="scss">
-@import "~bulma/bulma.sass";
+@import "~normalize.css/normalize.css";
+@import "@/assets/variables.scss";
 
 html, body, #app {
   height: 100%;
@@ -25,7 +26,15 @@ html, body, #app {
 }
 
 #app {
+  font-family: sans-serif;
+  font-size: 12px;
   display: flex;
   flex-direction: column;
+}
+
+#nav {
+  background: $light-grey;
+  height: 40px;
+  border-bottom: 1px solid rgba($black, .1);
 }
 </style>
