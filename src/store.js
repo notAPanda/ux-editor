@@ -42,6 +42,12 @@ export default new Vuex.Store({
     addElement (state) {
       state.elements = [...state.elements, { ...state.base.box, id: state.elements.length }]
     },
+    removeElement (state, payload) {
+      state.elements = [
+        ...state.elements.filter(element => element.id !== payload.id)
+      ]
+      return null
+    },
     updateElement (state, payload) {
       state.elements = [
         ...state.elements.filter(element => element.id !== payload.id),

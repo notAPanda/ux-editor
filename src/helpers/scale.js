@@ -1,7 +1,5 @@
-import {
-  getSineCosine,
-  getCenter
-} from './point-finder'
+import { getCenter } from './point-finder'
+import { rotatePoint } from './point-transformer'
 
 const transform = (scaleType, moveDiff, width, height, x, y) => {
   const currentProps = {
@@ -88,39 +86,22 @@ export default (scaleType, {
   aspectRatio = false,
   enableAspectRatio = true
 }, onUpdate) => {
-  const negativeAngle = getSineCosine(null, -angle)
-  const presentAngle = getSineCosine(null, angle)
-  const previousCenter = getCenter({ x, y, scaleX, scaleY, width, height })
-  const center = {
-    x: Math.round(presentAngle.cos * (previousCenter.x - x) - presentAngle.sin * (previousCenter.y - y) + x),
-    y: Math.round(presentAngle.sin * (previousCenter.x - x) + presentAngle.cos * (previousCenter.y - y) + y)
-  }
-
-  const previousTL = {
-    x: Math.round(negativeAngle.cos * (x - center.x) - negativeAngle.sin * (y - center.y) + center.x),
-    y: Math.round(negativeAngle.sin * (x - center.x) + negativeAngle.cos * (y - center.y) + center.y)
-  }
+  const previousCenter = getCenter({ x, y, width, height })
+  const center = rotatePoint(previousCenter, { x, y }, angle)
+  const previousTL = rotatePoint({ x, y }, center, -angle)
 
   return (event) => {
     const moveDiff = {
       x: event.pageX - startX,
       y: event.pageY - startY
     }
-
-    const rotatedMoveDiv = {
-      x: Math.round(negativeAngle.cos * (moveDiff.x - 0) - negativeAngle.sin * (moveDiff.y - 0) + 0),
-      y: Math.round(negativeAngle.sin * (moveDiff.x - 0) + negativeAngle.cos * (moveDiff.y - 0) + 0)
-    }
-
+    const rotatedMoveDiv = rotatePoint(moveDiff, { x: 0, y: 0 }, -angle)
     const zeroAngleProps = transform(scaleType, rotatedMoveDiv, width, height, previousTL.x, previousTL.y)
-    const presentAngleProps = {
-      x: Math.round(presentAngle.cos * (zeroAngleProps.x - center.x) - presentAngle.sin * (zeroAngleProps.y - center.y) + center.x),
-      y: Math.round(presentAngle.sin * (zeroAngleProps.x - center.x) + presentAngle.cos * (zeroAngleProps.y - center.y) + center.y)
-    }
+    const presentAngleProps = rotatePoint(zeroAngleProps, center, angle)
+
     const currentProps = {
       ...zeroAngleProps,
-      x: presentAngleProps.x,
-      y: presentAngleProps.y
+      ...presentAngleProps
     }
     onUpdate(currentProps)
   }

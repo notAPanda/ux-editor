@@ -45,6 +45,13 @@ export default {
     this.$refs.canvas.scrollIntoView({ behavior: 'auto', block: 'start', inline: 'center' })
     this.offsetX = this.$refs.canvas.getBoundingClientRect().x
     this.offsetY = this.$refs.canvas.getBoundingClientRect().y
+
+    document.addEventListener('keydown', (e) => {
+      if (e.which === 46 && this.selectElement.type !== 'canvas' && e.target.tagName === 'BODY') {
+        this.$store.commit('removeElement', this.selectedElement)
+        this.$store.commit('selectElement', { id: null, type: null })
+      }
+    })
   },
   computed: {
     elements () {

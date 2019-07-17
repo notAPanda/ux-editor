@@ -8,14 +8,14 @@ export default {
   props: [
     'type',
     'value',
-    'className'
+    'className',
+    'name'
   ],
   methods: {
     validate (e) {
       if (e.target.value === '') {
         e.target.value = 0
       }
-
       this.$emit('valueChanged', e.target.value)
     }
   }

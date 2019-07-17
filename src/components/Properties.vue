@@ -7,7 +7,7 @@
       <div v-if="selectedElement.type === 'box'">
         <div class="field is-horizontal">
             <div class="field-label is-small">
-                <label class="label">Width</label>
+                <label class="label">W</label>
             </div>
             <div class="field-body">
                 <div class="control">
@@ -17,7 +17,7 @@
         </div>
         <div class="field is-horizontal">
             <div class="field-label is-small">
-                <label class="label">Height</label>
+                <label class="label">H</label>
             </div>
             <div class="field-body">
                 <div class="control">
@@ -51,16 +51,28 @@
             </div>
             <div class="field-body">
                 <div class="control">
-                    <OneWayInput :value="selectedElement.angle" type="number" min="0" max="359" className="input is-small" @valueChanged="set($event, 'angle')"></OneWayInput>
+                    <OneWayInput name="angle" :value="selectedElement.angle" type="number" min="0" max="359" className="input is-small" @valueChanged="set($event, 'angle')"></OneWayInput>
                 </div>
             </div>
         </div>
+        <!-- <div class="field is-horizontal">
+            <div class="field-label is-small">
+                <label class="label">Bg</label>
+            </div>
+            <div class="field-body">
+                <div class="control">
+                    <OneWayInput name="angle" :value="selectedElement.styles.background" type="text" className="input is-small" @valueChanged="set($event, 'styles', $event)"></OneWayInput>
+                </div>
+            </div>
+        </div> -->
       </div>
   </div>
 </template>
 
 <script>
 import OneWayInput from '@/components/OneWayInput.vue'
+import { rotatePoint } from '@/helpers/point-transformer'
+import { getCenter } from '@/helpers/point-finder'
 
 export default {
   name: 'Properties',
@@ -73,13 +85,42 @@ export default {
     }
   },
   methods: {
-    set (value, property) {
+    set (value, property, style = null) {
       const payload = {
         ...this.selectedElement
       }
+
+      const multi = value / 360
+      if (multi > 1 || multi < -1) {
+        value = value - Math.round(multi) * 360
+      }
+
+      if (property === 'angle') {
+        const center = rotatePoint(getCenter(payload), { x: payload.x, y: payload.y }, payload.angle)
+        const rotatedTL = rotatePoint({ x: payload.x, y: payload.y }, center, parseInt(value) - payload.angle)
+        const rotatedElement = {
+          ...payload,
+          ...rotatedTL,
+          angle: parseInt(value)
+        }
+        this.$store.commit('updateElement', rotatedElement)
+        return null
+      }
+
+      // if (property === 'styles') {
+      //   this.$store.commit('updateElement', {
+      //     ...payload,
+      //     styles: { 
+      //       ...payload.styles,
+      //       background: e.target.value
+      //     }
+      //   })
+      //   return null
+      // }
+
       payload[property] = parseInt(value)
-      payload.changedProperty = property
       this.$store.commit('updateElement', payload)
+      return null
     }
   }
 }

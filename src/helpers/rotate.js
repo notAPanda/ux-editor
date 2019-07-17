@@ -1,19 +1,10 @@
-import { getCenter, getSineCosine } from './point-finder'
+import { getCenter } from './point-finder'
+import { rotatePoint } from './point-transformer'
 
 export default ({ x, y, scaleX, scaleY, width, height, angle, startX, startY, offsetX, offsetY }, onUpdate) => {
   const oldCenter = getCenter({ x, y, scaleX, scaleY, width, height })
-  const { sin, cos } = getSineCosine(null, angle)
-  const prim = getSineCosine(null, -angle)
-  const center = {
-    x: Math.round(cos * (oldCenter.x - x) - sin * (oldCenter.y - y) + x),
-    y: Math.round(sin * (oldCenter.x - x) + cos * (oldCenter.y - y) + y)
-  }
-
-  const oldTL = {
-    x: Math.round(prim.cos * (x - center.x) - prim.sin * (y - center.y) + center.x),
-    y: Math.round(prim.sin * (x - center.x) + prim.cos * (y - center.y) + center.y)
-  }
-
+  const center = rotatePoint(oldCenter, { x, y }, angle)
+  const oldTL = rotatePoint({ x, y }, center, -angle)
   const pressAngle = Math.atan2((startY - offsetY) - center.y, (startX - offsetX) - center.x) * 180 / Math.PI
 
   return (event) => {
@@ -28,14 +19,11 @@ export default ({ x, y, scaleX, scaleY, width, height, angle, startX, startY, of
       ang = ang - Math.round(multi) * 360
     }
 
-    const { sin, cos } = getSineCosine(null, ang)
-    const newX = Math.round(cos * (oldTL.x - center.x) - sin * (oldTL.y - center.y) + center.x)
-    const newY = Math.round(sin * (oldTL.x - center.x) + cos * (oldTL.y - center.y) + center.y)
+    const newXY = rotatePoint(oldTL, center, ang)
 
     onUpdate({
       angle: ang,
-      x: newX,
-      y: newY
+      ...newXY
     })
   }
 }

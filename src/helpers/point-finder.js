@@ -28,16 +28,10 @@ const findPoint = ({ x, y, angle, center, rad = angle * (Math.PI / 180) }) => ({
    *
    * @returns {{x: *, y: *}} the center of point of element
    */
-export const getCenter = ({ x, y, scaleX, scaleY, width, height }) => {
-  const changedWidth = width * scaleX
-  const changedHeight = height * scaleY
-
-  const changedWidthDiff = changedWidth - width
-  const changedHeightDiff = changedHeight - height
-
+export const getCenter = ({ x, y, width, height }) => {
   return {
-    x: x - changedWidthDiff + changedWidth / 2,
-    y: y - changedHeightDiff + changedHeight / 2
+    x: x + width / 2,
+    y: y + height / 2
   }
 }
 
