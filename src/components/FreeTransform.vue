@@ -1,31 +1,31 @@
 <template>
-    <div :class="{[`${classPrefix}-transform`]: true, [`${classPrefix}-transform--active`]:selected}"
+    <div :class="{[`tr-transform`]: true, [`tr-transform--active`]:selected}"
          :style="styles"
          @click="click"
          @dblclick="dblClick"
          @mousedown="mousedown">
-        <div :class="`${classPrefix}-transform__content`" :style="computedStyles.element">
+        <div :class="`tr-transform__content`" :style="computedStyles.element">
             <slot></slot>
         </div>
         <div v-if="selected"
-             :class="`${classPrefix}-transform__controls`"
+             :class="`tr-transform__controls`"
              :style="computedStyles.controls">
-            <div :class="`${classPrefix}-transform__rotator`" @mousedown="handleRotation"></div>
-            <div :class="[`${classPrefix}-transform__scale-point ${classPrefix}-transform__scale-point--tl`]"
+            <div :class="`tr-transform__rotator tr-transform-${classPrefix}`" @mousedown="handleRotation"></div>
+            <div :class="[`tr-transform__scale-point tr-transform__scale-point--tl tr-transform-${classPrefix}`]"
                  @mousedown="handleScale('tl',$event)"></div>
-            <div :class="[`${classPrefix}-transform__scale-point ${classPrefix}-transform__scale-point--ml`]"
+            <div :class="[`tr-transform__scale-point tr-transform__scale-point--ml tr-transform-${classPrefix}`]"
                  @mousedown="handleScale('ml',$event)"></div>
-            <div :class="[`${classPrefix}-transform__scale-point ${classPrefix}-transform__scale-point--tr`]"
+            <div :class="[`tr-transform__scale-point tr-transform__scale-point--tr tr-transform-${classPrefix}`]"
                  @mousedown="handleScale('tr',$event)"></div>
-            <div :class="[`${classPrefix}-transform__scale-point ${classPrefix}-transform__scale-point--tm`]"
+            <div :class="[`tr-transform__scale-point tr-transform__scale-point--tm tr-transform-${classPrefix}`]"
                  @mousedown="handleScale('tm',$event)"></div>
-            <div :class="[`${classPrefix}-transform__scale-point ${classPrefix}-transform__scale-point--bl`]"
+            <div :class="[`tr-transform__scale-point tr-transform__scale-point--bl tr-transform-${classPrefix}`]"
                  @mousedown="handleScale('bl',$event)"></div>
-            <div :class="[`${classPrefix}-transform__scale-point ${classPrefix}-transform__scale-point--bm`]"
+            <div :class="[`tr-transform__scale-point tr-transform__scale-point--bm tr-transform-${classPrefix}`]"
                  @mousedown="handleScale('bm',$event)"></div>
-            <div :class="[`${classPrefix}-transform__scale-point ${classPrefix}-transform__scale-point--br`]"
+            <div :class="[`tr-transform__scale-point tr-transform__scale-point--br tr-transform-${classPrefix}`]"
                  @mousedown="handleScale('br',$event)"></div>
-            <div :class="[`${classPrefix}-transform__scale-point ${classPrefix}-transform__scale-point--mr`]"
+            <div :class="[`tr-transform__scale-point tr-transform__scale-point--mr tr-transform-${classPrefix}`]"
                  @mousedown="handleScale('mr',$event)"></div>
         </div>
     </div>
@@ -236,7 +236,6 @@ $half-point-size: $point-size / 2;
     background: #fff;
     width: $point-size;
     height: $point-size;
-    // border-radius: 50%;
     position: absolute;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
     border: 1px solid #006cff;
@@ -254,6 +253,9 @@ $half-point-size: $point-size / 2;
     &--tl {
       top: -$half-point-size;
       left: -$half-point-size;
+      &.tr-transform-text {
+        display: none;
+      }
     }
     &--ml {
       top: calc(50% - #{$half-point-size});
@@ -262,10 +264,16 @@ $half-point-size: $point-size / 2;
     &--tr {
       left: calc(100% - #{$half-point-size});
       top: -$half-point-size;
+      &.tr-transform-text {
+        display: none;
+      }
     }
     &--tm {
       left: calc(50% - #{$half-point-size});
       top: -$half-point-size;
+      &.tr-transform-text {
+        display: none;
+      }
     }
     &--mr {
       left: calc(100% - #{$half-point-size});
@@ -274,14 +282,23 @@ $half-point-size: $point-size / 2;
     &--bl {
       left: -$half-point-size;
       top: calc(100% - #{$half-point-size});
+      &.tr-transform-text {
+        display: none;
+      }
     }
     &--bm {
       left: calc(50% - #{$half-point-size});
       top: calc(100% - #{$half-point-size});
+      &.tr-transform-text {
+        display: none;
+      }
     }
     &--br {
       left: calc(100% - #{$half-point-size});
       top: calc(100% - #{$half-point-size});
+      &.tr-transform-text {
+        display: none;
+      }
     }
   }
 }

@@ -6,6 +6,7 @@
   >
     <FreeTransform
       v-for="element in elements"
+      :class-prefix="element.type === 'text' ? 'text' : null"
       :selected="selectedElement.id === element.id"
       :selectOn="'mousedown'"
       @onSelect="selectElement(element)"
@@ -20,7 +21,7 @@
       :disable-scale="element.disableScale === true"
       @update="update(element, $event)"
     >
-      <div class="element" :style="getElementStyles(element)">{{element.text}}</div>
+      <div :class="`element ${element.type}`" :style="getElementStyles(element)">{{element.text}}</div>
     </FreeTransform>
   </div>
 </template>

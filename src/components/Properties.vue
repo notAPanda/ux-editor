@@ -12,6 +12,36 @@
           </div>
         </div>
       </div>
+      <div v-if="['text'].includes(selectedElement.type)">
+        <div class="row mb mt">
+          <div class="col">
+              <label class="label">W</label>
+              <OneWayInput :value="selectedElement.width" type="number" className="" @valueChanged="set($event, 'width')"></OneWayInput>
+          </div>
+          <div class="col">
+              <label class="label">H</label>
+              <OneWayInput :value="selectedElement.height" type="number" className="input is-small" @valueChanged="set($event, 'height')" disabled="1"></OneWayInput>
+          </div>
+        </div>
+        <div class="row mb">
+          <div class="col">
+              <label class="label">X</label>
+              <OneWayInput :value="selectedElement.x" type="number" className="input is-small" @valueChanged="set($event, 'x')"></OneWayInput>
+          </div>
+          <div class="col">
+              <label class="label">Y</label>
+              <OneWayInput :value="selectedElement.y" type="number" className="input is-small" @valueChanged="set($event, 'y')"></OneWayInput>
+          </div>
+        </div>
+        <div class="row mb">
+          <div class="col">
+            <label class="label">A</label>
+            <OneWayInput name="angle" :value="selectedElement.angle" type="number" min="0" max="359" className="input is-small" @valueChanged="set($event, 'angle')"></OneWayInput>
+          </div>
+          <div class="col"></div>
+        </div>
+        <hr>
+      </div>
       <div v-if="['box', 'oval', 'line'].includes(selectedElement.type)">
         <div class="row mb mt">
           <div class="col">

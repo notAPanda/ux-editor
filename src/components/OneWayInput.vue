@@ -1,5 +1,5 @@
 <template>
-  <input :type="type" :value="value" :class="className" @change="validate">
+  <input :type="type" :value="value" :class="className" @change="validate" :disabled="disabled">
 </template>
 
 <script>
@@ -9,7 +9,8 @@ export default {
     'type',
     'value',
     'className',
-    'name'
+    'name',
+    'disabled'
   ],
   methods: {
     validate (e) {

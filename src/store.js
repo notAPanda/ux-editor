@@ -53,7 +53,8 @@ export default new Vuex.Store({
         ...defaults,
         type: 'text',
         classPrefix: 'text',
-        text: 'Hello there',
+        text: 'Text...',
+        height: 25,
         styles: {
           opacity: 100,
           'mix-blend-mode': 'normal',

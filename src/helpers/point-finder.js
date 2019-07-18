@@ -87,7 +87,7 @@ export const getBL = ({
     angle,
     center,
     x,
-    y: y + (height * scaleY)
+    y: y + (height)
   })
 }
 
@@ -286,7 +286,7 @@ export const getOppositePoint = (scaleType, props) => {
     x: props.x,
     y: props.y,
     width: props.width,
-    height: props.height,
+    height: props.height
   })
 
   props = {
@@ -352,7 +352,7 @@ export const getPoint = (scaleType, props) => {
     x: props.x,
     y: props.y,
     width: props.width,
-    height: props.height,
+    height: props.height
   })
 
   if (props.scaleFromCenter) {
