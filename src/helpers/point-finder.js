@@ -21,8 +21,6 @@ const findPoint = ({ x, y, angle, center, rad = angle * (Math.PI / 180) }) => ({
    * @param {Object} payload element information
    * @param {number} payload.x the position of x
    * @param {number} payload.y the position of y
-   * @param {number} payload.scaleX the scaleX of element
-   * @param {number} payload.scaleY the scaleY of element
    * @param {number} payload.width the original width of element
    * @param {number} payload.height the original height of element
    *
@@ -41,8 +39,6 @@ export const getCenter = ({ x, y, width, height }) => {
    * @param {Object} payload element information
    * @param {number} payload.x the position of x
    * @param {number} payload.y the position of y
-   * @param {number} payload.scaleX the scaleX of element
-   * @param {number} payload.scaleY the scaleY of element
    * @param {number} payload.width the original width of element
    * @param {number} payload.height the original height of element
    * @param {number} payload.angle the  rotation angle
@@ -51,11 +47,9 @@ export const getCenter = ({ x, y, width, height }) => {
    * @returns {{x: number, y: number}} the position
    */
 export const getTL = ({
-  x, y, scaleX, scaleY, width, height, angle, center = getCenter({
+  x, y, width, height, angle, center = getCenter({
     x,
     y,
-    scaleX,
-    scaleY,
     width,
     height
   })
@@ -74,8 +68,6 @@ export const getTL = ({
    * @param {Object} payload element information
    * @param {number} payload.x the position of x
    * @param {number} payload.y the position of y
-   * @param {number} payload.scaleX the scaleX of element
-   * @param {number} payload.scaleY the scaleY of element
    * @param {number} payload.width the original width of element
    * @param {number} payload.height the original height of element
    * @param {number} payload.angle the  rotation angle
@@ -84,11 +76,9 @@ export const getTL = ({
    * @returns {{x: number, y: number}} the position
    */
 export const getBL = ({
-  x, y, scaleX, scaleY, width, height, angle, center = getCenter({
+  x, y, width, height, angle, center = getCenter({
     x,
     y,
-    scaleX,
-    scaleY,
     width,
     height
   })
@@ -107,8 +97,6 @@ export const getBL = ({
    * @param {Object} payload element information
    * @param {number} payload.x the position of x
    * @param {number} payload.y the position of y
-   * @param {number} payload.scaleX the scaleX of element
-   * @param {number} payload.scaleY the scaleY of element
    * @param {number} payload.width the original width of element
    * @param {number} payload.height the original height of element
    * @param {number} payload.angle the  rotation angle
@@ -117,11 +105,9 @@ export const getBL = ({
    * @returns {{x: number, y: number}} the position
    */
 export const getTR = ({
-  x, y, scaleX, scaleY, width, height, angle, center = getCenter({
+  x, y, width, height, angle, center = getCenter({
     x,
     y,
-    scaleX,
-    scaleY,
     width,
     height
   })
@@ -129,7 +115,7 @@ export const getTR = ({
   findPoint({
     angle,
     center,
-    x: x + (width * scaleX),
+    x: x + (width),
     y
   })
 )
@@ -140,8 +126,6 @@ export const getTR = ({
    * @param {Object} payload element information
    * @param {number} payload.x the position of x
    * @param {number} payload.y the position of y
-   * @param {number} payload.scaleX the scaleX of element
-   * @param {number} payload.scaleY the scaleY of element
    * @param {number} payload.width the original width of element
    * @param {number} payload.height the original height of element
    * @param {number} payload.angle the  rotation angle
@@ -150,11 +134,9 @@ export const getTR = ({
    * @returns {{x: number, y: number}} the position
    */
 export const getBR = ({
-  x, y, scaleX, scaleY, width, height, angle, center = getCenter({
+  x, y, width, height, angle, center = getCenter({
     x,
     y,
-    scaleX,
-    scaleY,
     width,
     height
   })
@@ -162,8 +144,8 @@ export const getBR = ({
   return findPoint({
     angle,
     center,
-    x: x + width * scaleX,
-    y: y + height * scaleY
+    x: x + width,
+    y: y + height
   })
 }
 
@@ -173,8 +155,6 @@ export const getBR = ({
    * @param {Object} payload element information
    * @param {number} payload.x the position of x
    * @param {number} payload.y the position of y
-   * @param {number} payload.scaleX the scaleX of element
-   * @param {number} payload.scaleY the scaleY of element
    * @param {number} payload.width the original width of element
    * @param {number} payload.height the original height of element
    * @param {number} payload.angle the  rotation angle
@@ -183,18 +163,16 @@ export const getBR = ({
    * @returns {{x: number, y: number}} the position
    */
 export const getMR = ({
-  x, y, scaleX, scaleY, width, height, angle, center = getCenter({
+  x, y, width, height, angle, center = getCenter({
     x,
     y,
-    scaleX,
-    scaleY,
     width,
     height
   })
 }) => (
   findPoint({
-    x: x + (width * scaleX),
-    y: y + (height * scaleY) / 2,
+    x: x + (width),
+    y: y + (height) / 2,
     center,
     angle
   })
@@ -206,8 +184,6 @@ export const getMR = ({
    * @param {Object} payload element information
    * @param {number} payload.x the position of x
    * @param {number} payload.y the position of y
-   * @param {number} payload.scaleX the scaleX of element
-   * @param {number} payload.scaleY the scaleY of element
    * @param {number} payload.width the original width of element
    * @param {number} payload.height the original height of element
    * @param {number} payload.angle the  rotation angle
@@ -216,18 +192,16 @@ export const getMR = ({
    * @returns {{x: number, y: number}} the position
    */
 export const getBM = ({
-  x, y, scaleX, scaleY, width, height, angle, center = getCenter({
+  x, y, width, height, angle, center = getCenter({
     x,
     y,
-    scaleX,
-    scaleY,
     width,
     height
   })
 }) => (
   findPoint({
-    x: x + (width * scaleX) / 2,
-    y: y + (height * scaleY),
+    x: x + (width) / 2,
+    y: y + (height),
     center,
     angle
   })
@@ -239,8 +213,6 @@ export const getBM = ({
    * @param {Object} payload element information
    * @param {number} payload.x the position of x
    * @param {number} payload.y the position of y
-   * @param {number} payload.scaleX the scaleX of element
-   * @param {number} payload.scaleY the scaleY of element
    * @param {number} payload.width the original width of element
    * @param {number} payload.height the original height of element
    * @param {number} payload.angle the  rotation angle
@@ -249,17 +221,15 @@ export const getBM = ({
    * @returns {{x: number, y: number}} the position
    */
 export const getTM = ({
-  x, y, scaleX, scaleY, width, height, angle, center = getCenter({
+  x, y, width, height, angle, center = getCenter({
     x,
     y,
-    scaleX,
-    scaleY,
     width,
     height
   })
 }) => (
   findPoint({
-    x: x + (width * scaleX) / 2,
+    x: x + (width) / 2,
     y: y,
     center,
     angle
@@ -272,8 +242,6 @@ export const getTM = ({
    * @param {Object} payload element information
    * @param {number} payload.x the position of x
    * @param {number} payload.y the position of y
-   * @param {number} payload.scaleX the scaleX of element
-   * @param {number} payload.scaleY the scaleY of element
    * @param {number} payload.width the original width of element
    * @param {number} payload.height the original height of element
    * @param {number} payload.angle the  rotation angle
@@ -282,18 +250,16 @@ export const getTM = ({
    * @returns {{x: number, y: number}} the position
    */
 export const getML = ({
-  x, y, scaleX, scaleY, width, height, angle, center = getCenter({
+  x, y, width, height, angle, center = getCenter({
     x,
     y,
-    scaleX,
-    scaleY,
     width,
     height
   })
 }) => (
   findPoint({
     x: x,
-    y: y + (height * scaleY) / 2,
+    y: y + (height) / 2,
     center,
     angle
   })
@@ -306,8 +272,6 @@ export const getML = ({
    * @param {Object} props element information
    * @param {number} props.x the position of x
    * @param {number} props.y the position of y
-   * @param {number} props.scaleX the scaleX of element
-   * @param {number} props.scaleY the scaleY of element
    * @param {number} props.width the original width of element
    * @param {number} props.height the original height of element
    * @param {number} props.angle the  rotation angle
@@ -323,15 +287,13 @@ export const getOppositePoint = (scaleType, props) => {
     y: props.y,
     width: props.width,
     height: props.height,
-    scaleX: props.scaleX,
-    scaleY: props.scaleY
   })
 
   props = {
     center,
     ...props,
-    x: getOriginalPositionFromScale(props.x, props.width, props.scaleX),
-    y: getOriginalPositionFromScale(props.y, props.height, props.scaleY)
+    x: getOriginalPositionFromScale(props.x, props.width),
+    y: getOriginalPositionFromScale(props.y, props.height)
   }
 
   switch (scaleType) {
@@ -377,8 +339,6 @@ export const getOppositePoint = (scaleType, props) => {
    * @param {Object} props element information
    * @param {number} props.x the position of x
    * @param {number} props.y the position of y
-   * @param {number} props.scaleX the scaleX of element
-   * @param {number} props.scaleY the scaleY of element
    * @param {number} props.width the original width of element
    * @param {number} props.height the original height of element
    * @param {number} props.angle the  rotation angle
@@ -393,8 +353,6 @@ export const getPoint = (scaleType, props) => {
     y: props.y,
     width: props.width,
     height: props.height,
-    scaleX: props.scaleX,
-    scaleY: props.scaleY
   })
 
   if (props.scaleFromCenter) {
@@ -404,8 +362,8 @@ export const getPoint = (scaleType, props) => {
   props = {
     center,
     ...props,
-    x: getOriginalPositionFromScale(props.x, props.width, props.scaleX),
-    y: getOriginalPositionFromScale(props.y, props.height, props.scaleY)
+    x: getOriginalPositionFromScale(props.x, props.width),
+    y: getOriginalPositionFromScale(props.y, props.height)
   }
 
   let caller
@@ -525,12 +483,8 @@ export const getMovePoint = (scaleType, oppositePoint, point, moveDiff) => {
    *
    * @returns {number} the original point position
    */
-const getOriginalPositionFromScale = (position, size, scale) => {
-  const changed = size * scale
-
-  const diff = changed - size
-
-  return position - diff
+const getOriginalPositionFromScale = (position, size) => {
+  return position
 }
 
 /**

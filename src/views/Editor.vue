@@ -3,13 +3,16 @@
     <section id="assets-panel">assets</section>
     <section id="toolbar-panel">
       <ul class="nav">
-        <li @click="addElement">
+        <li @click="addElement('text')">
+          <span><fa-icon :icon="['fas', 'font']"></fa-icon></span>
+        </li>
+        <li @click="addElement('box')">
           <span><fa-icon :icon="['far', 'square']"></fa-icon></span>
         </li>
-        <li @click="addElement">
+        <li @click="addElement('oval')">
           <span><fa-icon :icon="['far', 'circle']"></fa-icon></span>
         </li>
-        <li @click="addElement">
+        <li @click="addElement('line')">
           <span>|</span>
         </li>
       </ul>
@@ -38,8 +41,8 @@ export default {
     Properties
   },
   methods: {
-    addElement () {
-      this.$store.commit('addElement')
+    addElement (payload) {
+      this.$store.commit('addElement', payload)
     }
   }
 }

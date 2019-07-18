@@ -3,6 +3,16 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
+const defaults = {
+  x: 0,
+  y: 0,
+  width: 100,
+  height: 100,
+  angle: 0,
+  selected: false,
+  disableScale: true
+}
+
 export default new Vuex.Store({
   state: {
     selectedElement: {
@@ -15,16 +25,44 @@ export default new Vuex.Store({
       height: 10000
     },
     base: {
+      oval: {
+        ...defaults,
+        type: 'oval',
+        classPrefix: 'oval',
+        text: '',
+        styles: {
+          background: '#0FF0B3',
+          'border-radius': '50%',
+          opacity: 100,
+          'mix-blend-mode': 'normal'
+        }
+      },
+      line: {
+        ...defaults,
+        height: 1,
+        type: 'line',
+        classPrefix: 'line',
+        text: '',
+        styles: {
+          background: '#0FF0B3',
+          opacity: 100,
+          'mix-blend-mode': 'normal'
+        }
+      },
+      text: {
+        ...defaults,
+        type: 'text',
+        classPrefix: 'text',
+        text: 'Hello there',
+        styles: {
+          opacity: 100,
+          'mix-blend-mode': 'normal',
+          'font-size': '20px'
+        }
+      },
       box: {
+        ...defaults,
         type: 'box',
-        selected: false,
-        x: 0,
-        y: 0,
-        scaleX: 1,
-        scaleY: 1,
-        width: 100,
-        height: 100,
-        angle: 0,
         classPrefix: 'box',
         text: '',
         styles: {
@@ -32,8 +70,7 @@ export default new Vuex.Store({
           'border-radius': 0,
           opacity: 100,
           'mix-blend-mode': 'normal'
-        },
-        disableScale: true
+        }
       }
     },
     elements: []
@@ -42,8 +79,8 @@ export default new Vuex.Store({
     selectElement (state, payload) {
       state.selectedElement = payload
     },
-    addElement (state) {
-      state.elements = [...state.elements, { ...state.base.box, id: state.elements.length + 1 }]
+    addElement (state, payload) {
+      state.elements = [...state.elements, { ...state.base[payload], id: state.elements.length + 1 }]
     },
     removeElement (state, payload) {
       state.elements = [

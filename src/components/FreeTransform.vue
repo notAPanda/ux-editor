@@ -60,14 +60,6 @@ export default {
       type: Number,
       required: true
     },
-    scaleX: {
-      type: Number,
-      required: true
-    },
-    scaleY: {
-      type: Number,
-      required: true
-    },
     scaleLimit: {
       type: Number,
       default: 0.1
@@ -116,8 +108,6 @@ export default {
       const { element, controls } = styler({
         x: this.x,
         y: this.y,
-        scaleX: this.scaleX,
-        scaleY: this.scaleY,
         width: this.width,
         height: this.height,
         angle: this.angle,
@@ -147,8 +137,6 @@ export default {
         startY: event.pageY,
         x: this.x,
         y: this.y,
-        scaleX: this.scaleX,
-        scaleY: this.scaleY,
         width: this.width,
         height: this.height,
         angle: this.angle,
@@ -181,8 +169,6 @@ export default {
         startY: event.pageY,
         x: this.x,
         y: this.y,
-        scaleX: this.scaleX,
-        scaleY: this.scaleY,
         width: this.width,
         height: this.height,
         angle: this.angle,

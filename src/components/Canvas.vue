@@ -12,8 +12,6 @@
       :key="element.id"
       :x="element.x"
       :y="element.y"
-      :scale-x="element.scaleX"
-      :scale-y="element.scaleY"
       :width="element.width"
       :height="element.height"
       :angle="element.angle"

@@ -75,8 +75,6 @@ export default (scaleType, {
   startY,
   x,
   y,
-  scaleX,
-  scaleY,
   width,
   height,
   angle,

@@ -1,5 +1,5 @@
 const roundTo = (n) => Math.round(n)
-export default ({ x, y, angle, scaleX, scaleY, width, height, disableScale = false }) => {
+export default ({ x, y, angle, width, height, disableScale = false }) => {
   return {
     element: {
       width,

@@ -12,7 +12,7 @@
           </div>
         </div>
       </div>
-      <div v-if="selectedElement.type === 'box'">
+      <div v-if="['box', 'oval', 'line'].includes(selectedElement.type)">
         <div class="row mb mt">
           <div class="col">
               <label class="label">W</label>
