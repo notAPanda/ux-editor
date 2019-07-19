@@ -1,6 +1,22 @@
 import { getCenter } from './point-finder'
 import { rotatePoint } from './point-transformer'
 
+export const select = ({ startX, startY }, onUpdate) => {
+  const currentProps = {}
+
+  return (event) => {
+    const moveDiff = {
+      x: event.pageX - startX,
+      y: event.pageY - startY
+    }
+    currentProps.x = startX
+    currentProps.y = startY
+    currentProps.width = moveDiff.x
+    currentProps.height = moveDiff.y
+    onUpdate(currentProps)
+  }
+}
+
 const transform = (scaleType, moveDiff, width, height, x, y) => {
   const currentProps = {
     x,

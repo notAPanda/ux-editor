@@ -98,13 +98,11 @@ export default {
       const payload = {
         ...this.selectedElement
       }
-
-      const multi = value / 360
-      if (multi > 1 || multi < -1) {
-        value = value - Math.round(multi) * 360
-      }
-
       if (property === 'angle') {
+        const multi = value / 360
+        if (multi > 1 || multi < -1) {
+          value = value - Math.round(multi) * 360
+        }
         const center = rotatePoint(getCenter(payload), { x: payload.x, y: payload.y }, payload.angle)
         const rotatedTL = rotatePoint({ x: payload.x, y: payload.y }, center, parseInt(value) - payload.angle)
         const rotatedElement = {

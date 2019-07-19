@@ -36,5 +36,15 @@ html, body, #app {
   background: $light-grey;
   height: 40px;
   border-bottom: 1px solid rgba($black, .1);
+  display: flex;
+  align-items: center;
+
+  .navbar-menu {
+    margin: 0 10px;
+
+    .navbar-item:not(:first-child) {
+      margin: 0 0 0 10px;
+    }
+  }
 }
 </style>
