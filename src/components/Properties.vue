@@ -1,5 +1,6 @@
 <template>
   <div class="properties">
+    <div v-if="selectedElements.length === 1">
       <div v-if="selectedElement.type === 'canvas'">
         <div class="row mt mb">
           <div class="col">
@@ -73,6 +74,7 @@
         <hr>
         <Styles :element="selectedElement"></Styles>
       </div>
+    </div>
   </div>
 </template>
 
@@ -90,7 +92,13 @@ export default {
   },
   computed: {
     selectedElement () {
-      return this.$store.state.selectedElement
+      if (this.selectedElements.length) {
+        return this.selectedElements[0]
+      }
+      return {}
+    },
+    selectedElements () {
+      return this.$store.state.selectedElements
     }
   },
   methods: {

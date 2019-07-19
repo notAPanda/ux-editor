@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import { select } from '@/helpers/scale'
+import select from '@/helpers/select'
 
 export default {
   name: 'FreeCanvas',
@@ -21,6 +21,10 @@ export default {
     }
   },
   mounted () {
+    this.$parent.$refs.workbench.scrollLeft = this.canvas.marginX / 2 - 50
+    this.$parent.$refs.workbench.scrollTop = this.canvas.marginY / 2 - 50
+
+    console.log(this.$parent.$refs.workbench.scrollLeft)
   },
   data () {
     return {
@@ -41,14 +45,20 @@ export default {
       const offsetY = this.$refs.freeCanvas.getBoundingClientRect().y
       const drag = select({
         startX: event.pageX,
-        startY: event.pageY,
+        startY: event.pageY
       }, (payload) => {
         this.selecting = true
-        this.selector = {
+        const selector = {
           ...payload,
           x: payload.x - offsetX,
           y: payload.y - offsetY
         }
+        this.selector = selector
+        this.$store.commit('selectElements', {
+          ...selector,
+          x: selector.x - this.canvas.marginX / 2,
+          y: selector.y - this.canvas.marginY / 2
+        })
       })
       this.onDrag(drag)
     },
@@ -71,8 +81,8 @@ export default {
     },
     getCanvasStyles () {
       return {
-        width: `${this.canvas.width + 500}px`,
-        height: `${this.canvas.height + 100}px`
+        width: `${this.canvas.width + this.canvas.marginX}px`,
+        height: `${this.canvas.height + this.canvas.marginY}px`
       }
     }
   }

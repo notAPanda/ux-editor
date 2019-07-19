@@ -17,7 +17,7 @@
         </li>
       </ul>
     </section>
-    <div id="workbench">
+    <div id="workbench" ref="workbench">
       <FreeCanvas>
         <Canvas></Canvas>
       </FreeCanvas>

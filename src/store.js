@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import { doOverlap } from '@/helpers/select'
+
 Vue.use(Vuex)
 
 const defaults = {
@@ -19,10 +21,13 @@ export default new Vuex.Store({
       id: null,
       type: null
     },
+    selectedElements: [],
     canvas: {
       type: 'canvas',
       width: 1024,
-      height: 10000
+      height: 10000,
+      'marginX': 500,
+      'marginY': 100
     },
     base: {
       oval: {
@@ -78,7 +83,27 @@ export default new Vuex.Store({
   },
   mutations: {
     selectElement (state, payload) {
-      state.selectedElement = payload
+      state.selectedElements = [payload]
+    },
+    addToSelectedElements (state, payload) {
+      state.selectedElements = [...state.selectedElements, payload]
+    },
+    selectElements (state, payload = null) {
+      if (payload) {
+        state.selectedElements = [
+          ...state.elements.filter(element => doOverlap(payload, element)).map(element => {
+            return {
+              ...element,
+              selected: 1
+            }
+          })
+        ]
+      } else {
+        state.selectedElements = []
+      }
+    },
+    clearSelection (state, payload) {
+      state.selectedElements = [payload]
     },
     addElement (state, payload) {
       state.elements = [...state.elements, { ...state.base[payload], id: state.elements.length + 1 }]

@@ -7,9 +7,10 @@
     <FreeTransform
       v-for="element in elements"
       :class-prefix="element.type === 'text' ? 'text' : null"
-      :selected="selectedElement.id === element.id"
+      :selected="selectedElements.some(e => e.id === element.id)"
       :selectOn="'mousedown'"
       @onSelect="selectElement(element)"
+      @addToSelectedElements="addToSelectedElements(element)"
       :key="element.id"
       :x="element.x"
       :y="element.y"
@@ -42,8 +43,6 @@ export default {
     }
   },
   mounted () {
-    this.$refs.canvas.scrollIntoView({ behavior: 'auto', block: 'start', inline: 'start' })
-
     this.offsetX = this.$refs.canvas.getBoundingClientRect().x
     this.offsetY = this.$refs.canvas.getBoundingClientRect().y
 
@@ -67,17 +66,20 @@ export default {
     },
     selectedElement () {
       return this.$store.state.selectedElement
+    },
+    selectedElements () {
+      return this.$store.state.selectedElements
     }
   },
   methods: {
     selectCanvas (canvas) {
-      this.$store.commit('selectElement', canvas)
+      this.$store.commit('clearSelection', canvas)
     },
     selectElement (element) {
-      if (this.selectedElement.id === element.id) {
-        return null
-      }
       this.$store.commit('selectElement', element)
+    },
+    addToSelectedElements (element) {
+      this.$store.commit('addToSelectedElements', element)
     },
     update (element, payload) {
       this.$store.commit('updateElement', {
@@ -97,7 +99,7 @@ export default {
       return {
         width: `${this.canvas.width}px`,
         height: `${this.canvas.height}px`,
-        margin: `250px auto`
+        margin: `${this.canvas.marginY / 2}px ${this.canvas.marginX / 2}px`
       }
     }
   }

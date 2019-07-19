@@ -190,7 +190,12 @@ export default {
     mousedown (event) {
       this.$emit('mousedown', event)
       if (this.selectOn === 'mousedown' || this.selected === true) {
-        this.$emit('onSelect')
+        if (event.shiftKey) {
+          this.$emit('addToSelectedElements')
+        } else {
+          this.$emit('onSelect')
+        }
+
         this.handleTranslation(event)
       }
     },
