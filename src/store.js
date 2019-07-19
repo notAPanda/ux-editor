@@ -26,8 +26,8 @@ export default new Vuex.Store({
       type: 'canvas',
       width: 1024,
       height: 10000,
-      'marginX': 500,
-      'marginY': 100
+      'marginX': 400,
+      'marginY': 400
     },
     base: {
       oval: {
@@ -119,7 +119,7 @@ export default new Vuex.Store({
         ...state.elements.filter(element => element.id !== payload.id),
         payload
       ]
-      state.selectedElement = payload
+      state.selectedElements = [payload]
       return null
     }
   },

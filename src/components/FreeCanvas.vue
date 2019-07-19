@@ -23,8 +23,6 @@ export default {
   mounted () {
     this.$parent.$refs.workbench.scrollLeft = this.canvas.marginX / 2 - 50
     this.$parent.$refs.workbench.scrollTop = this.canvas.marginY / 2 - 50
-
-    console.log(this.$parent.$refs.workbench.scrollLeft)
   },
   data () {
     return {

@@ -26,8 +26,8 @@ export default ({ startX, startY }, onUpdate) => {
 }
 
 export const doOverlap = (selector, element) => {
-  return (selector.x + selector.width) > element.x
-  && selector.x < (element.x + element.width)
-  && (selector.y + selector.height) > element.y
-  && selector.y < (element.y + element.height)
+  return (selector.x + selector.width) > element.x &&
+  selector.x < (element.x + element.width) &&
+  (selector.y + selector.height) > element.y &&
+  selector.y < (element.y + element.height)
 }
