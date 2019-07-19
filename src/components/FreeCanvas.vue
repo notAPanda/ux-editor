@@ -3,6 +3,7 @@
     class="free-canvas"
     ref="freeCanvas"
     :style="getCanvasStyles()"
+    @mousedown="handleSelection"
   >
     <slot></slot>
   </div>
@@ -19,6 +20,15 @@ export default {
   mounted () {
   },
   methods: {
+    handleSelection () {},
+    onDrag (drag) {
+      const up = () => {
+        document.removeEventListener('mousemove', drag)
+        document.removeEventListener('mouseup', up)
+      }
+      document.addEventListener('mousemove', drag)
+      document.addEventListener('mouseup', up)
+    },    
     getCanvasStyles () {
       return {
         width: `${this.canvas.width + 500}px`,
