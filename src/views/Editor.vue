@@ -1,18 +1,18 @@
 <template>
   <div class="editor">
-    <section id="assets-panel">assets</section>
+    <section id="assets-panel" v-if="0">assets</section>
     <section id="toolbar-panel">
       <ul class="nav">
-        <li @click="addElement('text')">
+        <li @click="addElement({type: 'text'})">
           <span><fa-icon :icon="['fas', 'font']"></fa-icon></span>
         </li>
-        <li @click="addElement('box')">
+        <li @click="addElement({type: 'box'})">
           <span><fa-icon :icon="['far', 'square']"></fa-icon></span>
         </li>
-        <li @click="addElement('oval')">
+        <li @click="addElement({type: 'oval'})">
           <span><fa-icon :icon="['far', 'circle']"></fa-icon></span>
         </li>
-        <li @click="addElement('line')">
+        <li @click="addElement({type: 'line'})">
           <span>|</span>
         </li>
       </ul>

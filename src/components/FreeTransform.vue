@@ -7,7 +7,7 @@
         <div :class="`tr-transform__content`" :style="computedStyles.element">
             <slot></slot>
         </div>
-        <div v-if="selected"
+        <div v-if="selected && !multipleSelected"
              :class="`tr-transform__controls`"
              :style="computedStyles.controls">
             <div :class="`tr-transform__rotator tr-transform-${classPrefix}`" @mousedown="handleRotation"></div>
@@ -36,6 +36,7 @@ import { translate } from 'free-transform'
 import scale from '@/helpers/scale'
 import rotate from '@/helpers/rotate'
 import styler from '@/helpers/styler'
+import { translateMultiple } from '@/helpers/translate'
 
 export default {
   name: 'Transform',
@@ -83,6 +84,10 @@ export default {
     selected: {
       type: Boolean,
       default: true
+    },
+    multipleSelected: {
+      type: Boolean,
+      default: false
     },
     styles: {
       type: Object,
@@ -152,14 +157,23 @@ export default {
     },
     handleTranslation (event) {
       event.stopPropagation()
-      const drag = translate({
-        x: this.x,
-        y: this.y,
-        startX: event.pageX,
-        startY: event.pageY
-      }, (payload) => {
-        this.$emit('update', payload)
-      })
+
+        const drag = this.multipleSelected ? translateMultiple({
+          x: this.x,
+          y: this.y,
+          startX: event.pageX,
+          startY: event.pageY
+        }, (payload) => {
+          this.$emit('updateMultiple', payload)
+        }) : translate({
+          x: this.x,
+          y: this.y,
+          startX: event.pageX,
+          startY: event.pageY
+        }, (payload) => {
+          this.$emit('update', payload)
+        })
+
       this.onDrag(drag)
     },
     handleRotation (event) {
@@ -189,7 +203,8 @@ export default {
     },
     mousedown (event) {
       this.$emit('mousedown', event)
-      if (this.selectOn === 'mousedown' || this.selected === true) {
+      if ((this.selectOn === 'mousedown' || this.selected === true) && !this.multipleSelected) {
+        console.log('1')
         if (event.shiftKey) {
           this.$emit('addToSelectedElements')
         } else {
@@ -197,6 +212,12 @@ export default {
         }
 
         this.handleTranslation(event)
+      } else if (this.selected === true && this.multipleSelected) {
+        console.log('2')
+        this.handleTranslation(event)
+      } else if (this.selected === false && this.multipleSelected) {
+        console.log('3')
+        this.$emit('onSelect')
       }
     },
     click (event) {

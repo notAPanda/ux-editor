@@ -8,7 +8,8 @@
       v-for="element in elements"
       :class-prefix="element.type === 'text' ? 'text' : null"
       :selected="selectedElements.some(e => e.id === element.id)"
-      :selectOn="'mousedown'"
+      :multiple-selected="selectedElements.length > 1"
+      selectOn="mousedown"
       @onSelect="selectElement(element)"
       @addToSelectedElements="addToSelectedElements(element)"
       :key="element.id"
@@ -21,6 +22,7 @@
       :offset-y="offsetY"
       :disable-scale="element.disableScale === true"
       @update="update(element, $event)"
+      @updateMultiple="updateMultiple"
     >
       <div :class="`element ${element.type}`" :style="getElementStyles(element)">{{element.text}}</div>
     </FreeTransform>
@@ -86,6 +88,9 @@ export default {
         ...element,
         ...payload
       })
+    },
+    updateMultiple (payload) {
+      this.$store.commit('updateMultipleElements', payload)
     },
     getElementStyles (element) {
       const styles = element.styles ? element.styles : {}

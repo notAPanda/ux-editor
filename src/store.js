@@ -106,7 +106,14 @@ export default new Vuex.Store({
       state.selectedElements = [payload]
     },
     addElement (state, payload) {
-      state.elements = [...state.elements, { ...state.base[payload], id: state.elements.length + 1 }]
+      state.elements = [
+        ...state.elements,
+        {
+          ...state.base[payload.type],
+          id: state.elements.length + 1,
+          ...payload
+        }
+      ]
     },
     removeElement (state, payload) {
       state.elements = [
@@ -121,6 +128,26 @@ export default new Vuex.Store({
       ]
       state.selectedElements = [payload]
       return null
+    },
+    updateMultipleElements (state, payload) {
+      // state.elements = [
+      //   ...state.elements.filter(e => {
+      //     return state.selectedElements.some(el => el.id === e.id)
+      //   })
+      // ]
+      // console.log(...state.elements.filter(e => {
+      //   state.selectedElements.some(el => el.id === e.id)
+      // }))
+
+      state.elements = [
+        ...state.elements
+          .filter(e => state.selectedElements.some(el => el.id === e.id))
+          .map(e => ({
+            ...e,
+            x: e.x + payload.x,
+            y: e.y + payload.y
+          }))
+      ]
     }
   },
   actions: {
