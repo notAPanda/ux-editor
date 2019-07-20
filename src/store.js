@@ -130,16 +130,8 @@ export default new Vuex.Store({
       return null
     },
     updateMultipleElements (state, payload) {
-      // state.elements = [
-      //   ...state.elements.filter(e => {
-      //     return state.selectedElements.some(el => el.id === e.id)
-      //   })
-      // ]
-      // console.log(...state.elements.filter(e => {
-      //   state.selectedElements.some(el => el.id === e.id)
-      // }))
-
       state.elements = [
+        ...state.elements.filter(e => !state.selectedElements.some(el => el.id === e.id)),
         ...state.elements
           .filter(e => state.selectedElements.some(el => el.id === e.id))
           .map(e => ({
