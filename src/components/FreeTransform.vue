@@ -7,7 +7,7 @@
         <div :class="`tr-transform__content`" :style="computedStyles.element">
             <slot></slot>
         </div>
-        <div v-if="selected && !multipleSelected"
+        <div v-if="selected && !multipleSelected && !editing"
              :class="`tr-transform__controls`"
              :style="computedStyles.controls">
             <div :class="`tr-transform__rotator tr-transform-${classPrefix}`" @mousedown="handleRotation"></div>
@@ -86,6 +86,10 @@ export default {
       default: true
     },
     multipleSelected: {
+      type: Boolean,
+      default: false
+    },
+    editing: {
       type: Boolean,
       default: false
     },
@@ -204,7 +208,6 @@ export default {
     mousedown (event) {
       this.$emit('mousedown', event)
       if ((this.selectOn === 'mousedown' || this.selected === true) && !this.multipleSelected) {
-        console.log('1')
         if (event.shiftKey) {
           this.$emit('addToSelectedElements')
         } else {
@@ -213,10 +216,8 @@ export default {
 
         this.handleTranslation(event)
       } else if (this.selected === true && this.multipleSelected) {
-        console.log('2')
         this.handleTranslation(event)
       } else if (this.selected === false && this.multipleSelected) {
-        console.log('3')
         this.$emit('onSelect')
       }
     },

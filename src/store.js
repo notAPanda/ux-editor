@@ -82,6 +82,18 @@ export default new Vuex.Store({
     elements: []
   },
   mutations: {
+    editElement (state, payload) {
+      let updatedElement = {
+        ...payload,
+        editing: true
+      }
+      state.elements = [
+        ...state.elements.filter(element => element.id !== payload.id),
+        updatedElement
+      ]
+      state.selectedElements = [updatedElement]
+      return null
+    },
     selectElement (state, payload) {
       state.selectedElements = [payload]
     },

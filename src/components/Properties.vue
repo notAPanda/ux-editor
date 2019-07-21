@@ -13,7 +13,7 @@
           </div>
         </div>
       </div>
-      <div v-if="['text'].includes(selectedElement.type)">
+      <div v-if="selectedElement.type === 'text'">
         <div class="row mb mt">
           <div class="col">
               <label class="label">W</label>
@@ -81,6 +81,7 @@
 <script>
 import OneWayInput from '@/components/OneWayInput.vue'
 import Styles from '@/components/Styles.vue'
+// import TextEditor from '@/components/TextEditor.vue'
 import { rotatePoint } from '@/helpers/point-transformer'
 import { getCenter } from '@/helpers/point-finder'
 
@@ -89,6 +90,7 @@ export default {
   components: {
     OneWayInput,
     Styles
+    // TextEditor
   },
   computed: {
     selectedElement () {

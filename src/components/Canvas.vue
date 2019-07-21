@@ -9,8 +9,10 @@
       :class-prefix="element.type === 'text' ? 'text' : null"
       :selected="selectedElements.some(e => e.id === element.id)"
       :multiple-selected="selectedElements.length > 1"
+      :editing="element.editing"
       selectOn="mousedown"
       @onSelect="selectElement(element)"
+      @dblclick="editElement(element)"
       @addToSelectedElements="addToSelectedElements(element)"
       :key="element.id"
       :x="element.x"
@@ -24,19 +26,23 @@
       @update="update(element, $event)"
       @updateMultiple="updateMultiple"
     >
-      <div :class="`element ${element.type}`" :style="getElementStyles(element)">{{element.text}}</div>
+      <div :class="`element ${element.type}`" :style="getElementStyles(element)">
+        <TextElement v-if="element.type === 'text'" :element="element"></TextElement>
+      </div>
     </FreeTransform>
   </div>
 </template>
 
 <script>
 import FreeTransform from '@/components/FreeTransform.vue'
+import TextElement from '@/components/TextElement.vue'
 import hotkeys from 'hotkeys-js'
 
 export default {
   name: 'Canvas',
   components: {
-    FreeTransform
+    FreeTransform,
+    TextElement
   },
   data () {
     return {
@@ -74,6 +80,11 @@ export default {
     }
   },
   methods: {
+    editElement (element) {
+      if (element.type === 'text') {
+        this.$store.commit('editElement', element)
+      }
+    },
     selectCanvas (canvas) {
       this.$store.commit('clearSelection', canvas)
     },
