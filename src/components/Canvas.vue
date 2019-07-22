@@ -4,15 +4,14 @@
     :style="getCanvasStyles()"
     @mousedown="selectCanvas(canvas)"
   >
-    <FreeTransform
-      v-for="element in elements"
+    <FreeTransform v-for="element in elements"
       :class-prefix="element.type === 'text' ? 'text' : null"
-      :selected="selectedElements.some(e => e.id === element.id)"
-      :multiple-selected="selectedElements.length > 1"
+      :selected="element.selected"
+      :multiple-selected="selectedElementsCount > 1"
       :editing="element.editing"
       selectOn="mousedown"
       @onSelect="selectElement(element)"
-      @dblclick="editElement(element)"
+      @dblclick="onDblclick(element)"
       @addToSelectedElements="addToSelectedElements(element)"
       :key="element.id"
       :x="element.x"
@@ -26,8 +25,9 @@
       @update="update(element, $event)"
       @updateMultiple="updateMultiple"
     >
-      <div :class="`element ${element.type}`" :style="getElementStyles(element)">
-        <TextElement v-if="element.type === 'text'" :element="element"></TextElement>
+      <div :class="`element`"
+        :style="getElementStyles(element)">
+        <div :class="`element-${element.type}`" :ref="`element-${element.id}-text`" v-if="element.text" :contenteditable="element.editing" @blur="endEditing(element, $event)">{{element.text}}</div>
       </div>
     </FreeTransform>
   </div>
@@ -35,19 +35,18 @@
 
 <script>
 import FreeTransform from '@/components/FreeTransform.vue'
-import TextElement from '@/components/TextElement.vue'
 import hotkeys from 'hotkeys-js'
 
 export default {
   name: 'Canvas',
   components: {
-    FreeTransform,
-    TextElement
+    FreeTransform
   },
   data () {
     return {
       offsetX: 0,
-      offsetY: 0
+      offsetY: 0,
+      editor: null
     }
   },
   mounted () {
@@ -73,17 +72,27 @@ export default {
       return this.$store.state.canvas
     },
     selectedElement () {
-      return this.$store.state.selectedElement
+      return this.selectedElements[0]
     },
     selectedElements () {
-      return this.$store.state.selectedElements
+      return this.$store.state.elements.filter(el => el.selected)
+    },
+    selectedElementsCount () {
+      return this.$store.state.elements.filter(el => el.selected).length
     }
   },
   methods: {
-    editElement (element) {
-      if (element.type === 'text') {
-        this.$store.commit('editElement', element)
-      }
+    endEditing (element, event) {
+      this.$store.commit('updateElement', {
+        ...element,
+        height: event.target.clientHeight,
+        text: event.target.innerText,
+        selected: true,
+        editing: false
+      })
+    },
+    onDblclick (element) {
+      this.$store.commit('editElement', element)
     },
     selectCanvas (canvas) {
       this.$store.commit('clearSelection', canvas)
@@ -95,6 +104,14 @@ export default {
       this.$store.commit('addToSelectedElements', element)
     },
     update (element, payload) {
+      if (element.type === 'text') {
+        this.$store.commit('updateElement', {
+          ...element,
+          ...payload,
+          height: this.$refs[`element-${element.id}-text`][0].clientHeight
+        })
+        return null
+      }
       this.$store.commit('updateElement', {
         ...element,
         ...payload
@@ -125,5 +142,11 @@ export default {
 <style lang="scss">
 .canvas {
   background-color: #fff;
+}
+
+.element {
+  .element-text {
+    overflow-wrap: break-word;
+  }
 }
 </style>

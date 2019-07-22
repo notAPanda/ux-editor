@@ -38,6 +38,11 @@ import rotate from '@/helpers/rotate'
 import styler from '@/helpers/styler'
 import { translateMultiple } from '@/helpers/translate'
 
+// const distance = (el1, el2) => ({
+//   x: Math.abs(el1.x - el2.x),
+//   y: Math.abs(el1.y - el2.y)
+// })
+
 export default {
   name: 'Transform',
   props: {
@@ -113,6 +118,9 @@ export default {
     }
   },
   computed: {
+    otherElements () {
+      return this.$store.state.elements.filter(el => el.id !== this.$vnode.key)
+    },
     computedStyles () {
       const { element, controls } = styler({
         x: this.x,
@@ -161,22 +169,21 @@ export default {
     },
     handleTranslation (event) {
       event.stopPropagation()
-
-        const drag = this.multipleSelected ? translateMultiple({
-          x: this.x,
-          y: this.y,
-          startX: event.pageX,
-          startY: event.pageY
-        }, (payload) => {
-          this.$emit('updateMultiple', payload)
-        }) : translate({
-          x: this.x,
-          y: this.y,
-          startX: event.pageX,
-          startY: event.pageY
-        }, (payload) => {
-          this.$emit('update', payload)
-        })
+      const drag = this.multipleSelected ? translateMultiple({
+        x: this.x,
+        y: this.y,
+        startX: event.pageX,
+        startY: event.pageY
+      }, (payload) => {
+        this.$emit('updateMultiple', payload)
+      }) : translate({
+        x: this.x,
+        y: this.y,
+        startX: event.pageX,
+        startY: event.pageY
+      }, (payload) => {
+        this.$emit('update', payload)
+      })
 
       this.onDrag(drag)
     },
@@ -207,7 +214,7 @@ export default {
     },
     mousedown (event) {
       this.$emit('mousedown', event)
-      if ((this.selectOn === 'mousedown' || this.selected === true) && !this.multipleSelected) {
+      if (this.selectOn === 'mousedown' && !this.multipleSelected && !this.editing) {
         if (event.shiftKey) {
           this.$emit('addToSelectedElements')
         } else {

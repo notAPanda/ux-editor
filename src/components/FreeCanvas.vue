@@ -18,6 +18,15 @@ export default {
   computed: {
     canvas () {
       return this.$store.state.canvas
+    },
+    elements () {
+      return this.$store.state.elements
+    },
+    selectedElementsCount () {
+      return this.$store.state.elements.filter(el => el.selected).length
+    },
+    isEditing () {
+      return this.$store.state.elements.filter(el => el.editing).length === 1
     }
   },
   mounted () {
@@ -37,6 +46,9 @@ export default {
   },
   methods: {
     handleSelection (event) {
+      if (this.isEditing) {
+        return null
+      }
       event.stopPropagation()
       event.preventDefault()
       const offsetX = this.$refs.freeCanvas.getBoundingClientRect().x

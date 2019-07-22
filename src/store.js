@@ -12,22 +12,19 @@ const defaults = {
   height: 100,
   angle: 0,
   selected: false,
+  editing: false,
   disableScale: true
 }
 
 export default new Vuex.Store({
   state: {
-    selectedElement: {
-      id: null,
-      type: null
-    },
-    selectedElements: [],
     canvas: {
       type: 'canvas',
       width: 1024,
       height: 10000,
-      'marginX': 400,
-      'marginY': 400
+      marginX: 400,
+      marginY: 400,
+      selected: false
     },
     base: {
       oval: {
@@ -82,42 +79,63 @@ export default new Vuex.Store({
     elements: []
   },
   mutations: {
-    editElement (state, payload) {
-      let updatedElement = {
-        ...payload,
-        editing: true
-      }
+    editElement(state, payload) {
       state.elements = [
         ...state.elements.filter(element => element.id !== payload.id),
-        updatedElement
+        {
+          ...payload,
+          editing: true,
+          selected: true,
+        }
       ]
-      state.selectedElements = [updatedElement]
-      return null
     },
-    selectElement (state, payload) {
-      state.selectedElements = [payload]
+    selectElement(state, payload) {
+      state.elements = [...state.elements].map(el => {
+        if (el.id === payload.id) {
+          return {
+            ...payload,
+            selected: true
+          }
+        }
+        return {
+          ...el,
+          selected: false
+        }
+      })
     },
-    addToSelectedElements (state, payload) {
-      state.selectedElements = [...state.selectedElements, payload]
+    addToSelectedElements(state, payload) {
+      state.elements = [...state.elements].map(el => {
+        if (el.id === payload.id) {
+          return {
+            ...payload,
+            selected: true
+          }
+        }
+        return el
+      })
     },
-    selectElements (state, payload = null) {
+    selectElements(state, payload = null) {
       if (payload) {
-        state.selectedElements = [
-          ...state.elements.filter(element => doOverlap(payload, element)).map(element => {
-            return {
-              ...element,
-              selected: 1
-            }
-          })
+        state.elements = [
+          ...state.elements.filter(element => !doOverlap(payload, element)),
+          ...state.elements
+            .filter(element => doOverlap(payload, element))
+            .map(element => {
+              return {
+                ...element,
+                selected: true
+              }
+            })
         ]
-      } else {
-        state.selectedElements = []
       }
     },
-    clearSelection (state, payload) {
-      state.selectedElements = [payload]
+    clearSelection(state, payload) {
+      state.elements = [...state.elements].map(el => ({
+        ...el,
+        selected: false
+      }))
     },
-    addElement (state, payload) {
+    addElement(state, payload) {
       state.elements = [
         ...state.elements,
         {
@@ -127,25 +145,24 @@ export default new Vuex.Store({
         }
       ]
     },
-    removeElement (state, payload) {
+    removeElement(state, payload) {
       state.elements = [
         ...state.elements.filter(element => element.id !== payload.id)
       ]
       return null
     },
-    updateElement (state, payload) {
+    updateElement(state, payload) {
       state.elements = [
         ...state.elements.filter(element => element.id !== payload.id),
         payload
       ]
-      state.selectedElements = [payload]
       return null
     },
-    updateMultipleElements (state, payload) {
+    updateMultipleElements(state, payload) {
       state.elements = [
-        ...state.elements.filter(e => !state.selectedElements.some(el => el.id === e.id)),
+        ...state.elements.filter(e => !e.selected),
         ...state.elements
-          .filter(e => state.selectedElements.some(el => el.id === e.id))
+          .filter(e => e.selected)
           .map(e => ({
             ...e,
             x: e.x + payload.x,
@@ -154,6 +171,5 @@ export default new Vuex.Store({
       ]
     }
   },
-  actions: {
-  }
+  actions: {}
 })

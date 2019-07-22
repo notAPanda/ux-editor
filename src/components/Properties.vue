@@ -1,6 +1,6 @@
 <template>
   <div class="properties">
-    <div v-if="selectedElements.length === 1">
+    <div v-if="selectedElementsCount === 1">
       <div v-if="selectedElement.type === 'canvas'">
         <div class="row mt mb">
           <div class="col">
@@ -94,13 +94,16 @@ export default {
   },
   computed: {
     selectedElement () {
-      if (this.selectedElements.length) {
+      if (this.selectedElementsCount) {
         return this.selectedElements[0]
       }
       return {}
     },
     selectedElements () {
-      return this.$store.state.selectedElements
+      return this.$store.state.elements.filter(el => el.selected)
+    },
+    selectedElementsCount () {
+      return this.$store.state.elements.filter(el => el.selected).length
     }
   },
   methods: {
