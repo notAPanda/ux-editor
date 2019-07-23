@@ -193,27 +193,23 @@ export default {
         startX: event.pageX,
         startY: event.pageY
       }, (payload) => {
+
         let closestX = this.snapPointsX.filter(point => distance(payload.x, point) < 10).sort()[0]
         let closestY = this.snapPointsY.filter(point => distance(payload.y, point) < 10).sort()[0]
 
         let closestXw = this.snapPointsX.filter(point => distance(payload.x + this.width, point) < 10).sort()[0]
         let closestYh = this.snapPointsY.filter(point => distance(payload.y + this.height, point) < 10).sort()[0]
 
-
-        if (closestXw) {
-          console.log('closestXw')
-          payload = { ...payload, x: closestXw - this.width }
-        }
-        if (closestYh) {
-          console.log('closestYh')
+        if (typeof closestYh !== 'undefined') {
           payload = { ...payload, y: closestYh - this.height }
         }
-        if (closestX) {
-          console.log('closestX')
+        if (typeof closestXw !== 'undefined') {
+          payload = { ...payload, x: closestXw - this.width }
+        }
+        if (typeof closestX  !== 'undefined') {
           payload = { ...payload, x: closestX }
         }
-        if (closestY) {
-          console.log('closestY')
+        if (typeof closestY  !== 'undefined') {
           payload = { ...payload, y: closestY }
         }
         this.$emit('update', payload)
