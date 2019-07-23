@@ -37,11 +37,9 @@ import scale from '@/helpers/scale'
 import rotate from '@/helpers/rotate'
 import styler from '@/helpers/styler'
 import { translateMultiple } from '@/helpers/translate'
+import _ from 'lodash'
 
-// const distance = (el1, el2) => ({
-//   x: Math.abs(el1.x - el2.x),
-//   y: Math.abs(el1.y - el2.y)
-// })
+const distance = (x1, x2) => Math.abs(x1 - x2)
 
 export default {
   name: 'Transform',
@@ -118,8 +116,21 @@ export default {
     }
   },
   computed: {
+    canvas () {
+      return this.$store.state.canvas
+    },
     otherElements () {
       return this.$store.state.elements.filter(el => el.id !== this.$vnode.key)
+    },
+    snapPointsX () {
+      return this.otherElements.reduce((accumulator, el) => {
+        return [...accumulator, el.x, el.x + el.width]
+      }, [0, this.canvas.width])
+    },
+    snapPointsY () {
+      return this.otherElements.reduce((accumulator, el) => {
+        return [...accumulator, el.y, el.y + el.height]
+      }, [0, this.canvas.height])
     },
     computedStyles () {
       const { element, controls } = styler({
@@ -182,6 +193,29 @@ export default {
         startX: event.pageX,
         startY: event.pageY
       }, (payload) => {
+        let closestX = this.snapPointsX.filter(point => distance(payload.x, point) < 10).sort()[0]
+        let closestY = this.snapPointsY.filter(point => distance(payload.y, point) < 10).sort()[0]
+
+        let closestXw = this.snapPointsX.filter(point => distance(payload.x + this.width, point) < 10).sort()[0]
+        let closestYh = this.snapPointsY.filter(point => distance(payload.y + this.height, point) < 10).sort()[0]
+
+
+        if (closestXw) {
+          console.log('closestXw')
+          payload = { ...payload, x: closestXw - this.width }
+        }
+        if (closestYh) {
+          console.log('closestYh')
+          payload = { ...payload, y: closestYh - this.height }
+        }
+        if (closestX) {
+          console.log('closestX')
+          payload = { ...payload, x: closestX }
+        }
+        if (closestY) {
+          console.log('closestY')
+          payload = { ...payload, y: closestY }
+        }
         this.$emit('update', payload)
       })
 
