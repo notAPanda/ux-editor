@@ -37,6 +37,7 @@ import scale from '@/helpers/scale'
 import rotate from '@/helpers/rotate'
 import styler from '@/helpers/styler'
 import { translateMultiple } from '@/helpers/translate'
+import { minMax, getElementXSnapPoints, getElementYSnapPoints } from '@/helpers/point-finder'
 
 const distance = (x1, x2) => Math.abs(x1 - x2)
 
@@ -123,12 +124,12 @@ export default {
     },
     snapPointsX () {
       return this.otherElements.reduce((accumulator, el) => {
-        return [...accumulator, el.x, el.x + el.width]
+        return [...accumulator, ...getElementXSnapPoints(el)]
       }, [0, this.canvas.width])
     },
     snapPointsY () {
       return this.otherElements.reduce((accumulator, el) => {
-        return [...accumulator, el.y, el.y + el.height]
+        return [...accumulator, ...getElementYSnapPoints(el)]
       }, [0, this.canvas.height])
     },
     computedStyles () {

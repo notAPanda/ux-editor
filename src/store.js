@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 
 import { doOverlap } from '@/helpers/select'
+import { minMax } from './helpers/point-finder';
 
 Vue.use(Vuex)
 
@@ -163,10 +164,13 @@ export default new Vuex.Store({
         ...state.elements.filter(e => !e.selected),
         ...state.elements
           .filter(e => e.selected)
-          .map(e => ({
-            ...e,
-            x: payload.x
-          }))
+          .map(e => {
+            let xmin = minMax(e).xmin
+            return {
+              ...e,
+              x: payload.x + (e.x - xmin)
+            }
+          })
       ]
     },
     alignTopSelectedElements (state, payload) {
@@ -174,10 +178,41 @@ export default new Vuex.Store({
         ...state.elements.filter(e => !e.selected),
         ...state.elements
           .filter(e => e.selected)
-          .map(e => ({
-            ...e,
-            y: payload.y
-          }))
+          .map(e => {
+            let ymin = minMax(e).ymin
+            return {
+              ...e,
+              y: payload.y + (e.y - ymin)
+            }
+          })
+      ]
+    },
+    alignRightSelectedElements (state, payload) {
+      state.elements = [
+        ...state.elements.filter(e => !e.selected),
+        ...state.elements
+          .filter(e => e.selected)
+          .map(e => {
+            let xmax = minMax(e).xmax
+            return {
+              ...e,
+              x: payload.x + (e.x - xmax)
+            }
+          })
+      ]
+    },
+    alignBottomSelectedElements (state, payload) {
+      state.elements = [
+        ...state.elements.filter(e => !e.selected),
+        ...state.elements
+          .filter(e => e.selected)
+          .map(e => {
+            let ymax = minMax(e).ymax
+            return {
+              ...e,
+              y: payload.y + (e.y - ymax)
+            }
+          })
       ]
     },
     translateMultipleElements(state, payload) {

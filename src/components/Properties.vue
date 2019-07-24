@@ -80,7 +80,9 @@
     <div v-if="selectedElementsCount > 1">
       <div class="row mb t">
         <button @click="alignElements('left')">Align left</button>
+        <button @click="alignElements('right')">Align right</button>
         <button @click="alignElements('top')">Align top</button>
+        <button @click="alignElements('bottom')">Align bottom</button>
       </div>
     </div>
   </div>
@@ -90,7 +92,7 @@
 import OneWayInput from '@/components/OneWayInput.vue'
 import Styles from '@/components/Styles.vue'
 import { rotatePoint } from '@/helpers/point-transformer'
-import { getRotatedCenter, minMax } from '@/helpers/point-finder'
+import { getCenter, getRotatedCenter, minMax } from '@/helpers/point-finder'
 import _ from 'lodash'
 
 export default {
@@ -118,28 +120,36 @@ export default {
     getBounds (element) {
       console.log(minMax(element))
     },
-    getCenter (element) {
-      console.log(getRotatedCenter(element))
-    },
     alignElements (side) {
       switch (side) {
         case 'left':
-          this.$store.commit('alignLeftSelectedElements', {
-            x: _.minBy(this.selectedElements, 'x').x
-          })
+          let xmin = _.min(this.selectedElements.map(el => minMax(el).xmin))
+          this.$store.commit('alignLeftSelectedElements', { x: xmin })
           break
         case 'right':
+          let xmax = _.max(this.selectedElements.map(el => minMax(el).xmax))
+          this.$store.commit('alignRightSelectedElements', { x: xmax })
           break
         case 'center':
+          // const xmin = this.selectedElements.map(el => minMax(el).xmin).sort()[0]
+          // this.$store.commit('alignLeftSelectedElements', {
+          //   x: xmin
+          // })
           break
         case 'top':
-          this.$store.commit('alignTopSelectedElements', {
-            y: _.minBy(this.selectedElements, 'y').y
-          })          
+          let ymin = _.min(this.selectedElements.map(el => minMax(el).ymin))
+          this.$store.commit('alignTopSelectedElements', { y: ymin })
           break
         case 'bottom':
+          let ymax = _.max(this.selectedElements.map(el => minMax(el).ymax))
+          this.$store.commit('alignBottomSelectedElements', { y: ymax })
+          break
           break
         case 'middle':
+          // const xmin = this.selectedElements.map(el => minMax(el).xmin).sort()[0]
+          // this.$store.commit('alignLeftSelectedElements', {
+          //   x: xmin
+          // })
           break
 
       }

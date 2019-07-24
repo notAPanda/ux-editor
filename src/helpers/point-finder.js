@@ -12,10 +12,9 @@ import { rotatePoint } from './point-transformer'
  *
  * @returns {{x: number, y: number}} an object holding the position
  */
-const findPoint = ({ x, y, angle, center, rad = angle * (Math.PI / 180) }) => ({
-  x: (x - center.x) * Math.cos(rad) - (y - center.y) * Math.sin(rad) + center.x,
-  y: (x - center.x) * Math.sin(rad) + (y - center.y) * Math.cos(rad) + center.y
-})
+const findPoint = ({ x, y, angle, center, rad = angle * (Math.PI / 180) }) => {
+  return { x, y }
+}
 
 /**
  * Get the Center point of a box
@@ -72,22 +71,7 @@ export const getRotatedCenter = ({ x, y, width, height, angle }) => {
 export const getTL = ({
   x,
   y,
-  width,
-  height,
-  angle,
-  center = getCenter({
-    x,
-    y,
-    width,
-    height
-  })
-}) =>
-  findPoint({
-    x,
-    y,
-    angle,
-    center
-  })
+}) => ({ x, y })
 
 /**
  * get the LeftBottom point position
@@ -107,20 +91,12 @@ export const getBL = ({
   y,
   width,
   height,
-  angle,
-  center = getCenter({
-    x,
-    y,
-    width,
-    height
-  })
+  angle
 }) => {
-  return findPoint({
-    angle,
-    center,
+  return rotatePoint({
     x,
     y: y + height
-  })
+  }, { x, y }, angle)
 }
 
 /**
@@ -141,20 +117,12 @@ export const getTR = ({
   y,
   width,
   height,
-  angle,
-  center = getCenter({
-    x,
-    y,
-    width,
-    height
-  })
+  angle
 }) =>
-  findPoint({
-    angle,
-    center,
+  rotatePoint({
     x: x + width,
     y
-  })
+  }, { x, y }, angle)
 
 /**
  * Get BottomRight point position
@@ -174,20 +142,12 @@ export const getBR = ({
   y,
   width,
   height,
-  angle,
-  center = getCenter({
-    x,
-    y,
-    width,
-    height
-  })
+  angle
 }) => {
-  return findPoint({
-    angle,
-    center,
+  return rotatePoint({
     x: x + width,
     y: y + height
-  })
+  }, { x, y }, angle)
 }
 
 /**
@@ -208,20 +168,12 @@ export const getMR = ({
   y,
   width,
   height,
-  angle,
-  center = getCenter({
-    x,
-    y,
-    width,
-    height
-  })
+  angle
 }) =>
-  findPoint({
+  rotatePoint({
     x: x + width,
-    y: y + height / 2,
-    center,
-    angle
-  })
+    y: y + height / 2
+  }, { x, y }, angle)
 
 /**
  * get MiddleBottom point position
@@ -241,20 +193,12 @@ export const getBM = ({
   y,
   width,
   height,
-  angle,
-  center = getCenter({
-    x,
-    y,
-    width,
-    height
-  })
+  angle
 }) =>
-  findPoint({
+  rotatePoint({
     x: x + width / 2,
-    y: y + height,
-    center,
-    angle
-  })
+    y: y + height
+  }, { x, y }, angle)
 
 /**
  * get MiddleTop point position
@@ -274,20 +218,12 @@ export const getTM = ({
   y,
   width,
   height,
-  angle,
-  center = getCenter({
-    x,
-    y,
-    width,
-    height
-  })
+  angle
 }) =>
-  findPoint({
+  rotatePoint({
     x: x + width / 2,
-    y: y,
-    center,
-    angle
-  })
+    y: y
+  }, { x, y }, angle)
 
 /**
  * get MiddleLeft point position
@@ -307,20 +243,12 @@ export const getML = ({
   y,
   width,
   height,
-  angle,
-  center = getCenter({
-    x,
-    y,
-    width,
-    height
-  })
+  angle
 }) =>
   findPoint({
     x: x,
-    y: y + height / 2,
-    center,
-    angle
-  })
+    y: y + height / 2
+  }, { x, y }, angle)
 
 /**
  * given a point, get it's opposite point
@@ -339,11 +267,12 @@ export const getML = ({
 export const getOppositePoint = (scaleType, props) => {
   let caller
 
-  const center = getCenter({
+  const center = getRotatedCenter({
     x: props.x,
     y: props.y,
     width: props.width,
-    height: props.height
+    height: props.height,
+    angle: props.angle
   })
 
   props = {
@@ -405,11 +334,12 @@ export const getOppositePoint = (scaleType, props) => {
  * @returns {{x:number, y:number}} point position
  */
 export const getPoint = (scaleType, props) => {
-  const center = getCenter({
+  const center = getRotatedCenter({
     x: props.x,
     y: props.y,
     width: props.width,
-    height: props.height
+    height: props.height,
+    angle: props.angle
   })
 
   if (props.scaleFromCenter) {
@@ -569,4 +499,12 @@ export const minMax = point => {
   }, {})
 
   return bounds
+}
+
+export const getElementXSnapPoints = (point) => {
+  return [getTL(point), getTR(point), getBL(point), getBR(point)].map(e => e.x)
+}
+
+export const getElementYSnapPoints = (point) => {
+  return [getTL(point), getTR(point), getBL(point), getBR(point)].map(e => e.y)
 }
