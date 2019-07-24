@@ -158,7 +158,29 @@ export default new Vuex.Store({
       ]
       return null
     },
-    updateMultipleElements(state, payload) {
+    alignLeftSelectedElements (state, payload) {
+      state.elements = [
+        ...state.elements.filter(e => !e.selected),
+        ...state.elements
+          .filter(e => e.selected)
+          .map(e => ({
+            ...e,
+            x: payload.x
+          }))
+      ]
+    },
+    alignTopSelectedElements (state, payload) {
+      state.elements = [
+        ...state.elements.filter(e => !e.selected),
+        ...state.elements
+          .filter(e => e.selected)
+          .map(e => ({
+            ...e,
+            y: payload.y
+          }))
+      ]
+    },
+    translateMultipleElements(state, payload) {
       state.elements = [
         ...state.elements.filter(e => !e.selected),
         ...state.elements

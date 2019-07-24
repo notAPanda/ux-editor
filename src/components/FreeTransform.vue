@@ -37,7 +37,6 @@ import scale from '@/helpers/scale'
 import rotate from '@/helpers/rotate'
 import styler from '@/helpers/styler'
 import { translateMultiple } from '@/helpers/translate'
-import _ from 'lodash'
 
 const distance = (x1, x2) => Math.abs(x1 - x2)
 
@@ -186,17 +185,15 @@ export default {
         startX: event.pageX,
         startY: event.pageY
       }, (payload) => {
-        this.$emit('updateMultiple', payload)
+        this.$emit('translateMultiple', payload)
       }) : translate({
         x: this.x,
         y: this.y,
         startX: event.pageX,
         startY: event.pageY
       }, (payload) => {
-
         let closestX = this.snapPointsX.filter(point => distance(payload.x, point) < 10).sort()[0]
         let closestY = this.snapPointsY.filter(point => distance(payload.y, point) < 10).sort()[0]
-
         let closestXw = this.snapPointsX.filter(point => distance(payload.x + this.width, point) < 10).sort()[0]
         let closestYh = this.snapPointsY.filter(point => distance(payload.y + this.height, point) < 10).sort()[0]
 
@@ -206,10 +203,10 @@ export default {
         if (typeof closestXw !== 'undefined') {
           payload = { ...payload, x: closestXw - this.width }
         }
-        if (typeof closestX  !== 'undefined') {
+        if (typeof closestX !== 'undefined') {
           payload = { ...payload, x: closestX }
         }
-        if (typeof closestY  !== 'undefined') {
+        if (typeof closestY !== 'undefined') {
           payload = { ...payload, y: closestY }
         }
         this.$emit('update', payload)

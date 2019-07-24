@@ -1,6 +1,8 @@
 <template>
   <div class="properties">
     <div v-if="selectedElementsCount === 1">
+      <button @click="getBounds(selectedElement)"> getBounds </button>
+      <button @click="getCenter(selectedElement)"> getCenter </button>
       <div v-if="selectedElement.type === 'canvas'">
         <div class="row mt mb">
           <div class="col">
@@ -75,15 +77,21 @@
         <Styles :element="selectedElement"></Styles>
       </div>
     </div>
+    <div v-if="selectedElementsCount > 1">
+      <div class="row mb t">
+        <button @click="alignElements('left')">Align left</button>
+        <button @click="alignElements('top')">Align top</button>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import OneWayInput from '@/components/OneWayInput.vue'
 import Styles from '@/components/Styles.vue'
-// import TextEditor from '@/components/TextEditor.vue'
 import { rotatePoint } from '@/helpers/point-transformer'
-import { getCenter } from '@/helpers/point-finder'
+import { getRotatedCenter, minMax } from '@/helpers/point-finder'
+import _ from 'lodash'
 
 export default {
   name: 'Properties',
@@ -107,6 +115,35 @@ export default {
     }
   },
   methods: {
+    getBounds (element) {
+      console.log(minMax(element))
+    },
+    getCenter (element) {
+      console.log(getRotatedCenter(element))
+    },
+    alignElements (side) {
+      switch (side) {
+        case 'left':
+          this.$store.commit('alignLeftSelectedElements', {
+            x: _.minBy(this.selectedElements, 'x').x
+          })
+          break
+        case 'right':
+          break
+        case 'center':
+          break
+        case 'top':
+          this.$store.commit('alignTopSelectedElements', {
+            y: _.minBy(this.selectedElements, 'y').y
+          })          
+          break
+        case 'bottom':
+          break
+        case 'middle':
+          break
+
+      }
+    },
     set (value, property, style = null) {
       const payload = {
         ...this.selectedElement

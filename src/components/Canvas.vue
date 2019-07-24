@@ -23,7 +23,7 @@
       :offset-y="offsetY"
       :disable-scale="element.disableScale === true"
       @update="update(element, $event)"
-      @updateMultiple="updateMultiple"
+      @translateMultiple="translateMultiple"
     >
       <div :class="`element`"
         :style="getElementStyles(element)">
@@ -117,8 +117,8 @@ export default {
         ...payload
       })
     },
-    updateMultiple (payload) {
-      this.$store.commit('updateMultipleElements', payload)
+    translateMultiple (payload) {
+      this.$store.commit('translateMultipleElements', payload)
     },
     getElementStyles (element) {
       const styles = element.styles ? element.styles : {}
