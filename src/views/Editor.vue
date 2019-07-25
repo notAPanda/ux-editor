@@ -3,16 +3,16 @@
     <section id="assets-panel" v-if="0">assets</section>
     <section id="toolbar-panel">
       <ul class="nav">
-        <li @click="addElement({type: 'text'})">
+        <li @click="addElement({ type: 'text' })">
           <span><fa-icon :icon="['fas', 'font']"></fa-icon></span>
         </li>
-        <li @click="addElement({type: 'box'})">
+        <li @click="addElement({ type: 'box' })">
           <span><fa-icon :icon="['far', 'square']"></fa-icon></span>
         </li>
-        <li @click="addElement({type: 'oval'})">
+        <li @click="addElement({ type: 'oval' })">
           <span><fa-icon :icon="['far', 'circle']"></fa-icon></span>
         </li>
-        <li @click="addElement({type: 'line'})">
+        <li @click="addElement({ type: 'line' })">
           <span>|</span>
         </li>
       </ul>
@@ -29,23 +29,23 @@
 </template>
 
 <script>
-import FreeCanvas from '@/components/FreeCanvas.vue'
-import Canvas from '@/components/Canvas.vue'
-import Properties from '@/components/Properties.vue'
+import FreeCanvas from "@/components/FreeCanvas.vue";
+import Canvas from "@/components/Canvas.vue";
+import Properties from "@/components/Properties.vue";
 
 export default {
-  name: 'editor',
+  name: "editor",
   components: {
     FreeCanvas,
     Canvas,
     Properties
   },
   methods: {
-    addElement (payload) {
-      this.$store.commit('addElement', payload)
+    addElement(payload) {
+      this.$store.commit("addElement", payload);
     }
   }
-}
+};
 </script>
 
 <style lang="scss">
@@ -85,7 +85,7 @@ ul.nav {
     align-items: center;
     justify-content: center;
     &:hover {
-      background: rgba($black, .2);
+      background: rgba($black, 0.2);
     }
   }
 }

@@ -1,10 +1,10 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from "vue";
+import Vuex from "vuex";
 
-import { doOverlap } from '@/helpers/select'
-import { minMax } from './helpers/point-finder';
+import { doOverlap } from "@/helpers/select";
+import { minMax } from "./helpers/point-finder";
 
-Vue.use(Vuex)
+Vue.use(Vuex);
 
 const defaults = {
   x: 0,
@@ -15,12 +15,12 @@ const defaults = {
   selected: false,
   editing: false,
   disableScale: true
-}
+};
 
 export default new Vuex.Store({
   state: {
     canvas: {
-      type: 'canvas',
+      type: "canvas",
       width: 1024,
       height: 10000,
       marginX: 400,
@@ -30,50 +30,50 @@ export default new Vuex.Store({
     base: {
       oval: {
         ...defaults,
-        type: 'oval',
-        classPrefix: 'oval',
-        text: '',
+        type: "oval",
+        classPrefix: "oval",
+        text: "",
         styles: {
-          background: '#0FF0B3',
-          'border-radius': '50%',
+          background: "#0FF0B3",
+          "border-radius": "50%",
           opacity: 100,
-          'mix-blend-mode': 'normal'
+          "mix-blend-mode": "normal"
         }
       },
       line: {
         ...defaults,
         height: 1,
-        type: 'line',
-        classPrefix: 'line',
-        text: '',
+        type: "line",
+        classPrefix: "line",
+        text: "",
         styles: {
-          background: '#0FF0B3',
+          background: "#0FF0B3",
           opacity: 100,
-          'mix-blend-mode': 'normal'
+          "mix-blend-mode": "normal"
         }
       },
       text: {
         ...defaults,
-        type: 'text',
-        classPrefix: 'text',
-        text: 'Text...',
+        type: "text",
+        classPrefix: "text",
+        text: "Text...",
         height: 25,
         styles: {
           opacity: 100,
-          'mix-blend-mode': 'normal',
-          'font-size': '20px'
+          "mix-blend-mode": "normal",
+          "font-size": "20px"
         }
       },
       box: {
         ...defaults,
-        type: 'box',
-        classPrefix: 'box',
-        text: '',
+        type: "box",
+        classPrefix: "box",
+        text: "",
         styles: {
-          background: '#0FF0B3',
-          'border-radius': 0,
+          background: "#0FF0B3",
+          "border-radius": 0,
           opacity: 100,
-          'mix-blend-mode': 'normal'
+          "mix-blend-mode": "normal"
         }
       }
     },
@@ -86,9 +86,9 @@ export default new Vuex.Store({
         {
           ...payload,
           editing: true,
-          selected: true,
+          selected: true
         }
-      ]
+      ];
     },
     selectElement(state, payload) {
       state.elements = [...state.elements].map(el => {
@@ -96,13 +96,13 @@ export default new Vuex.Store({
           return {
             ...payload,
             selected: true
-          }
+          };
         }
         return {
           ...el,
           selected: false
-        }
-      })
+        };
+      });
     },
     addToSelectedElements(state, payload) {
       state.elements = [...state.elements].map(el => {
@@ -110,10 +110,10 @@ export default new Vuex.Store({
           return {
             ...payload,
             selected: true
-          }
+          };
         }
-        return el
-      })
+        return el;
+      });
     },
     selectElements(state, payload = null) {
       if (payload) {
@@ -125,16 +125,16 @@ export default new Vuex.Store({
               return {
                 ...element,
                 selected: true
-              }
+              };
             })
-        ]
+        ];
       }
     },
     clearSelection(state, payload) {
       state.elements = [...state.elements].map(el => ({
         ...el,
         selected: false
-      }))
+      }));
     },
     addElement(state, payload) {
       state.elements = [
@@ -144,76 +144,106 @@ export default new Vuex.Store({
           id: state.elements.length + 1,
           ...payload
         }
-      ]
+      ];
     },
     removeElement(state, payload) {
       state.elements = [
         ...state.elements.filter(element => element.id !== payload.id)
-      ]
-      return null
+      ];
+      return null;
     },
     updateElement(state, payload) {
       state.elements = [
         ...state.elements.filter(element => element.id !== payload.id),
         payload
-      ]
-      return null
+      ];
+      return null;
     },
-    alignLeftSelectedElements (state, payload) {
+    alignLeftSelectedElements(state, payload) {
       state.elements = [
         ...state.elements.filter(e => !e.selected),
         ...state.elements
           .filter(e => e.selected)
           .map(e => {
-            let xmin = minMax(e).xmin
+            let xmin = minMax(e).xmin;
             return {
               ...e,
               x: payload.x + (e.x - xmin)
-            }
+            };
           })
-      ]
+      ];
     },
-    alignTopSelectedElements (state, payload) {
+    alignTopSelectedElements(state, payload) {
       state.elements = [
         ...state.elements.filter(e => !e.selected),
         ...state.elements
           .filter(e => e.selected)
           .map(e => {
-            let ymin = minMax(e).ymin
+            let ymin = minMax(e).ymin;
             return {
               ...e,
               y: payload.y + (e.y - ymin)
-            }
+            };
           })
-      ]
+      ];
     },
-    alignRightSelectedElements (state, payload) {
+    alignRightSelectedElements(state, payload) {
       state.elements = [
         ...state.elements.filter(e => !e.selected),
         ...state.elements
           .filter(e => e.selected)
           .map(e => {
-            let xmax = minMax(e).xmax
+            let xmax = minMax(e).xmax;
             return {
               ...e,
               x: payload.x + (e.x - xmax)
-            }
+            };
           })
-      ]
+      ];
     },
-    alignBottomSelectedElements (state, payload) {
+    alignBottomSelectedElements(state, payload) {
       state.elements = [
         ...state.elements.filter(e => !e.selected),
         ...state.elements
           .filter(e => e.selected)
           .map(e => {
-            let ymax = minMax(e).ymax
+            let ymax = minMax(e).ymax;
             return {
               ...e,
               y: payload.y + (e.y - ymax)
-            }
+            };
           })
-      ]
+      ];
+    },
+    alignCenterSelectedElements(state, payload) {
+      state.elements = [
+        ...state.elements.filter(e => !e.selected),
+        ...state.elements
+          .filter(e => e.selected)
+          .map(e => {
+            let mm = minMax(e);
+            let center = (mm.xmin + mm.xmax) / 2;
+            return {
+              ...e,
+              x: payload.x + (e.x - center)
+            };
+          })
+      ];
+    },
+    alignMiddleSelectedElements(state, payload) {
+      state.elements = [
+        ...state.elements.filter(e => !e.selected),
+        ...state.elements
+          .filter(e => e.selected)
+          .map(e => {
+            let mm = minMax(e);
+            let center = (mm.ymin + mm.ymax) / 2;
+            return {
+              ...e,
+              y: payload.y + (e.y - center)
+            };
+          })
+      ];
     },
     translateMultipleElements(state, payload) {
       state.elements = [
@@ -225,8 +255,8 @@ export default new Vuex.Store({
             x: e.x + payload.x,
             y: e.y + payload.y
           }))
-      ]
+      ];
     }
   },
   actions: {}
-})
+});

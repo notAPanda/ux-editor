@@ -9,7 +9,7 @@
         </div>
       </div>
     </nav>
-    <router-view/>
+    <router-view />
   </div>
 </template>
 
@@ -17,7 +17,9 @@
 @import "~normalize.css/normalize.css";
 @import "@/assets/variables.scss";
 
-html, body, #app {
+html,
+body,
+#app {
   height: 100%;
 }
 
@@ -35,7 +37,7 @@ html, body, #app {
 #nav {
   background: $light-grey;
   height: 40px;
-  border-bottom: 1px solid rgba($black, .1);
+  border-bottom: 1px solid rgba($black, 0.1);
   display: flex;
   align-items: center;
 

@@ -1,52 +1,94 @@
 <template>
-    <div :class="{[`tr-transform`]: true, [`tr-transform--active`]:selected}"
-         :style="styles"
-         @click="click"
-         @dblclick="dblClick"
-         @mousedown="mousedown">
-        <div :class="`tr-transform__content`" :style="computedStyles.element">
-            <slot></slot>
-        </div>
-        <div v-if="selected && !multipleSelected && !editing"
-             :class="`tr-transform__controls`"
-             :style="computedStyles.controls">
-            <div :class="`tr-transform__rotator tr-transform-${classPrefix}`" @mousedown="handleRotation"></div>
-            <div :class="[`tr-transform__scale-point tr-transform__scale-point--tl tr-transform-${classPrefix}`]"
-                 @mousedown="handleScale('tl',$event)"></div>
-            <div :class="[`tr-transform__scale-point tr-transform__scale-point--ml tr-transform-${classPrefix}`]"
-                 @mousedown="handleScale('ml',$event)"></div>
-            <div :class="[`tr-transform__scale-point tr-transform__scale-point--tr tr-transform-${classPrefix}`]"
-                 @mousedown="handleScale('tr',$event)"></div>
-            <div :class="[`tr-transform__scale-point tr-transform__scale-point--tm tr-transform-${classPrefix}`]"
-                 @mousedown="handleScale('tm',$event)"></div>
-            <div :class="[`tr-transform__scale-point tr-transform__scale-point--bl tr-transform-${classPrefix}`]"
-                 @mousedown="handleScale('bl',$event)"></div>
-            <div :class="[`tr-transform__scale-point tr-transform__scale-point--bm tr-transform-${classPrefix}`]"
-                 @mousedown="handleScale('bm',$event)"></div>
-            <div :class="[`tr-transform__scale-point tr-transform__scale-point--br tr-transform-${classPrefix}`]"
-                 @mousedown="handleScale('br',$event)"></div>
-            <div :class="[`tr-transform__scale-point tr-transform__scale-point--mr tr-transform-${classPrefix}`]"
-                 @mousedown="handleScale('mr',$event)"></div>
-        </div>
+  <div
+    :class="{ [`tr-transform`]: true, [`tr-transform--active`]: selected }"
+    :style="styles"
+    @click="click"
+    @dblclick="dblClick"
+    @mousedown="mousedown"
+  >
+    <div :class="`tr-transform__content`" :style="computedStyles.element">
+      <slot></slot>
     </div>
+    <div
+      v-if="selected && !multipleSelected && !editing"
+      :class="`tr-transform__controls`"
+      :style="computedStyles.controls"
+    >
+      <div
+        :class="`tr-transform__rotator tr-transform-${classPrefix}`"
+        @mousedown="handleRotation"
+      ></div>
+      <div
+        :class="[
+          `tr-transform__scale-point tr-transform__scale-point--tl tr-transform-${classPrefix}`
+        ]"
+        @mousedown="handleScale('tl', $event)"
+      ></div>
+      <div
+        :class="[
+          `tr-transform__scale-point tr-transform__scale-point--ml tr-transform-${classPrefix}`
+        ]"
+        @mousedown="handleScale('ml', $event)"
+      ></div>
+      <div
+        :class="[
+          `tr-transform__scale-point tr-transform__scale-point--tr tr-transform-${classPrefix}`
+        ]"
+        @mousedown="handleScale('tr', $event)"
+      ></div>
+      <div
+        :class="[
+          `tr-transform__scale-point tr-transform__scale-point--tm tr-transform-${classPrefix}`
+        ]"
+        @mousedown="handleScale('tm', $event)"
+      ></div>
+      <div
+        :class="[
+          `tr-transform__scale-point tr-transform__scale-point--bl tr-transform-${classPrefix}`
+        ]"
+        @mousedown="handleScale('bl', $event)"
+      ></div>
+      <div
+        :class="[
+          `tr-transform__scale-point tr-transform__scale-point--bm tr-transform-${classPrefix}`
+        ]"
+        @mousedown="handleScale('bm', $event)"
+      ></div>
+      <div
+        :class="[
+          `tr-transform__scale-point tr-transform__scale-point--br tr-transform-${classPrefix}`
+        ]"
+        @mousedown="handleScale('br', $event)"
+      ></div>
+      <div
+        :class="[
+          `tr-transform__scale-point tr-transform__scale-point--mr tr-transform-${classPrefix}`
+        ]"
+        @mousedown="handleScale('mr', $event)"
+      ></div>
+    </div>
+  </div>
 </template>
 
 <script>
-import { translate } from 'free-transform'
-import scale from '@/helpers/scale'
-import rotate from '@/helpers/rotate'
-import styler from '@/helpers/styler'
-import { translateMultiple } from '@/helpers/translate'
-import { minMax, getElementXSnapPoints, getElementYSnapPoints } from '@/helpers/point-finder'
+import { translate } from "free-transform";
+import scale from "@/helpers/scale";
+import rotate from "@/helpers/rotate";
+import styler from "@/helpers/styler";
+import { translateMultiple } from "@/helpers/translate";
+import {
+  getElementXSnapPoints,
+  getElementYSnapPoints
+} from "@/helpers/point-finder";
 
-const distance = (x1, x2) => Math.abs(x1 - x2)
+const distance = (x1, x2) => Math.abs(x1 - x2);
 
 export default {
-  name: 'Transform',
+  name: "Transform",
   props: {
     classPrefix: {
       type: String,
-      default: 'tr'
+      default: "tr"
     },
     width: {
       type: Number,
@@ -101,10 +143,10 @@ export default {
       default: () => ({})
     },
     selectOn: {
-      validator: function (value) {
-        return ['dblclick', 'mousedown', 'click'].indexOf(value) !== -1
+      validator: function(value) {
+        return ["dblclick", "mousedown", "click"].indexOf(value) !== -1;
       },
-      default: 'mousedown'
+      default: "mousedown"
     },
     aspectRatio: {
       type: Boolean,
@@ -116,23 +158,29 @@ export default {
     }
   },
   computed: {
-    canvas () {
-      return this.$store.state.canvas
+    canvas() {
+      return this.$store.state.canvas;
     },
-    otherElements () {
-      return this.$store.state.elements.filter(el => el.id !== this.$vnode.key)
+    otherElements() {
+      return this.$store.state.elements.filter(el => el.id !== this.$vnode.key);
     },
-    snapPointsX () {
-      return this.otherElements.reduce((accumulator, el) => {
-        return [...accumulator, ...getElementXSnapPoints(el)]
-      }, [0, this.canvas.width])
+    snapPointsX() {
+      return this.otherElements.reduce(
+        (accumulator, el) => {
+          return [...accumulator, ...getElementXSnapPoints(el)];
+        },
+        [0, this.canvas.width]
+      );
     },
-    snapPointsY () {
-      return this.otherElements.reduce((accumulator, el) => {
-        return [...accumulator, ...getElementYSnapPoints(el)]
-      }, [0, this.canvas.height])
+    snapPointsY() {
+      return this.otherElements.reduce(
+        (accumulator, el) => {
+          return [...accumulator, ...getElementYSnapPoints(el)];
+        },
+        [0, this.canvas.height]
+      );
     },
-    computedStyles () {
+    computedStyles() {
       const { element, controls } = styler({
         x: this.x,
         y: this.y,
@@ -140,7 +188,7 @@ export default {
         height: this.height,
         angle: this.angle,
         disableScale: this.disableScale
-      })
+      });
       return {
         element: {
           ...element,
@@ -152,124 +200,151 @@ export default {
           width: `${controls.width}px`,
           height: `${controls.height}px`
         }
-      }
+      };
     }
   },
   methods: {
-    handleScale (scaleType, event) {
-      event.stopPropagation()
-      event.preventDefault()
+    handleScale(scaleType, event) {
+      event.stopPropagation();
+      event.preventDefault();
 
-      const drag = scale(scaleType, {
-        startX: event.pageX,
-        startY: event.pageY,
-        x: this.x,
-        y: this.y,
-        width: this.width,
-        height: this.height,
-        angle: this.angle,
-        scaleLimit: this.scaleLimit,
-        scaleFromCenter: this.scaleFromCenter && event.altKey,
-        enableScaleFromCenter: this.scaleFromCenter,
-        aspectRatio: this.aspectRatio && event.shiftKey,
-        enableAspectRatio: this.aspectRatio
-      }, (payload) => {
-        this.$emit('update', payload)
-      })
-      this.onDrag(drag)
+      const drag = scale(
+        scaleType,
+        {
+          startX: event.pageX,
+          startY: event.pageY,
+          x: this.x,
+          y: this.y,
+          width: this.width,
+          height: this.height,
+          angle: this.angle,
+          scaleLimit: this.scaleLimit,
+          scaleFromCenter: this.scaleFromCenter && event.altKey,
+          enableScaleFromCenter: this.scaleFromCenter,
+          aspectRatio: this.aspectRatio && event.shiftKey,
+          enableAspectRatio: this.aspectRatio
+        },
+        payload => {
+          this.$emit("update", payload);
+        }
+      );
+      this.onDrag(drag);
     },
-    handleTranslation (event) {
-      event.stopPropagation()
-      const drag = this.multipleSelected ? translateMultiple({
-        x: this.x,
-        y: this.y,
-        startX: event.pageX,
-        startY: event.pageY
-      }, (payload) => {
-        this.$emit('translateMultiple', payload)
-      }) : translate({
-        x: this.x,
-        y: this.y,
-        startX: event.pageX,
-        startY: event.pageY
-      }, (payload) => {
-        let closestX = this.snapPointsX.filter(point => distance(payload.x, point) < 10).sort()[0]
-        let closestY = this.snapPointsY.filter(point => distance(payload.y, point) < 10).sort()[0]
-        let closestXw = this.snapPointsX.filter(point => distance(payload.x + this.width, point) < 10).sort()[0]
-        let closestYh = this.snapPointsY.filter(point => distance(payload.y + this.height, point) < 10).sort()[0]
+    handleTranslation(event) {
+      event.stopPropagation();
+      const drag = this.multipleSelected
+        ? translateMultiple(
+            {
+              x: this.x,
+              y: this.y,
+              startX: event.pageX,
+              startY: event.pageY
+            },
+            payload => {
+              this.$emit("translateMultiple", payload);
+            }
+          )
+        : translate(
+            {
+              x: this.x,
+              y: this.y,
+              startX: event.pageX,
+              startY: event.pageY
+            },
+            payload => {
+              let closestX = this.snapPointsX
+                .filter(point => distance(payload.x, point) < 10)
+                .sort()[0];
+              let closestY = this.snapPointsY
+                .filter(point => distance(payload.y, point) < 10)
+                .sort()[0];
+              let closestXw = this.snapPointsX
+                .filter(point => distance(payload.x + this.width, point) < 10)
+                .sort()[0];
+              let closestYh = this.snapPointsY
+                .filter(point => distance(payload.y + this.height, point) < 10)
+                .sort()[0];
 
-        if (typeof closestYh !== 'undefined') {
-          payload = { ...payload, y: closestYh - this.height }
-        }
-        if (typeof closestXw !== 'undefined') {
-          payload = { ...payload, x: closestXw - this.width }
-        }
-        if (typeof closestX !== 'undefined') {
-          payload = { ...payload, x: closestX }
-        }
-        if (typeof closestY !== 'undefined') {
-          payload = { ...payload, y: closestY }
-        }
-        this.$emit('update', payload)
-      })
+              if (typeof closestYh !== "undefined") {
+                payload = { ...payload, y: closestYh - this.height };
+              }
+              if (typeof closestXw !== "undefined") {
+                payload = { ...payload, x: closestXw - this.width };
+              }
+              if (typeof closestX !== "undefined") {
+                payload = { ...payload, x: closestX };
+              }
+              if (typeof closestY !== "undefined") {
+                payload = { ...payload, y: closestY };
+              }
+              this.$emit("update", payload);
+            }
+          );
 
-      this.onDrag(drag)
+      this.onDrag(drag);
     },
-    handleRotation (event) {
-      event.stopPropagation()
-      const drag = rotate({
-        startX: event.pageX,
-        startY: event.pageY,
-        x: this.x,
-        y: this.y,
-        width: this.width,
-        height: this.height,
-        angle: this.angle,
-        offsetX: this.$parent.$refs.canvas.getBoundingClientRect().x,
-        offsetY: this.$parent.$refs.canvas.getBoundingClientRect().y
-      }, (payload) => {
-        this.$emit('update', payload)
-      })
-      this.onDrag(drag)
+    handleRotation(event) {
+      event.stopPropagation();
+      const drag = rotate(
+        {
+          startX: event.pageX,
+          startY: event.pageY,
+          x: this.x,
+          y: this.y,
+          width: this.width,
+          height: this.height,
+          angle: this.angle,
+          offsetX: this.$parent.$refs.canvas.getBoundingClientRect().x,
+          offsetY: this.$parent.$refs.canvas.getBoundingClientRect().y
+        },
+        payload => {
+          this.$emit("update", payload);
+        }
+      );
+      this.onDrag(drag);
     },
-    onDrag (drag) {
+    onDrag(drag) {
       const up = () => {
-        document.removeEventListener('mousemove', drag)
-        document.removeEventListener('mouseup', up)
-      }
-      document.addEventListener('mousemove', drag)
-      document.addEventListener('mouseup', up)
+        document.removeEventListener("mousemove", drag);
+        document.removeEventListener("mouseup", up);
+      };
+      document.addEventListener("mousemove", drag);
+      document.addEventListener("mouseup", up);
     },
-    mousedown (event) {
-      this.$emit('mousedown', event)
-      if (this.selectOn === 'mousedown' && !this.multipleSelected && !this.editing) {
+    mousedown(event) {
+      this.$emit("mousedown", event);
+      if (
+        this.selectOn === "mousedown" &&
+        !this.multipleSelected &&
+        !this.editing
+      ) {
         if (event.shiftKey) {
-          this.$emit('addToSelectedElements')
+          this.$emit("addToSelectedElements");
         } else {
-          this.$emit('onSelect')
+          this.$emit("onSelect");
         }
 
-        this.handleTranslation(event)
+        this.handleTranslation(event);
       } else if (this.selected === true && this.multipleSelected) {
-        this.handleTranslation(event)
+        this.handleTranslation(event);
       } else if (this.selected === false && this.multipleSelected) {
-        this.$emit('onSelect')
+        this.$emit("onSelect");
       }
     },
-    click (event) {
-      this.$emit('click', event)
-      if (this.selectOn === 'click') {
-        this.$emit('onSelect')
+    click(event) {
+      this.$emit("click", event);
+      if (this.selectOn === "click") {
+        this.$emit("onSelect");
       }
     },
-    dblClick (event) {
-      this.$emit('dblclick', event)
-      if (this.selectOn === 'dblclick') {
-        this.$emit('onSelect')
+    dblClick(event) {
+      this.$emit("dblclick", event);
+      if (this.selectOn === "dblclick") {
+        this.$emit("onSelect");
       }
     }
   }
-}
+};
 </script>
 
 <style lang="scss" scoped>
