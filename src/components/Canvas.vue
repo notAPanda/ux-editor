@@ -24,6 +24,7 @@
       :offset-x="offsetX"
       :offset-y="offsetY"
       :disable-scale="element.disableScale === true"
+      :z-index="element.styles['z-index']"
       @update="update(element, $event)"
       @translateMultiple="translateMultiple"
     >

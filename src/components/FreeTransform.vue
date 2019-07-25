@@ -155,6 +155,10 @@ export default {
     scaleFromCenter: {
       type: Boolean,
       default: true
+    },
+    zIndex: {
+      type: Number,
+      default: 5
     }
   },
   computed: {
@@ -187,7 +191,8 @@ export default {
         width: this.width,
         height: this.height,
         angle: this.angle,
-        disableScale: this.disableScale
+        disableScale: this.disableScale,
+        zIndex: this.zIndex
       });
       return {
         element: {

@@ -81,6 +81,7 @@
           <div class="col"></div>
         </div>
         <hr />
+        <Styles :element="selectedElement"></Styles>
       </div>
       <div v-if="['box', 'oval', 'line'].includes(selectedElement.type)">
         <div class="row mb mt">

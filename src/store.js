@@ -1,5 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
+import _ from 'lodash'
 
 import { doOverlap } from "@/helpers/select";
 import { minMax } from "./helpers/point-finder";
@@ -34,10 +35,11 @@ export default new Vuex.Store({
         classPrefix: "oval",
         text: "",
         styles: {
-          background: "#0FF0B3",
+          background: "rgba(220, 220, 220, 1)",
           "border-radius": "50%",
           opacity: 100,
-          "mix-blend-mode": "normal"
+          "mix-blend-mode": "normal",
+          "z-index": 1
         }
       },
       line: {
@@ -47,9 +49,10 @@ export default new Vuex.Store({
         classPrefix: "line",
         text: "",
         styles: {
-          background: "#0FF0B3",
+          background: "rgba(220, 220, 220, 1)",
           opacity: 100,
-          "mix-blend-mode": "normal"
+          "mix-blend-mode": "normal",
+          "z-index": 1
         }
       },
       text: {
@@ -59,9 +62,11 @@ export default new Vuex.Store({
         text: "Text...",
         height: 25,
         styles: {
+          color: 'rgba(50, 50, 50, 1)',
           opacity: 100,
           "mix-blend-mode": "normal",
-          "font-size": "20px"
+          "font-size": "20px",
+          "z-index": 2
         }
       },
       box: {
@@ -70,10 +75,11 @@ export default new Vuex.Store({
         classPrefix: "box",
         text: "",
         styles: {
-          background: "#0FF0B3",
+          background: "rgba(220, 220, 220, 1)",
           "border-radius": 0,
           opacity: 100,
-          "mix-blend-mode": "normal"
+          "mix-blend-mode": "normal",
+          "z-index": 1
         }
       }
     },
@@ -141,7 +147,11 @@ export default new Vuex.Store({
         ...state.elements,
         {
           ...state.base[payload.type],
-          id: state.elements.length + 1,
+          styles: { 
+            ...state.base[payload.type].styles,
+            'z-index': state.elements.length + 5
+          },
+          id: _.now(),
           ...payload
         }
       ];

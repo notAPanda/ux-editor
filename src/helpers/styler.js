@@ -1,5 +1,5 @@
 const roundTo = n => Math.round(n);
-export default ({ x, y, angle, width, height, disableScale = false }) => {
+export default ({ x, y, angle, width, height, disableScale = false, zIndex }) => {
   return {
     element: {
       width,
@@ -8,7 +8,8 @@ export default ({ x, y, angle, width, height, disableScale = false }) => {
         y
       )}px) rotate(${angle}deg)`,
       position: "absolute",
-      "transform-origin": "0 0 0"
+      "transform-origin": "0 0 0",
+      "z-index": zIndex
     },
     controls: {
       width,
