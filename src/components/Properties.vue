@@ -1,8 +1,6 @@
 <template>
   <div class="properties">
     <div v-if="selectedElementsCount === 1">
-      <button @click="getBounds(selectedElement)">getBounds</button>
-      <button @click="getCenter(selectedElement)">getCenter</button>
       <div v-if="selectedElement.type === 'canvas'">
         <div class="row mt mb">
           <div class="col">
@@ -186,12 +184,6 @@ export default {
     }
   },
   methods: {
-    getBounds(element) {
-      console.log(minMax(element));
-    },
-    getCenter(el) {
-      console.log(getCenter(el));
-    },
     alignElements(side) {
       switch (side) {
         case "left":

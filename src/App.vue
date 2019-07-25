@@ -3,9 +3,7 @@
     <nav id="nav" class="navbar has-shadow">
       <div class="navbar-menu">
         <div class="navbar-start">
-          <router-link class="navbar-item" to="/">Home</router-link>
-          <router-link class="navbar-item" to="/editor">Editor</router-link>
-          <router-link class="navbar-item" to="/about">About</router-link>
+          <router-link class="navbar-item" to="/">Editor</router-link>
         </div>
       </div>
     </nav>
@@ -46,6 +44,11 @@ body,
 
     .navbar-item:not(:first-child) {
       margin: 0 0 0 10px;
+    }
+
+    a {
+      text-decoration: none;
+      color: inherit;
     }
   }
 }
