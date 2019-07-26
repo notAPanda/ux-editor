@@ -485,7 +485,7 @@ export const minMax = point => {
 };
 
 export const getElementXSnapPoints = point => {
-  return [getTL(point), getTR(point), getBL(point), getBR(point)].map(e => e.x);
+  return [getTL(point), getTR(point), getBL(point), getBR(point), getRotatedCenter(point)].map(e => e.x);
 };
 
 export const getElementYSnapPoints = point => {

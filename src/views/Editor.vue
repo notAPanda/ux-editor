@@ -18,9 +18,7 @@
       </ul>
     </section>
     <div id="workbench" ref="workbench">
-      <FreeCanvas>
-        <Canvas></Canvas>
-      </FreeCanvas>
+      <FreeCanvas></FreeCanvas>
     </div>
     <section id="properties-panel">
       <Properties></Properties>
@@ -30,14 +28,12 @@
 
 <script>
 import FreeCanvas from "@/components/FreeCanvas.vue";
-import Canvas from "@/components/Canvas.vue";
 import Properties from "@/components/Properties.vue";
 
 export default {
   name: "editor",
   components: {
     FreeCanvas,
-    Canvas,
     Properties
   },
   methods: {

@@ -1,16 +1,13 @@
 <template>
   <div
-    :class="{ [`tr-transform`]: true, [`tr-transform--active`]: selected }"
+    :class="{ [`tr-transform`]: true, [`tr-transform--active`]: selected, [`editing`]: editing }"
     :style="styles"
     @click="click"
     @dblclick="dblClick"
     @mousedown="mousedown"
   >
-    <div :class="`tr-transform__content`" :style="computedStyles.element">
-      <slot></slot>
-    </div>
     <div
-      v-if="selected && !multipleSelected && !editing"
+      v-if="selected && !multipleSelected"
       :class="`tr-transform__controls`"
       :style="computedStyles.controls"
     >
@@ -173,7 +170,7 @@ export default {
         (accumulator, el) => {
           return [...accumulator, ...getElementXSnapPoints(el)];
         },
-        [0, this.canvas.width]
+        [0, this.canvas.width / 2, this.canvas.width]
       );
     },
     snapPointsY() {
@@ -269,6 +266,9 @@ export default {
               let closestYh = this.snapPointsY
                 .filter(point => distance(payload.y + this.height, point) < 10)
                 .sort()[0];
+              let closestXc = this.snapPointsX
+                .filter(point => distance(payload.x + (this.width / 2), point) < 10)
+                .sort()[0];
 
               if (typeof closestYh !== "undefined") {
                 payload = { ...payload, y: closestYh - this.height };
@@ -276,12 +276,16 @@ export default {
               if (typeof closestXw !== "undefined") {
                 payload = { ...payload, x: closestXw - this.width };
               }
+              if (typeof closestXc !== "undefined") {
+                payload = { ...payload, x: closestXc - (this.width / 2) };
+              }
               if (typeof closestX !== "undefined") {
                 payload = { ...payload, x: closestX };
               }
               if (typeof closestY !== "undefined") {
                 payload = { ...payload, y: closestY };
               }
+
               this.$emit("update", payload);
             }
           );
@@ -299,8 +303,8 @@ export default {
           width: this.width,
           height: this.height,
           angle: this.angle,
-          offsetX: this.$parent.$refs.canvas.getBoundingClientRect().x,
-          offsetY: this.$parent.$refs.canvas.getBoundingClientRect().y
+          offsetX: this.$parent.$refs.canvasOverlay.getBoundingClientRect().x,
+          offsetY: this.$parent.$refs.canvasOverlay.getBoundingClientRect().y
         },
         payload => {
           this.$emit("update", payload);
@@ -359,11 +363,10 @@ $half-point-size: $point-size / 2;
 .tr-transform {
   &--active {
     position: absolute;
-    z-index: 5;
-    .tr-transform__content {
-      .element {
-        border: 1px solid #006cff;
-      }
+    z-index: 1000;
+    border: 1px solid #006cff;
+    &.editing {
+      pointer-events: none;
     }
   }
   &__content {

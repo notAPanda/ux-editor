@@ -1,51 +1,35 @@
 <template>
-  <div
-    class="canvas"
-    ref="canvas"
-    :style="getCanvasStyles()"
-    @mousedown="selectCanvas(canvas)"
-  >
-    <FreeTransform
+  <div class="canvas" ref="canvas" :style="getCanvasStyles()">
+    <div
       v-for="element in elements"
-      :class-prefix="element.type === 'text' ? 'text' : null"
-      :selected="element.selected"
-      :multiple-selected="selectedElementsCount > 1"
-      :editing="element.editing"
-      selectOn="mousedown"
-      @onSelect="selectElement(element)"
-      @dblclick="onDblclick(element)"
-      @addToSelectedElements="addToSelectedElements(element)"
       :key="element.id"
-      :x="element.x"
-      :y="element.y"
-      :width="element.width"
-      :height="element.height"
-      :angle="element.angle"
-      :offset-x="offsetX"
-      :offset-y="offsetY"
-      :disable-scale="element.disableScale === true"
-      :z-index="element.styles['z-index']"
-      @update="update(element, $event)"
-      @translateMultiple="translateMultiple"
+      :class="`element${element.type === ' text' ? ' element-text' : ''}${element.editing === true ? ' element-text__editing' : ''}`"
+      :style="getElementStyles(element)"
+      :ref="`element${element.id}`"
     >
-      <div :class="`element`" :style="getElementStyles(element)">
-        <div
-          :class="`element-${element.type}`"
-          :ref="`element-${element.id}-text`"
-          v-if="element.text"
-          :contenteditable="element.editing"
-          @blur="endEditing(element, $event)"
-        >
-          {{ element.text }}
-        </div>
-      </div>
-    </FreeTransform>
+      <div
+        :ref="`element${element.id}p`"
+        :contenteditable="element.type === 'text'"
+        @blur="endEditing(element, $event)"
+        @input="onInput(element)"
+        spellcheck="false"
+      >{{ element.text }}</div>
+    </div>
   </div>
 </template>
 
 <script>
 import FreeTransform from "@/components/FreeTransform.vue";
 import hotkeys from "hotkeys-js";
+import { roundTo } from "@/helpers/styler";
+
+const selectElementContents = el => {
+  var range = document.createRange();
+  range.selectNodeContents(el);
+  var sel = window.getSelection();
+  sel.removeAllRanges();
+  sel.addRange(range);
+};
 
 export default {
   name: "Canvas",
@@ -59,21 +43,7 @@ export default {
       editor: null
     };
   },
-  mounted() {
-    this.offsetX = this.$refs.canvas.getBoundingClientRect().x;
-    this.offsetY = this.$refs.canvas.getBoundingClientRect().y;
-
-    hotkeys("command+backspace, delete", (e, handler) => {
-      this.$store.commit("removeElement", this.selectedElement);
-      this.$store.commit("selectElement", { id: null, type: null });
-    });
-    hotkeys("command+c, ctrl+c", (e, handler) => {
-      // copy element to memory
-    });
-    hotkeys("command+v, ctrl+v", (e, handler) => {
-      // paste from memory
-    });
-  },
+  mounted() {},
   computed: {
     elements() {
       return this.$store.state.elements;
@@ -92,6 +62,17 @@ export default {
     }
   },
   methods: {
+    onInput(element) {
+      this.$store.commit("updateElement", {
+        ...element,
+        height: this.$refs[`element${element.id}p`][0].offsetHeight
+      });
+    },
+    focus(element) {
+      const input = this.$refs[`element${element.id}p`][0];
+      selectElementContents(input);
+      setTimeout(() => input.focus(), 0);
+    },
     endEditing(element, event) {
       this.$store.commit("updateElement", {
         ...element,
@@ -101,40 +82,15 @@ export default {
         editing: false
       });
     },
-    onDblclick(element) {
-      this.$store.commit("editElement", element);
-    },
-    selectCanvas(canvas) {
-      this.$store.commit("clearSelection", canvas);
-    },
-    selectElement(element) {
-      this.$store.commit("selectElement", element);
-    },
-    addToSelectedElements(element) {
-      this.$store.commit("addToSelectedElements", element);
-    },
-    update(element, payload) {
-      if (element.type === "text") {
-        this.$store.commit("updateElement", {
-          ...element,
-          ...payload,
-          height: this.$refs[`element-${element.id}-text`][0].clientHeight
-        });
-        return null;
-      }
-      this.$store.commit("updateElement", {
-        ...element,
-        ...payload
-      });
-    },
-    translateMultiple(payload) {
-      this.$store.commit("translateMultipleElements", payload);
-    },
     getElementStyles(element) {
       const styles = element.styles ? element.styles : {};
       return {
-        width: element.disableScale === true ? `100%` : `${element.width}px`,
-        height: element.disableScale === true ? `100%` : `${element.height}px`,
+        width: `${element.width}px`,
+        height: `${element.height}px`,
+        transform: `rotate(0deg) translate(${roundTo(element.x)}px, ${roundTo(
+          element.y
+        )}px) rotate(${element.angle}deg)`,
+        "transform-origin": "0 0 0",
         ...styles
       };
     },
@@ -152,11 +108,20 @@ export default {
 <style lang="scss">
 .canvas {
   background-color: #fff;
+  position: absolute;
+  z-index: auto;
+  backface-visibility: hidden;
 }
 
 .element {
-  .element-text {
+  position: absolute;
+  &.element-text {
     overflow-wrap: break-word;
+    cursor: default;
+  }
+  p {
+    margin: 0;
+    padding: 0;
   }
 }
 </style>

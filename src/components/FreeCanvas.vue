@@ -10,15 +10,30 @@
       class="selector"
       :style="getSelectorStyles(selector)"
     ></div>
-    <slot></slot>
+    <Canvas ref="canvas"></Canvas>
+    <CanvasOverlay ref="canvasOvrlay"></CanvasOverlay>
   </div>
 </template>
 
 <script>
 import select from "@/helpers/select";
+import _ from 'lodash'
+import Canvas from "@/components/Canvas.vue";
+import CanvasOverlay from "@/components/CanvasOverlay.vue";
+
+const doesContain = (point, element) => {
+  return point.x > element.x && 
+  point.x < element.x + element.width && 
+  point.y > element.y && 
+  point.y < element.y + element.height
+}
 
 export default {
   name: "FreeCanvas",
+  components: {
+    Canvas,
+    CanvasOverlay
+  },
   computed: {
     canvas() {
       return this.$store.state.canvas;
@@ -49,6 +64,12 @@ export default {
     };
   },
   methods: {
+    focus (element) {
+      this.$refs.canvas.focus(element)
+    },
+    highlight () {
+      //
+    },
     handleSelection(event) {
       if (this.isEditing) {
         return null;
@@ -57,6 +78,17 @@ export default {
       event.preventDefault();
       const offsetX = this.$refs.freeCanvas.getBoundingClientRect().x;
       const offsetY = this.$refs.freeCanvas.getBoundingClientRect().y;
+
+      const pos = {
+        x: event.pageX - this.$refs.freeCanvas.getBoundingClientRect().x - this.canvas.marginX / 2,
+        y: event.pageY - this.$refs.freeCanvas.getBoundingClientRect().y - this.canvas.marginY / 2
+      }
+
+      const el = _.maxBy(this.elements.filter(e => doesContain(pos, e)), (e => e.styles['z-index']))
+      if (el) {
+        this.$store.commit('selectElement', el)
+      }
+
       const drag = select(
         {
           startX: event.pageX,
@@ -121,5 +153,6 @@ export default {
 .selector {
   border: 1px dotted blue;
   position: absolute;
+  z-index: 1000;
 }
 </style>

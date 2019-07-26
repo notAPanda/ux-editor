@@ -1,24 +1,15 @@
-const roundTo = n => Math.round(n);
+export const roundTo = n => Math.round(n);
 export default ({ x, y, angle, width, height, disableScale = false, zIndex }) => {
   return {
     element: {
       width,
       height,
-      transform: `rotate(0deg) translate(${roundTo(x)}px, ${roundTo(
-        y
-      )}px) rotate(${angle}deg)`,
-      position: "absolute",
-      "transform-origin": "0 0 0",
-      "z-index": zIndex
+      position: "absolute"
     },
     controls: {
       width,
       height,
-      transform: `rotate(0deg) translate(${roundTo(x)}px, ${roundTo(
-        y
-      )}px) rotate(${angle}deg)`,
-      position: "absolute",
-      "transform-origin": "0 0 0"
+      position: "absolute"
     }
   };
 };
