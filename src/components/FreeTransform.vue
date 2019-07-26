@@ -1,6 +1,10 @@
 <template>
   <div
-    :class="{ [`tr-transform`]: true, [`tr-transform--active`]: selected, [`editing`]: editing }"
+    :class="{
+      [`tr-transform`]: true,
+      [`tr-transform--active`]: selected,
+      [`editing`]: editing
+    }"
     :style="styles"
     @click="click"
     @dblclick="dblClick"
@@ -267,7 +271,9 @@ export default {
                 .filter(point => distance(payload.y + this.height, point) < 10)
                 .sort()[0];
               let closestXc = this.snapPointsX
-                .filter(point => distance(payload.x + (this.width / 2), point) < 10)
+                .filter(
+                  point => distance(payload.x + this.width / 2, point) < 10
+                )
                 .sort()[0];
 
               if (typeof closestYh !== "undefined") {
@@ -277,7 +283,7 @@ export default {
                 payload = { ...payload, x: closestXw - this.width };
               }
               if (typeof closestXc !== "undefined") {
-                payload = { ...payload, x: closestXc - (this.width / 2) };
+                payload = { ...payload, x: closestXc - this.width / 2 };
               }
               if (typeof closestX !== "undefined") {
                 payload = { ...payload, x: closestX };

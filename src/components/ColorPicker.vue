@@ -1,10 +1,14 @@
 <template>
   <div>
-    <button class="colorpicker-button" @click="showColorpicker" :style="styles"></button>
+    <button
+      class="colorpicker-button"
+      @click="showColorpicker"
+      :style="styles"
+    ></button>
     <div
       class="colorpicker"
       v-show="editColor"
-      :style="{top: `${pos.y}px`, left: `${pos.x - 240}px`}"
+      :style="{ top: `${pos.y}px`, left: `${pos.x - 240}px` }"
     >
       <Sketch @input="updateValue" :value="color"></Sketch>
     </div>
@@ -27,10 +31,10 @@ export default {
     color() {
       return this.selectedElement.styles[this.property];
     },
-    styles () {
-        return {
-            background: this.color
-        }
+    styles() {
+      return {
+        background: this.color
+      };
     }
   },
   data() {
@@ -45,7 +49,9 @@ export default {
       this.editColor = !this.editColor;
     },
     updateValue(value) {
-      let rgba = `rgba(${value.rgba.r},${value.rgba.g},${value.rgba.b},${value.rgba.a})`;
+      let rgba = `rgba(${value.rgba.r},${value.rgba.g},${value.rgba.b},${
+        value.rgba.a
+      })`;
       let newEl = { ...this.selectedElement };
       newEl.styles[this.property] = rgba;
       this.$store.commit("updateElement", newEl);
@@ -66,4 +72,3 @@ export default {
   margin-left: 10px;
 }
 </style>
-

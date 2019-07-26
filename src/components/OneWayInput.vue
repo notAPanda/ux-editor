@@ -1,44 +1,44 @@
 <template>
-<div>
-  <input
-    :type="type"
-    :value="val"
-    :class="className"
-    @change="validate"
-    :disabled="disabled"
-  />{{containsPx ? 'px' : ''}}
-</div>
+  <div>
+    <input
+      :type="type"
+      :value="val"
+      :class="className"
+      @change="validate"
+      :disabled="disabled"
+    />{{ containsPx ? "px" : "" }}
+  </div>
 </template>
 
 <script>
-import numeral from 'numeral'
+import numeral from "numeral";
 
 export default {
   name: "OneWayInput",
   props: ["type", "value", "className", "name", "disabled"],
   computed: {
-    val () {
-      return numeral(this.value)._value
+    val() {
+      return numeral(this.value)._value;
     },
-    isNumber () {
-      if (typeof this.value === 'number') {
-        return true
+    isNumber() {
+      if (typeof this.value === "number") {
+        return true;
       }
-      return false
+      return false;
     },
-    containsPx () {
+    containsPx() {
       if (this.isNumber) {
-        return false
+        return false;
       }
-      return this.value.indexOf('px')
+      return this.value.indexOf("px");
     }
   },
   methods: {
     validate(e) {
-      const val = e.target.value
-      const num = numeral(val)
+      const val = e.target.value;
+      const num = numeral(val);
       if (num._value) {
-        this.$emit("valueChanged", {name: this.name, value: num._value});
+        this.$emit("valueChanged", { name: this.name, value: num._value });
       }
     }
   }

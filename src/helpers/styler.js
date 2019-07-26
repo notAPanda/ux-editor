@@ -1,5 +1,13 @@
 export const roundTo = n => Math.round(n);
-export default ({ x, y, angle, width, height, disableScale = false, zIndex }) => {
+export default ({
+  x,
+  y,
+  angle,
+  width,
+  height,
+  disableScale = false,
+  zIndex
+}) => {
   return {
     element: {
       width,

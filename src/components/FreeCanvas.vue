@@ -16,11 +16,10 @@
 </template>
 
 <script>
-import select from "@/helpers/select";
-import _ from 'lodash'
+import select, { doOverlap } from "@/helpers/select";
+import _ from "lodash";
 import Canvas from "@/components/Canvas.vue";
 import CanvasOverlay from "@/components/CanvasOverlay.vue";
-import { doOverlap } from '@/helpers/select'
 
 export default {
   name: "FreeCanvas",
@@ -58,10 +57,10 @@ export default {
     };
   },
   methods: {
-    focus (element) {
-      this.$refs.canvas.focus(element)
+    focus(element) {
+      this.$refs.canvas.focus(element);
     },
-    highlight () {
+    highlight() {
       //
     },
     handleSelection(event) {
@@ -78,11 +77,14 @@ export default {
         y: event.pageY - offsetY - this.canvas.marginY / 2,
         width: 1,
         height: 1
-      }
+      };
 
-      const el = _.maxBy(this.elements.filter(e => doOverlap(pos, e)), (e => e.styles['z-index']))
+      const el = _.maxBy(
+        this.elements.filter(e => doOverlap(pos, e)),
+        e => e.styles["z-index"]
+      );
       if (el) {
-        this.$store.commit('selectElement', el)
+        this.$store.commit("selectElement", el);
       }
 
       const drag = select(

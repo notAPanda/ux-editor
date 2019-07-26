@@ -3,7 +3,11 @@
     <div
       v-for="element in elements"
       :key="element.id"
-      :class="`element${element.type === ' text' ? ' element-text' : ''}${element.editing === true ? ' element-text__editing' : ''}`"
+      :class="
+        `element${element.type === ' text' ? ' element-text' : ''}${
+          element.editing === true ? ' element-text__editing' : ''
+        }`
+      "
       :style="getElementStyles(element)"
       :ref="`element${element.id}`"
     >
@@ -13,14 +17,14 @@
         @blur="endEditing(element, $event)"
         @input="onInput(element)"
         spellcheck="false"
-      >{{ element.text }}</div>
+      >
+        {{ element.text }}
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import FreeTransform from "@/components/FreeTransform.vue";
-import hotkeys from "hotkeys-js";
 import { roundTo } from "@/helpers/styler";
 
 const selectElementContents = el => {
@@ -33,9 +37,6 @@ const selectElementContents = el => {
 
 export default {
   name: "Canvas",
-  components: {
-    FreeTransform
-  },
   data() {
     return {
       offsetX: 0,

@@ -35,7 +35,7 @@
 <script>
 import FreeTransform from "@/components/FreeTransform.vue";
 import hotkeys from "hotkeys-js";
-import { roundTo } from '@/helpers/styler'
+import { roundTo } from "@/helpers/styler";
 
 export default {
   name: "CanvasOverlay",
@@ -84,7 +84,7 @@ export default {
   methods: {
     onDblclick(element) {
       this.$store.commit("editElement", element);
-      this.$parent.focus(element)
+      this.$parent.focus(element);
     },
     selectCanvas(canvas) {
       this.$store.commit("clearSelection", canvas);
@@ -99,8 +99,8 @@ export default {
       if (element.type === "text") {
         this.$store.commit("updateElement", {
           ...element,
-          ...payload,
-        //   height: this.$refs[`element-${element.id}-text`][0].clientHeight
+          ...payload
+          //   height: this.$refs[`element-${element.id}-text`][0].clientHeight
         });
         return null;
       }
@@ -112,13 +112,15 @@ export default {
     translateMultiple(payload) {
       this.$store.commit("translateMultipleElements", payload);
     },
-    getStyles (element) {
+    getStyles(element) {
       return {
         width: `${element.width}px`,
         height: `${element.height}px`,
-        transform: `rotate(0deg) translate(${roundTo(element.x)}px, ${roundTo(element.y)}px) rotate(${element.angle}deg)`,
+        transform: `rotate(0deg) translate(${roundTo(element.x)}px, ${roundTo(
+          element.y
+        )}px) rotate(${element.angle}deg)`,
         "transform-origin": "0 0 0",
-        position: 'absolute'
+        position: "absolute"
       };
     },
     getCanvasStyles() {

@@ -18,13 +18,13 @@
       </div>
 
       <div v-if="name === 'font-size'">
-            <label class="label">Font Size</label>
-            <OneWayInput
-              :value="value"
-              type="text"
-              className="input is-small"
-              @valueChanged="set($event, payload)"
-            ></OneWayInput>
+        <label class="label">Font Size</label>
+        <OneWayInput
+          :value="value"
+          type="text"
+          className="input is-small"
+          @valueChanged="set($event, payload)"
+        ></OneWayInput>
       </div>
       <div v-if="name === 'border-radius'">{{ name }}: {{ value }}</div>
       <div v-if="name === 'opacity'">{{ name }}: {{ value }}</div>
@@ -35,21 +35,21 @@
 </template>
 
 <script>
-import ColorPicker from './ColorPicker'
+import ColorPicker from "./ColorPicker";
 import OneWayInput from "@/components/OneWayInput.vue";
 
 export default {
   name: "Styles",
   methods: {
-    set ($event, payload) {
-      this.$store.commit('updateElement', {
-        ...element,
+    set($event, payload) {
+      this.$store.commit("updateElement", {
+        ...this.element,
         styles: {
-          ...element.styles,
+          ...this.element.styles,
           [payload.name]: payload.value
         }
-      })
-    },
+      });
+    }
   },
   components: {
     ColorPicker,
@@ -63,5 +63,4 @@ export default {
 .styles {
   position: relative;
 }
-
 </style>

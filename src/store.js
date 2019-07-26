@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import _ from 'lodash'
+import _ from "lodash";
 
 import { doOverlap } from "@/helpers/select";
 import { minMax } from "./helpers/point-finder";
@@ -62,7 +62,7 @@ export default new Vuex.Store({
         text: "Text...",
         height: 25,
         styles: {
-          color: 'rgba(50, 50, 50, 1)',
+          color: "rgba(50, 50, 50, 1)",
           opacity: 100,
           "mix-blend-mode": "normal",
           "font-size": "20px",
@@ -122,7 +122,7 @@ export default new Vuex.Store({
       });
     },
     selectElements(state, payload = null) {
-      if (payload && (payload.width * payload.height > 100)) {
+      if (payload && payload.width * payload.height > 100) {
         state.elements = [
           ...state.elements
             .filter(element => !doOverlap(payload, element))
@@ -133,8 +133,8 @@ export default new Vuex.Store({
           ...state.elements
             .filter(element => doOverlap(payload, element))
             .map(element => ({
-                ...element,
-                selected: true
+              ...element,
+              selected: true
             }))
         ];
       }
@@ -150,9 +150,9 @@ export default new Vuex.Store({
         ...state.elements,
         {
           ...state.base[payload.type],
-          styles: { 
+          styles: {
             ...state.base[payload.type].styles,
-            'z-index': state.elements.length + 5
+            "z-index": state.elements.length + 5
           },
           id: _.now(),
           ...payload
