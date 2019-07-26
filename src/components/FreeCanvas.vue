@@ -20,13 +20,7 @@ import select from "@/helpers/select";
 import _ from 'lodash'
 import Canvas from "@/components/Canvas.vue";
 import CanvasOverlay from "@/components/CanvasOverlay.vue";
-
-const doesContain = (point, element) => {
-  return point.x > element.x && 
-  point.x < element.x + element.width && 
-  point.y > element.y && 
-  point.y < element.y + element.height
-}
+import { doOverlap } from '@/helpers/select'
 
 export default {
   name: "FreeCanvas",
@@ -80,11 +74,13 @@ export default {
       const offsetY = this.$refs.freeCanvas.getBoundingClientRect().y;
 
       const pos = {
-        x: event.pageX - this.$refs.freeCanvas.getBoundingClientRect().x - this.canvas.marginX / 2,
-        y: event.pageY - this.$refs.freeCanvas.getBoundingClientRect().y - this.canvas.marginY / 2
+        x: event.pageX - offsetX - this.canvas.marginX / 2,
+        y: event.pageY - offsetY - this.canvas.marginY / 2,
+        width: 1,
+        height: 1
       }
 
-      const el = _.maxBy(this.elements.filter(e => doesContain(pos, e)), (e => e.styles['z-index']))
+      const el = _.maxBy(this.elements.filter(e => doOverlap(pos, e)), (e => e.styles['z-index']))
       if (el) {
         this.$store.commit('selectElement', el)
       }

@@ -489,5 +489,5 @@ export const getElementXSnapPoints = point => {
 };
 
 export const getElementYSnapPoints = point => {
-  return [getTL(point), getTR(point), getBL(point), getBR(point)].map(e => e.y);
+  return [getTL(point), getTR(point), getBL(point), getBR(point), getRotatedCenter(point)].map(e => e.y);
 };

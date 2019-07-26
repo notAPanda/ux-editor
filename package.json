@@ -19,6 +19,7 @@
     "hotkeys-js": "^3.6.12",
     "lodash": "^4.17.14",
     "normalize.css": "^8.0.1",
+    "numeral": "^2.0.6",
     "transformation-matrix": "^2.0.5",
     "vue": "^2.6.10",
     "vue-color": "^2.7.0",

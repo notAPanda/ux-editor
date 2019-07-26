@@ -91,7 +91,8 @@
               :value="selectedElement.width"
               type="number"
               className=""
-              @valueChanged="set($event, 'width')"
+              name="width"
+              @valueChanged="set($event, payload)"
             ></OneWayInput>
           </div>
           <div class="col">
@@ -100,7 +101,7 @@
               :value="selectedElement.height"
               type="number"
               className="input is-small"
-              @valueChanged="set($event, 'height')"
+              @valueChanged="set($event, payload)"
             ></OneWayInput>
           </div>
         </div>
@@ -110,8 +111,9 @@
             <OneWayInput
               :value="selectedElement.x"
               type="number"
+              name="x"
               className="input is-small"
-              @valueChanged="set($event, 'x')"
+              @valueChanged="set($event, payload)"
             ></OneWayInput>
           </div>
           <div class="col">
@@ -119,8 +121,9 @@
             <OneWayInput
               :value="selectedElement.y"
               type="number"
+              name="y"
               className="input is-small"
-              @valueChanged="set($event, 'y')"
+              @valueChanged="set($event, payload)"
             ></OneWayInput>
           </div>
         </div>
@@ -134,7 +137,7 @@
               min="0"
               max="359"
               className="input is-small"
-              @valueChanged="set($event, 'angle')"
+              @valueChanged="set($event)"
             ></OneWayInput>
           </div>
           <div class="col"></div>
@@ -144,13 +147,13 @@
       </div>
     </div>
     <div v-if="selectedElementsCount > 1">
-      <div class="row mb t">
-        <button @click="alignElements('left')">Align left</button>
-        <button @click="alignElements('right')">Align right</button>
-        <button @click="alignElements('top')">Align top</button>
-        <button @click="alignElements('bottom')">Align bottom</button>
-        <button @click="alignElements('center')">Align center</button>
-        <button @click="alignElements('middle')">Align middle</button>
+      <div class="row mb">
+        <button @click="alignElements('left')">L</button>
+        <button @click="alignElements('center')">C</button>
+        <button @click="alignElements('right')">R</button>
+        <button @click="alignElements('top')">T</button>
+        <button @click="alignElements('middle')">M</button>
+        <button @click="alignElements('bottom')">B</button>
       </div>
     </div>
   </div>
@@ -168,7 +171,6 @@ export default {
   components: {
     OneWayInput,
     Styles
-    // TextEditor
   },
   computed: {
     selectedElement() {
@@ -219,14 +221,15 @@ export default {
           break;
       }
     },
-    set(value, property, style = null) {
+    set(load) {
       const payload = {
         ...this.selectedElement
       };
-      if (property === "angle") {
-        const multi = value / 360;
+
+      if (load.name === "angle") {
+        const multi = load.value / 360;
         if (multi > 1 || multi < -1) {
-          value = value - Math.round(multi) * 360;
+          load.value = load.value - Math.round(multi) * 360;
         }
         const center = rotatePoint(
           getCenter(payload),
@@ -236,18 +239,18 @@ export default {
         const rotatedTL = rotatePoint(
           { x: payload.x, y: payload.y },
           center,
-          parseInt(value) - payload.angle
+          parseInt(load.value) - payload.angle
         );
         const rotatedElement = {
           ...payload,
           ...rotatedTL,
-          angle: parseInt(value)
+          angle: parseInt(load.value)
         };
         this.$store.commit("updateElement", rotatedElement);
         return null;
       }
 
-      payload[property] = parseInt(value);
+      payload[load.name] = load.value;
       this.$store.commit("updateElement", payload);
       return null;
     }

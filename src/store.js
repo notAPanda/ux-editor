@@ -122,17 +122,20 @@ export default new Vuex.Store({
       });
     },
     selectElements(state, payload = null) {
-      if (payload) {
+      if (payload && (payload.width * payload.height > 100)) {
         state.elements = [
-          ...state.elements.filter(element => !doOverlap(payload, element)),
+          ...state.elements
+            .filter(element => !doOverlap(payload, element))
+            .map(element => ({
+              ...element,
+              selected: false
+            })),
           ...state.elements
             .filter(element => doOverlap(payload, element))
-            .map(element => {
-              return {
+            .map(element => ({
                 ...element,
                 selected: true
-              };
-            })
+            }))
         ];
       }
     },
