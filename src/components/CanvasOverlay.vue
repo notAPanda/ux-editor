@@ -83,8 +83,10 @@ export default {
   },
   methods: {
     onDblclick(element) {
-      this.$store.commit("editElement", element);
-      this.$parent.focus(element);
+      if (element.type === "text") {
+        this.$store.commit("editElement", element);
+        this.$parent.focus(element);
+      }
     },
     selectCanvas(canvas) {
       this.$store.commit("clearSelection", canvas);

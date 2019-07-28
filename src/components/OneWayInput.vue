@@ -38,7 +38,10 @@ export default {
       const val = e.target.value;
       const num = numeral(val);
       if (num._value) {
-        this.$emit("valueChanged", { name: this.name, value: num._value });
+        this.$emit("valueChanged", { 
+          name: this.name, 
+          value: this.containsPx ? `${num._value}px` : num._value
+        });
       }
     }
   }

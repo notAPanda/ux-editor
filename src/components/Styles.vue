@@ -21,9 +21,10 @@
         <label class="label">Font Size</label>
         <OneWayInput
           :value="value"
+          :name="name"
           type="text"
           className="input is-small"
-          @valueChanged="set($event, payload)"
+          @valueChanged="set"
         ></OneWayInput>
       </div>
       <div v-if="name === 'border-radius'">{{ name }}: {{ value }}</div>
@@ -41,7 +42,7 @@ import OneWayInput from "@/components/OneWayInput.vue";
 export default {
   name: "Styles",
   methods: {
-    set($event, payload) {
+    set(payload) {
       this.$store.commit("updateElement", {
         ...this.element,
         styles: {

@@ -12,14 +12,14 @@
       :ref="`element${element.id}`"
     >
       <div
+        v-if="element.type === 'text'"
         :ref="`element${element.id}p`"
         :contenteditable="element.type === 'text'"
         @blur="endEditing(element, $event)"
         @input="onInput(element)"
         spellcheck="false"
-      >
-        {{ element.text }}
-      </div>
+        v-html="element.text"
+      ></div>
     </div>
   </div>
 </template>
@@ -78,7 +78,7 @@ export default {
       this.$store.commit("updateElement", {
         ...element,
         height: event.target.clientHeight,
-        text: event.target.innerText,
+        text: event.target.innerHTML,
         selected: true,
         editing: false
       });

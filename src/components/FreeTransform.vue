@@ -373,6 +373,7 @@ $half-point-size: $point-size / 2;
     border: 1px solid #006cff;
     &.editing {
       pointer-events: none;
+      display: none;
     }
   }
   &__content {

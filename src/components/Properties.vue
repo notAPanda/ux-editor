@@ -7,18 +7,20 @@
             <label class="label">W</label>
             <OneWayInput
               :value="selectedElement.width"
+              name="width"
               type="number"
               className=""
-              @valueChanged="set($event, 'width')"
+              @valueChanged="set"
             ></OneWayInput>
           </div>
           <div class="col">
             <label class="label">H</label>
             <OneWayInput
               :value="selectedElement.height"
+              name="height"
               type="number"
               className="input is-small"
-              @valueChanged="set($event, 'height')"
+              @valueChanged="set"
             ></OneWayInput>
           </div>
         </div>
@@ -29,18 +31,20 @@
             <label class="label">W</label>
             <OneWayInput
               :value="selectedElement.width"
+              name="width"
               type="number"
               className=""
-              @valueChanged="set($event, 'width')"
+              @valueChanged="set"
             ></OneWayInput>
           </div>
           <div class="col">
             <label class="label">H</label>
             <OneWayInput
               :value="selectedElement.height"
+              name="height"
               type="number"
               className="input is-small"
-              @valueChanged="set($event, 'height')"
+              @valueChanged="set"
               disabled="1"
             ></OneWayInput>
           </div>
@@ -50,18 +54,20 @@
             <label class="label">X</label>
             <OneWayInput
               :value="selectedElement.x"
+              name="x"
               type="number"
               className="input is-small"
-              @valueChanged="set($event, 'x')"
+              @valueChanged="set"
             ></OneWayInput>
           </div>
           <div class="col">
             <label class="label">Y</label>
             <OneWayInput
               :value="selectedElement.y"
+              name="y"
               type="number"
               className="input is-small"
-              @valueChanged="set($event, 'y')"
+              @valueChanged="set"
             ></OneWayInput>
           </div>
         </div>
@@ -75,7 +81,7 @@
               min="0"
               max="359"
               className="input is-small"
-              @valueChanged="set($event, 'angle')"
+              @valueChanged="set"
             ></OneWayInput>
           </div>
           <div class="col"></div>
@@ -89,19 +95,20 @@
             <label class="label">W</label>
             <OneWayInput
               :value="selectedElement.width"
+              name="width"
               type="number"
               className=""
-              name="width"
-              @valueChanged="set($event, payload)"
+              @valueChanged="set"
             ></OneWayInput>
           </div>
           <div class="col">
             <label class="label">H</label>
             <OneWayInput
               :value="selectedElement.height"
+              name="height"
               type="number"
               className="input is-small"
-              @valueChanged="set($event, payload)"
+              @valueChanged="set"
             ></OneWayInput>
           </div>
         </div>
@@ -113,17 +120,17 @@
               type="number"
               name="x"
               className="input is-small"
-              @valueChanged="set($event, payload)"
+              @valueChanged="set"
             ></OneWayInput>
           </div>
           <div class="col">
             <label class="label">Y</label>
             <OneWayInput
               :value="selectedElement.y"
-              type="number"
               name="y"
+              type="number"
               className="input is-small"
-              @valueChanged="set($event, payload)"
+              @valueChanged="set"
             ></OneWayInput>
           </div>
         </div>
@@ -137,7 +144,7 @@
               min="0"
               max="359"
               className="input is-small"
-              @valueChanged="set($event)"
+              @valueChanged="set"
             ></OneWayInput>
           </div>
           <div class="col"></div>
@@ -250,9 +257,10 @@ export default {
         return null;
       }
 
-      payload[load.name] = load.value;
-      this.$store.commit("updateElement", payload);
-      return null;
+      this.$store.commit("updateElement", {
+        ...payload,
+        [load.name]: load.value
+      });
     }
   }
 };

@@ -59,7 +59,7 @@ export default new Vuex.Store({
         ...defaults,
         type: "text",
         classPrefix: "text",
-        text: "Text...",
+        text: "<p>Text...</p>",
         height: 25,
         styles: {
           color: "rgba(50, 50, 50, 1)",
