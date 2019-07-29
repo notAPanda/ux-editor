@@ -87,14 +87,14 @@
           <h2>{{label}}</h2>
         </div>
         <div class="color">
-          <ColorPicker :property="name"></ColorPicker>
+          <ColorPicker :value="value" :name="name" @update="submit"></ColorPicker>
         </div>
       </div>
       <div class="style-input-container" v-if="['box-shadow'].includes(name)">
         <div class="label">
           <h2>{{label}}</h2>
         </div>
-        <ShadowInput></ShadowInput>
+        <ShadowInput :value="value" @update="submit"></ShadowInput>
       </div>
       <hr>
   </div>
@@ -184,14 +184,7 @@ export default {
         });
       }
 
-      if (this.name === 'mix-blend-mode') {
-        return this.$emit("valueChanged", {
-          name: this.name,
-          value: value
-        });
-      }
-
-      if (this.name === 'border-style') {
+      if (["border-style", "mix-blend-mode", "border-color", "box-shadow", "color", "background"].includes(this.name)) {
         return this.$emit("valueChanged", {
           name: this.name,
           value: value

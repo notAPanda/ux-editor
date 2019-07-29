@@ -10,7 +10,7 @@
       v-show="editColor"
       :style="{ top: `${pos.y}px`, left: `${pos.x - 240}px` }"
     >
-      <Sketch @input="updateValue" :value="color"></Sketch>
+      <Sketch @input="updateValue" :value="value"></Sketch>
     </div>
   </div>
 </template>
@@ -20,20 +20,17 @@ import { Sketch } from "vue-color";
 
 export default {
   name: "ColorPicker",
-  props: ["property"],
+  props: [
+    "value", 
+    "name"
+  ],
   components: {
     Sketch
   },
   computed: {
-    selectedElement() {
-      return this.$store.state.elements.filter(el => el.selected)[0];
-    },
-    color() {
-      return this.selectedElement.styles[this.property];
-    },
     styles() {
       return {
-        background: this.color
+        background: this.value
       };
     }
   },
@@ -49,12 +46,8 @@ export default {
       this.editColor = !this.editColor;
     },
     updateValue(value) {
-      let rgba = `rgba(${value.rgba.r},${value.rgba.g},${value.rgba.b},${
-        value.rgba.a
-      })`;
-      let newEl = { ...this.selectedElement };
-      newEl.styles[this.property] = rgba;
-      this.$store.commit("updateElement", newEl);
+      let rgba = `rgba(${value.rgba.r},${value.rgba.g},${value.rgba.b},${value.rgba.a})`;
+      this.$emit('update', rgba)
     }
   }
 };

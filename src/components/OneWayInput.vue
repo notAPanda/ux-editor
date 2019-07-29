@@ -27,11 +27,6 @@ export default {
       if (num === null) {
         return this.value
       }
-      // if (this.unit === '%') {
-      //   if (num < 1) {
-
-      //   }
-      // }
       if (this.unit) {
         return `${num}${this.unit}`
       }
