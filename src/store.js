@@ -35,9 +35,9 @@ export default new Vuex.Store({
         classPrefix: "oval",
         text: "",
         styles: {
-          background: "rgba(220, 220, 220, 1)",
+          "background": "rgba(220, 220, 220, 1)",
           "border-radius": "50%",
-          opacity: 1,
+          "opacity": 1,
           "mix-blend-mode": "normal",
           "z-index": 1
         }
@@ -49,8 +49,8 @@ export default new Vuex.Store({
         classPrefix: "line",
         text: "",
         styles: {
-          background: "rgba(220, 220, 220, 1)",
-          opacity: 1,
+          "background": "rgba(220, 220, 220, 1)",
+          "opacity": 1,
           "mix-blend-mode": "normal",
           "z-index": 1
         }
@@ -62,8 +62,8 @@ export default new Vuex.Store({
         text: "<p>Text...</p>",
         height: 25,
         styles: {
-          color: "rgba(50, 50, 50, 1)",
-          opacity: 1,
+          "color": "rgba(50, 50, 50, 1)",
+          "opacity": 1,
           "mix-blend-mode": "normal",
           "font-size": "20px",
           "z-index": 2
@@ -75,11 +75,15 @@ export default new Vuex.Store({
         classPrefix: "box",
         text: "",
         styles: {
-          background: "rgba(220, 220, 220, 1)",
+          "background": "rgba(220, 220, 220, 1)",
           "border-radius": 0,
-          opacity: 1,
+          "border-width": 0,
+          "border-color": "rgba(50, 50, 50, 1)",
+          "border-style": 'solid',
+          "opacity": 1,
           "mix-blend-mode": "normal",
-          "z-index": 1
+          "z-index": 1,
+          "box-shadow": "none"
         }
       }
     },

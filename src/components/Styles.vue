@@ -4,7 +4,13 @@
       v-for="(value, name, index) in element.styles"
       :key="`input-${name}-${index}`"
     >
-      <div class="row mb" v-if="name === 'background'">
+      <StyleInput
+      :name="name"
+      :value="value"
+      :label="name"
+      @valueChanged="set"
+      ></StyleInput>
+      <!-- <div class="row mb" v-if="name === 'background'">
         <div class="col">
           <ColorPicker :property="name"></ColorPicker>
         </div>
@@ -38,7 +44,6 @@
           className="input is-small"
           @valueChanged="set"
         ></OneWayInput>
-        
       </div>
       <div v-if="name === 'opacity'">
         <label class="label">Opacity</label>
@@ -60,7 +65,7 @@
           className="input is-small"
           @valueChanged="set"
         ></OneWayInput>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -68,6 +73,7 @@
 <script>
 import ColorPicker from "./ColorPicker";
 import OneWayInput from "@/components/OneWayInput.vue";
+import StyleInput from "@/components/StyleInput.vue";
 
 export default {
   name: "Styles",
@@ -84,7 +90,8 @@ export default {
   },
   components: {
     ColorPicker,
-    OneWayInput
+    OneWayInput,
+    StyleInput
   },
   props: ["element"]
 };

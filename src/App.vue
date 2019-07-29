@@ -30,6 +30,11 @@ body,
   font-size: 12px;
   display: flex;
   flex-direction: column;
+
+  h2 {
+    font-size: 12px;
+    margin: 0;
+  }
 }
 
 #nav {
