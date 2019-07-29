@@ -4,9 +4,9 @@
       :type="type"
       :value="val"
       :class="className"
-      @change="validate"
+      @change="submit"
       :disabled="disabled"
-    />{{ containsPx ? "px" : "" }}
+    />{{ unit }}
   </div>
 </template>
 
@@ -15,34 +15,33 @@ import numeral from "numeral";
 
 export default {
   name: "OneWayInput",
-  props: ["type", "value", "className", "name", "disabled"],
+  props: ["type", "value", "className", "name", "disabled", "unit"],
   computed: {
     val() {
       return numeral(this.value)._value;
     },
-    isNumber() {
-      if (typeof this.value === "number") {
-        return true;
-      }
-      return false;
-    },
-    containsPx() {
-      if (this.isNumber) {
-        return false;
-      }
-      return this.value.indexOf("px");
-    }
   },
   methods: {
-    validate(e) {
-      const val = e.target.value;
-      const num = numeral(val);
-      if (num._value) {
-        this.$emit("valueChanged", {
-          name: this.name,
-          value: this.containsPx ? `${num._value}px` : num._value
-        });
+    format (value) {
+      let num = numeral(value)._value
+      if (num === null) {
+        return this.value
       }
+      // if (this.unit === '%') {
+      //   if (num < 1) {
+
+      //   }
+      // }
+      if (this.unit) {
+        return `${num}${this.unit}`
+      }
+      return num
+    },
+    submit(e) {
+      this.$emit("valueChanged", {
+        name: this.name,
+        value: this.format(e.target.value)
+      });
     }
   }
 };

@@ -23,14 +23,44 @@
           :value="value"
           :name="name"
           type="text"
+          unit="px"
           className="input is-small"
           @valueChanged="set"
         ></OneWayInput>
       </div>
-      <div v-if="name === 'border-radius'">{{ name }}: {{ value }}</div>
-      <div v-if="name === 'opacity'">{{ name }}: {{ value }}</div>
+      <div v-if="name === 'border-radius'">
+        <label class="label">Border radius</label>
+        <OneWayInput
+          :value="value"
+          :name="name"
+          unit="px"
+          type="text"
+          className="input is-small"
+          @valueChanged="set"
+        ></OneWayInput>
+        
+      </div>
+      <div v-if="name === 'opacity'">
+        <label class="label">Opacity</label>
+        <OneWayInput
+          :value="value"
+          :name="name"
+          unit="%"
+          className="input is-small"
+          @valueChanged="set"
+        ></OneWayInput>        
+      </div>
       <div v-if="name === 'mix-blend-mode'">{{ name }}: {{ value }}</div>
-      <div v-if="name === 'z-index'">{{ name }}: {{ value }}</div>
+      <div v-if="name === 'z-index'">
+        <label class="label">Z Index</label>
+        <OneWayInput
+          :value="value"
+          :name="name"
+          type="text"
+          className="input is-small"
+          @valueChanged="set"
+        ></OneWayInput>
+      </div>
     </div>
   </div>
 </template>

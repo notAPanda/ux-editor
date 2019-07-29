@@ -37,7 +37,7 @@ export default new Vuex.Store({
         styles: {
           background: "rgba(220, 220, 220, 1)",
           "border-radius": "50%",
-          opacity: 100,
+          opacity: 1,
           "mix-blend-mode": "normal",
           "z-index": 1
         }
@@ -50,7 +50,7 @@ export default new Vuex.Store({
         text: "",
         styles: {
           background: "rgba(220, 220, 220, 1)",
-          opacity: 100,
+          opacity: 1,
           "mix-blend-mode": "normal",
           "z-index": 1
         }
@@ -63,7 +63,7 @@ export default new Vuex.Store({
         height: 25,
         styles: {
           color: "rgba(50, 50, 50, 1)",
-          opacity: 100,
+          opacity: 1,
           "mix-blend-mode": "normal",
           "font-size": "20px",
           "z-index": 2
@@ -77,7 +77,7 @@ export default new Vuex.Store({
         styles: {
           background: "rgba(220, 220, 220, 1)",
           "border-radius": 0,
-          opacity: 100,
+          opacity: 1,
           "mix-blend-mode": "normal",
           "z-index": 1
         }
