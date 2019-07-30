@@ -69,6 +69,7 @@ export default new Vuex.Store({
         height: 25,
         styles: {
           color: "rgba(50, 50, 50, 1)",
+          "font-family": "sans-serif",
           "font-style": "normal",
           "font-weight": "normal",
           "text-align": "left",

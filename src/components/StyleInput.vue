@@ -142,6 +142,24 @@
       </div>
       <div class="unit"></div>
     </div>
+    <div class="style-input-container" v-if="['font-family'].includes(name)">
+      <div class="label">
+        <h2>{{ label }}</h2>
+      </div>
+      <div class="input">
+        <select @change="submit($event.target.value)">
+          <option :selected="value === 'sans-serif'">sans-serif</option>
+          <option
+            v-for="(mode, index) in this.fontNames"
+            :key="`ta-${index}`"
+            :selected="value === mode"
+            :value="mode"
+            >{{ mode }}</option
+          >
+        </select>
+      </div>
+      <div class="unit"></div>
+    </div>
     <div
       class="style-input-container"
       v-if="['color', 'background', 'border-color'].includes(name)"
@@ -167,7 +185,10 @@
 import numeral from "numeral";
 import ColorPicker from "./ColorPicker";
 import ShadowInput from "./ShadowInput";
+import fonts from "@/assets/fonts.json";
+import FontFaceObserver from "fontfaceobserver";
 
+const fontNames = fonts.items.map(f => f.family);
 const mixBlendModes = [
   "normal",
   "multiply",
@@ -204,7 +225,8 @@ export default {
       borderStyles,
       textAlign,
       fontWeight,
-      fontStyle
+      fontStyle,
+      fontNames
     };
   },
   computed: {
@@ -216,6 +238,15 @@ export default {
     }
   },
   methods: {
+    loadFont(value) {
+      const font = new FontFaceObserver(value);
+      font.load().then(
+        result => {},
+        error => {
+          console.log(error);
+        }
+      );
+    },
     format(value) {
       if (["font-size", "border-radius", "border-width"].includes(this.name)) {
         return `${value}px`;
@@ -232,6 +263,20 @@ export default {
         return this.$emit("valueChanged", {
           name: this.name,
           value: this.value
+        });
+      }
+
+      if (this.name === "font-family") {
+        if (value === "sans-serif") {
+          return this.$emit("valueChanged", {
+            name: this.name,
+            value: `sans-serif`
+          });
+        }
+        this.loadFont(value);
+        return this.$emit("valueChanged", {
+          name: this.name,
+          value: `'${value}', sans-serif`
         });
       }
 

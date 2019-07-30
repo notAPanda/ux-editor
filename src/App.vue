@@ -14,6 +14,7 @@
 <style lang="scss">
 @import "~normalize.css/normalize.css";
 @import "@/assets/variables.scss";
+@import "@/assets/fonts.scss";
 
 html,
 body,
