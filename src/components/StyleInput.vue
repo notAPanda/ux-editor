@@ -91,6 +91,54 @@
       </div>
       <div class="unit"></div>
     </div>
+    <div class="style-input-container" v-if="['font-weight'].includes(name)">
+      <div class="label">
+        <h2>{{ label }}</h2>
+      </div>
+      <div class="input">
+        <select @change="submit($event.target.value)">
+          <option
+            v-for="(mode, index) in this.fontWeight"
+            :key="`fw-${index}`"
+            :selected="value === mode"
+            :value="mode"
+            >{{ mode }}</option>
+        </select>
+      </div>
+      <div class="unit"></div>
+    </div>
+    <div class="style-input-container" v-if="['font-style'].includes(name)">
+      <div class="label">
+        <h2>{{ label }}</h2>
+      </div>
+      <div class="input">
+        <select @change="submit($event.target.value)">
+          <option
+            v-for="(mode, index) in this.fontStyle"
+            :key="`fs-${index}`"
+            :selected="value === mode"
+            :value="mode"
+            >{{ mode }}</option>
+        </select>
+      </div>
+      <div class="unit"></div>
+    </div>
+    <div class="style-input-container" v-if="['text-align'].includes(name)">
+      <div class="label">
+        <h2>{{ label }}</h2>
+      </div>
+      <div class="input">
+        <select @change="submit($event.target.value)">
+          <option
+            v-for="(mode, index) in this.textAlign"
+            :key="`ta-${index}`"
+            :selected="value === mode"
+            :value="mode"
+            >{{ mode }}</option>
+        </select>
+      </div>
+      <div class="unit"></div>
+    </div>
     <div
       class="style-input-container"
       v-if="['color', 'background', 'border-color'].includes(name)"
@@ -135,8 +183,10 @@ const mixBlendModes = [
   "color",
   "luminosity"
 ];
-
 const borderStyles = ["solid", "dotted", "dashed"];
+const textAlign = ['left', 'center', 'right', 'justify']
+const fontWeight = ['normal', 'bold', 'lighter']
+const fontStyle = ['normal', 'italic', 'oblique']
 
 export default {
   name: "OneWayInput",
@@ -148,7 +198,10 @@ export default {
   data() {
     return {
       mixBlendModes,
-      borderStyles
+      borderStyles,
+      textAlign,
+      fontWeight,
+      fontStyle
     };
   },
   computed: {
@@ -186,7 +239,10 @@ export default {
           "border-color",
           "box-shadow",
           "color",
-          "background"
+          "background",
+          "font-weight",
+          "font-style",
+          "text-align",
         ].includes(this.name)
       ) {
         return this.$emit("valueChanged", {
