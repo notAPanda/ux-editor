@@ -20,10 +20,7 @@ import { Sketch } from "vue-color";
 
 export default {
   name: "ColorPicker",
-  props: [
-    "value", 
-    "name"
-  ],
+  props: ["value", "name"],
   components: {
     Sketch
   },
@@ -46,8 +43,10 @@ export default {
       this.editColor = !this.editColor;
     },
     updateValue(value) {
-      let rgba = `rgba(${value.rgba.r},${value.rgba.g},${value.rgba.b},${value.rgba.a})`;
-      this.$emit('update', rgba)
+      let rgba = `rgba(${value.rgba.r},${value.rgba.g},${value.rgba.b},${
+        value.rgba.a
+      })`;
+      this.$emit("update", rgba);
     }
   }
 };

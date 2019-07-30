@@ -1,11 +1,13 @@
 import Vue from "vue";
 import Vuex from "vuex";
-import _ from "lodash";
+import Chance from "chance";
 
 import { doOverlap } from "@/helpers/select";
 import { minMax } from "./helpers/point-finder";
 
 Vue.use(Vuex);
+
+export const chance = new Chance();
 
 const defaults = {
   x: 0,
@@ -35,11 +37,15 @@ export default new Vuex.Store({
         classPrefix: "oval",
         text: "",
         styles: {
-          "background": "rgba(220, 220, 220, 1)",
+          background: "rgba(220, 220, 220, 1)",
           "border-radius": "50%",
-          "opacity": 1,
+          opacity: 1,
           "mix-blend-mode": "normal",
-          "z-index": 1
+          "border-width": 0,
+          "border-color": "rgba(50, 50, 50, 1)",
+          "border-style": "solid",
+          "z-index": 1,
+          "box-shadow": "none"
         }
       },
       line: {
@@ -49,8 +55,8 @@ export default new Vuex.Store({
         classPrefix: "line",
         text: "",
         styles: {
-          "background": "rgba(220, 220, 220, 1)",
-          "opacity": 1,
+          background: "rgba(220, 220, 220, 1)",
+          opacity: 1,
           "mix-blend-mode": "normal",
           "z-index": 1
         }
@@ -62,8 +68,8 @@ export default new Vuex.Store({
         text: "<p>Text...</p>",
         height: 25,
         styles: {
-          "color": "rgba(50, 50, 50, 1)",
-          "opacity": 1,
+          color: "rgba(50, 50, 50, 1)",
+          opacity: 1,
           "mix-blend-mode": "normal",
           "font-size": "20px",
           "z-index": 2
@@ -75,12 +81,12 @@ export default new Vuex.Store({
         classPrefix: "box",
         text: "",
         styles: {
-          "background": "rgba(220, 220, 220, 1)",
+          background: "rgba(220, 220, 220, 1)",
           "border-radius": 0,
           "border-width": 0,
           "border-color": "rgba(50, 50, 50, 1)",
-          "border-style": 'solid',
-          "opacity": 1,
+          "border-style": "solid",
+          opacity: 1,
           "mix-blend-mode": "normal",
           "z-index": 1,
           "box-shadow": "none"
@@ -143,7 +149,7 @@ export default new Vuex.Store({
         ];
       }
     },
-    clearSelection(state, payload) {
+    clearSelection(state) {
       state.elements = [...state.elements].map(el => ({
         ...el,
         selected: false
@@ -151,16 +157,23 @@ export default new Vuex.Store({
     },
     addElement(state, payload) {
       state.elements = [
-        ...state.elements,
+        ...[...state.elements].map(e => ({ ...e, selected: false })),
         {
           ...state.base[payload.type],
           styles: {
             ...state.base[payload.type].styles,
             "z-index": state.elements.length + 5
           },
-          id: _.now(),
-          ...payload
+          selected: true,
+          ...payload,
+          id: chance.hash()
         }
+      ];
+    },
+    addElements(state, payload) {
+      state.elements = [
+        ...[...state.elements].map(e => ({ ...e, selected: false })),
+        ...payload
       ];
     },
     removeElement(state, payload) {
@@ -169,10 +182,24 @@ export default new Vuex.Store({
       ];
       return null;
     },
+    removeElements(state, payload) {
+      const ids = [...payload.map(el => el.id)];
+      state.elements = [
+        ...state.elements.filter(element => !ids.includes(element.id))
+      ];
+      return null;
+    },
     updateElement(state, payload) {
       state.elements = [
         ...state.elements.filter(element => element.id !== payload.id),
         payload
+      ];
+      return null;
+    },
+    updateElements(state, payload) {
+      state.elements = [
+        ...state.elements.filter(element => !element.selected),
+        ...payload
       ];
       return null;
     },

@@ -1,46 +1,51 @@
 <template>
   <div>
-      <div class="style-input-container" v-if="['x', 'y', 'width', 'height', 'angle', 'z-index'].includes(name)">
-        
-        <div class="label">
-          <h2>{{label}}</h2>
-        </div>
-        
-        <div class="input">
-          <input
+    <div
+      class="style-input-container"
+      v-if="['x', 'y', 'width', 'height', 'angle', 'z-index'].includes(name)"
+    >
+      <div class="label">
+        <h2>{{ label }}</h2>
+      </div>
+
+      <div class="input">
+        <input
           type="number"
           :value="value"
           min="0"
           :class="className"
           :disabled="disabled"
           @change="submit($event.target.value)"
-          />
-        </div>
-        
-        <div class="unit"></div>
+        />
       </div>
-      <div class="style-input-container" v-if="['font-size', 'border-radius', 'border-width'].includes(name)">
-        <div class="label">
-          <h2>{{label}}</h2>
-        </div>
-        <div class="input">
-          <input
+
+      <div class="unit"></div>
+    </div>
+    <div
+      class="style-input-container"
+      v-if="['font-size', 'border-radius', 'border-width'].includes(name)"
+    >
+      <div class="label">
+        <h2>{{ label }}</h2>
+      </div>
+      <div class="input">
+        <input
           type="number"
           :value="textToNum"
           min="0"
           :class="className"
           :disabled="disabled"
           @change="submit($event.target.value)"
-          />
-        </div>
-        <div class="unit">px</div>
+        />
       </div>
-      <div class="style-input-container" v-if="['opacity'].includes(name)">
-        <div class="label">
-          <h2>{{label}}</h2>
-        </div>
-        <div class="input">
-          <input
+      <div class="unit">px</div>
+    </div>
+    <div class="style-input-container" v-if="['opacity'].includes(name)">
+      <div class="label">
+        <h2>{{ label }}</h2>
+      </div>
+      <div class="input">
+        <input
           type="number"
           :value="textToNum"
           min="0"
@@ -48,55 +53,62 @@
           :class="className"
           :disabled="disabled"
           @change="submit($event.target.value)"
-          />
-        </div>
-        <div class="unit">%</div>
+        />
       </div>
-      <div class="style-input-container" v-if="['mix-blend-mode'].includes(name)">
-        <div class="label">
-          <h2>{{label}}</h2>
-        </div>
-        <div class="input">
-          <select @change="submit($event.target.value)">
-            <option 
-              v-for="(mode, index) in mixBlendModes" 
-              :key="`mbm-${index}`" 
-              :selected="value === mode" 
-              :value="mode">{{mode}}</option>
-          </select>
-        </div>
-        <div class="unit"></div>
+      <div class="unit">%</div>
+    </div>
+    <div class="style-input-container" v-if="['mix-blend-mode'].includes(name)">
+      <div class="label">
+        <h2>{{ label }}</h2>
       </div>
-      <div class="style-input-container" v-if="['border-style'].includes(name)">
-        <div class="label">
-          <h2>{{label}}</h2>
-        </div>
-        <div class="input">
-          <select @change="submit($event.target.value)">
-            <option 
-              v-for="(mode, index) in borderStyles" 
-              :key="`bs-${index}`" 
-              :selected="value === mode" 
-              :value="mode">{{mode}}</option>
-          </select>
-        </div>
-        <div class="unit"></div>
+      <div class="input">
+        <select @change="submit($event.target.value)">
+          <option
+            v-for="(mode, index) in mixBlendModes"
+            :key="`mbm-${index}`"
+            :selected="value === mode"
+            :value="mode"
+            >{{ mode }}</option
+          >
+        </select>
       </div>
-      <div class="style-input-container" v-if="['color', 'background', 'border-color'].includes(name)">
-        <div class="label">
-          <h2>{{label}}</h2>
-        </div>
-        <div class="color">
-          <ColorPicker :value="value" :name="name" @update="submit"></ColorPicker>
-        </div>
+      <div class="unit"></div>
+    </div>
+    <div class="style-input-container" v-if="['border-style'].includes(name)">
+      <div class="label">
+        <h2>{{ label }}</h2>
       </div>
-      <div class="style-input-container" v-if="['box-shadow'].includes(name)">
-        <div class="label">
-          <h2>{{label}}</h2>
-        </div>
-        <ShadowInput :value="value" @update="submit"></ShadowInput>
+      <div class="input">
+        <select @change="submit($event.target.value)">
+          <option
+            v-for="(mode, index) in borderStyles"
+            :key="`bs-${index}`"
+            :selected="value === mode"
+            :value="mode"
+            >{{ mode }}</option
+          >
+        </select>
       </div>
-      <hr>
+      <div class="unit"></div>
+    </div>
+    <div
+      class="style-input-container"
+      v-if="['color', 'background', 'border-color'].includes(name)"
+    >
+      <div class="label">
+        <h2>{{ label }}</h2>
+      </div>
+      <div class="color">
+        <ColorPicker :value="value" :name="name" @update="submit"></ColorPicker>
+      </div>
+    </div>
+    <div class="style-input-container" v-if="['box-shadow'].includes(name)">
+      <div class="label">
+        <h2>{{ label }}</h2>
+      </div>
+      <ShadowInput :value="value" @update="submit"></ShadowInput>
+    </div>
+    <hr />
   </div>
 </template>
 
@@ -106,92 +118,84 @@ import ColorPicker from "./ColorPicker";
 import ShadowInput from "./ShadowInput";
 
 const mixBlendModes = [
-  'normal',
-  'multiply',
-  'screen',
-  'overlay',
-  'darken',
-  'lighten',
-  'color-dodge',
-  'color-burn',
-  'hard-light',
-  'soft-light',
-  'difference',
-  'exclusion',
-  'hue',
-  'saturation',
-  'color',
-  'luminosity'
+  "normal",
+  "multiply",
+  "screen",
+  "overlay",
+  "darken",
+  "lighten",
+  "color-dodge",
+  "color-burn",
+  "hard-light",
+  "soft-light",
+  "difference",
+  "exclusion",
+  "hue",
+  "saturation",
+  "color",
+  "luminosity"
 ];
 
-const borderStyles = [
-  'solid',
-  'dotted',
-  'dashed'
-]
+const borderStyles = ["solid", "dotted", "dashed"];
 
 export default {
   name: "OneWayInput",
-  props: [
-    "name", 
-    "value", 
-    "className", 
-    "disabled", 
-    "label"
-  ],
+  props: ["name", "value", "className", "disabled", "label"],
   components: {
     ColorPicker,
     ShadowInput
   },
-  data () {
-    return { 
+  data() {
+    return {
       mixBlendModes,
       borderStyles
-    }
+    };
   },
   computed: {
-    textToNum () {
-      if (this.name === 'opacity')
-      {
+    textToNum() {
+      if (this.name === "opacity") {
         return numeral(this.value)._value * 100;
       }
       return numeral(this.value)._value;
     }
   },
   methods: {
-    format (value) {
-      if ([
-        'font-size', 
-        'border-radius',
-        'border-width'
-      ].includes(this.name)) {
-        return `${value}px`
+    format(value) {
+      if (["font-size", "border-radius", "border-width"].includes(this.name)) {
+        return `${value}px`;
       }
 
-      if ([
-        'opacity'
-      ].includes(this.name)) {
-        return value / 100
+      if (["opacity"].includes(this.name)) {
+        return value / 100;
       }
 
-      return value
+      return value;
     },
-    submit (value) {
-      if (value === '') {
+    submit(value) {
+      if (value === "") {
         return this.$emit("valueChanged", {
           name: this.name,
           value: this.value
         });
       }
 
-      if (["border-style", "mix-blend-mode", "border-color", "box-shadow", "color", "background"].includes(this.name)) {
+      if (
+        [
+          "border-style",
+          "mix-blend-mode",
+          "border-color",
+          "box-shadow",
+          "color",
+          "background"
+        ].includes(this.name)
+      ) {
         return this.$emit("valueChanged", {
           name: this.name,
           value: value
         });
       }
 
-      const number = numeral(value)._value
+      const number = numeral(value)._value;
 
       if (number === 0) {
         return this.$emit("valueChanged", {
@@ -235,4 +239,3 @@ export default {
   }
 }
 </style>
-

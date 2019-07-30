@@ -19,18 +19,18 @@ export default {
   computed: {
     val() {
       return numeral(this.value)._value;
-    },
+    }
   },
   methods: {
-    format (value) {
-      let num = numeral(value)._value
+    format(value) {
+      let num = numeral(value)._value;
       if (num === null) {
-        return this.value
+        return this.value;
       }
       if (this.unit) {
-        return `${num}${this.unit}`
+        return `${num}${this.unit}`;
       }
-      return num
+      return num;
     },
     submit(e) {
       this.$emit("valueChanged", {

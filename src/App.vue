@@ -34,6 +34,7 @@ body,
   h2 {
     font-size: 12px;
     margin: 0;
+    font-weight: normal;
   }
 }
 

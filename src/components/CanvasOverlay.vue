@@ -36,6 +36,7 @@
 import FreeTransform from "@/components/FreeTransform.vue";
 import hotkeys from "hotkeys-js";
 import { roundTo } from "@/helpers/styler";
+import { chance } from "@/store.js";
 
 export default {
   name: "CanvasOverlay",
@@ -54,14 +55,110 @@ export default {
     this.offsetY = this.$refs.canvasOverlay.getBoundingClientRect().y;
 
     hotkeys("command+backspace, delete", (e, handler) => {
-      this.$store.commit("removeElement", this.selectedElement);
+      if (this.selectedElementsCount === 1) {
+        this.$store.commit("removeElement", this.selectedElement);
+      } else if (this.selectedElementsCount > 1) {
+        this.$store.commit("removeElements", this.selectedElements);
+      }
       this.$store.commit("selectElement", { id: null, type: null });
     });
     hotkeys("command+c, ctrl+c", (e, handler) => {
-      // copy element to memory
+      if (this.selectedElementsCount) {
+        localStorage.setItem(
+          "clipboard",
+          JSON.stringify(this.selectedElements)
+        );
+      }
     });
     hotkeys("command+v, ctrl+v", (e, handler) => {
-      // paste from memory
+      const clipboard = localStorage.getItem("clipboard");
+      if (!clipboard) {
+        return null;
+      }
+      const elements = JSON.parse(clipboard);
+      const newElements = elements.map(element => ({
+        ...element,
+        selected: true,
+        x: element.x,
+        y: element.y + element.height + 10,
+        id: chance.hash()
+      }));
+      this.$store.commit("addElements", newElements);
+      localStorage.setItem("clipboard", JSON.stringify(newElements));
+    });
+    hotkeys("up", (e, handler) => {
+      e.preventDefault();
+      if (this.selectedElementsCount) {
+        const payload = [...this.selectedElements].map(e => ({
+          ...e,
+          y: e.y - 1
+        }));
+        this.$store.commit("updateElements", payload);
+      }
+    });
+    hotkeys("right", (e, handler) => {
+      if (this.selectedElementsCount) {
+        const payload = [...this.selectedElements].map(e => ({
+          ...e,
+          x: e.x + 1
+        }));
+        this.$store.commit("updateElements", payload);
+      }
+    });
+    hotkeys("down", (e, handler) => {
+      e.preventDefault();
+      if (this.selectedElementsCount) {
+        const payload = [...this.selectedElements].map(e => ({
+          ...e,
+          y: e.y + 1
+        }));
+        this.$store.commit("updateElements", payload);
+      }
+    });
+    hotkeys("left", (e, handler) => {
+      if (this.selectedElementsCount) {
+        const payload = [...this.selectedElements].map(e => ({
+          ...e,
+          x: e.x - 1
+        }));
+        this.$store.commit("updateElements", payload);
+      }
+    });
+    hotkeys("shift + up", (e, handler) => {
+      if (this.selectedElementsCount) {
+        const payload = [...this.selectedElements].map(e => ({
+          ...e,
+          y: e.y - 10
+        }));
+        this.$store.commit("updateElements", payload);
+      }
+    });
+    hotkeys("shift + right", (e, handler) => {
+      if (this.selectedElementsCount) {
+        const payload = [...this.selectedElements].map(e => ({
+          ...e,
+          x: e.x + 10
+        }));
+        this.$store.commit("updateElements", payload);
+      }
+    });
+    hotkeys("shift + down", (e, handler) => {
+      if (this.selectedElementsCount) {
+        const payload = [...this.selectedElements].map(e => ({
+          ...e,
+          y: e.y + 10
+        }));
+        this.$store.commit("updateElements", payload);
+      }
+    });
+    hotkeys("shift + left", (e, handler) => {
+      if (this.selectedElementsCount) {
+        const payload = [...this.selectedElements].map(e => ({
+          ...e,
+          x: e.x - 10
+        }));
+        this.$store.commit("updateElements", payload);
+      }
     });
   },
   computed: {

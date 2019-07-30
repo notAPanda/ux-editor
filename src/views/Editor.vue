@@ -12,9 +12,6 @@
         <li @click="addElement({ type: 'oval' })">
           <span><fa-icon :icon="['far', 'circle']"></fa-icon></span>
         </li>
-        <li @click="addElement({ type: 'line' })">
-          <span>|</span>
-        </li>
       </ul>
     </section>
     <div id="workbench" ref="workbench">

@@ -92,12 +92,7 @@ export const doOverlap = (selector, element) => {
     getBR(selector),
     getBL(selector)
   ];
-  const b = [
-    getTL(element), 
-    getTR(element), 
-    getBR(element),
-    getBL(element)
-  ];
-  
+  const b = [getTL(element), getTR(element), getBR(element), getBL(element)];
+
   return doPolygonsIntersect(a, b);
 };
