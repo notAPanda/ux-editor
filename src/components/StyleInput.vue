@@ -102,7 +102,8 @@
             :key="`fw-${index}`"
             :selected="value === mode"
             :value="mode"
-            >{{ mode }}</option>
+            >{{ mode }}</option
+          >
         </select>
       </div>
       <div class="unit"></div>
@@ -118,7 +119,8 @@
             :key="`fs-${index}`"
             :selected="value === mode"
             :value="mode"
-            >{{ mode }}</option>
+            >{{ mode }}</option
+          >
         </select>
       </div>
       <div class="unit"></div>
@@ -134,7 +136,8 @@
             :key="`ta-${index}`"
             :selected="value === mode"
             :value="mode"
-            >{{ mode }}</option>
+            >{{ mode }}</option
+          >
         </select>
       </div>
       <div class="unit"></div>
@@ -184,9 +187,9 @@ const mixBlendModes = [
   "luminosity"
 ];
 const borderStyles = ["solid", "dotted", "dashed"];
-const textAlign = ['left', 'center', 'right', 'justify']
-const fontWeight = ['normal', 'bold', 'lighter']
-const fontStyle = ['normal', 'italic', 'oblique']
+const textAlign = ["left", "center", "right", "justify"];
+const fontWeight = ["normal", "bold", "lighter"];
+const fontStyle = ["normal", "italic", "oblique"];
 
 export default {
   name: "OneWayInput",
@@ -242,7 +245,7 @@ export default {
           "background",
           "font-weight",
           "font-style",
-          "text-align",
+          "text-align"
         ].includes(this.name)
       ) {
         return this.$emit("valueChanged", {
