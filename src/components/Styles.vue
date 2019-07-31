@@ -37,5 +37,6 @@ export default {
 <style lang="scss">
 .styles {
   position: relative;
+  padding: 0 20px;
 }
 </style>

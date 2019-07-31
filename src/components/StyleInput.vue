@@ -1,48 +1,42 @@
 <template>
   <div>
-    <div
-      class="style-input-container"
-      v-if="['x', 'y', 'width', 'height', 'angle', 'z-index'].includes(name)"
-    >
-      <div class="label">
-        <h2>{{ label }}</h2>
-      </div>
+    <div class="style-input-container" v-if="['z-index'].includes(name)">
+      <div class="label">{{ label }}</div>
 
       <div class="input">
         <input
           type="number"
           :value="value"
           min="0"
+          max="999999"
           :class="className"
           :disabled="disabled"
           @change="submit($event.target.value)"
         />
       </div>
-
-      <div class="unit"></div>
     </div>
     <div
       class="style-input-container"
       v-if="['font-size', 'border-radius', 'border-width'].includes(name)"
     >
       <div class="label">
-        <h2>{{ label }}</h2>
+        {{ label }}
       </div>
       <div class="input">
         <input
           type="number"
           :value="textToNum"
           min="0"
+          max="999999"
           :class="className"
           :disabled="disabled"
           @change="submit($event.target.value)"
-        />
+        />px
       </div>
-      <div class="unit">px</div>
     </div>
     <div class="style-input-container" v-if="['opacity'].includes(name)">
       <div class="label">
-        <h2>{{ label }}</h2>
+        {{ label }}
       </div>
       <div class="input">
         <input
@@ -53,13 +47,12 @@
           :class="className"
           :disabled="disabled"
           @change="submit($event.target.value)"
-        />
+        />%
       </div>
-      <div class="unit">%</div>
     </div>
     <div class="style-input-container" v-if="['mix-blend-mode'].includes(name)">
       <div class="label">
-        <h2>{{ label }}</h2>
+        {{ label }}
       </div>
       <div class="input">
         <select @change="submit($event.target.value)">
@@ -72,11 +65,10 @@
           >
         </select>
       </div>
-      <div class="unit"></div>
     </div>
     <div class="style-input-container" v-if="['border-style'].includes(name)">
       <div class="label">
-        <h2>{{ label }}</h2>
+        {{ label }}
       </div>
       <div class="input">
         <select @change="submit($event.target.value)">
@@ -89,11 +81,10 @@
           >
         </select>
       </div>
-      <div class="unit"></div>
     </div>
     <div class="style-input-container" v-if="['font-weight'].includes(name)">
       <div class="label">
-        <h2>{{ label }}</h2>
+        {{ label }}
       </div>
       <div class="input">
         <select @change="submit($event.target.value)">
@@ -106,11 +97,10 @@
           >
         </select>
       </div>
-      <div class="unit"></div>
     </div>
     <div class="style-input-container" v-if="['font-style'].includes(name)">
       <div class="label">
-        <h2>{{ label }}</h2>
+        {{ label }}
       </div>
       <div class="input">
         <select @change="submit($event.target.value)">
@@ -123,11 +113,10 @@
           >
         </select>
       </div>
-      <div class="unit"></div>
     </div>
     <div class="style-input-container" v-if="['text-align'].includes(name)">
       <div class="label">
-        <h2>{{ label }}</h2>
+        {{ label }}
       </div>
       <div class="input">
         <select @change="submit($event.target.value)">
@@ -140,11 +129,10 @@
           >
         </select>
       </div>
-      <div class="unit"></div>
     </div>
     <div class="style-input-container" v-if="['font-family'].includes(name)">
       <div class="label">
-        <h2>{{ label }}</h2>
+        {{ label }}
       </div>
       <div class="input">
         <select @change="submit($event.target.value)">
@@ -158,26 +146,24 @@
           >
         </select>
       </div>
-      <div class="unit"></div>
     </div>
     <div
       class="style-input-container"
       v-if="['color', 'background', 'border-color'].includes(name)"
     >
       <div class="label">
-        <h2>{{ label }}</h2>
+        {{ label }}
       </div>
       <div class="color">
         <ColorPicker :value="value" :name="name" @update="submit"></ColorPicker>
       </div>
     </div>
-    <div class="style-input-container" v-if="['box-shadow'].includes(name)">
-      <div class="label">
-        <h2>{{ label }}</h2>
-      </div>
+    <div
+      class="style-input-container box-shadow"
+      v-if="['box-shadow'].includes(name)"
+    >
       <ShadowInput :value="value" @update="submit"></ShadowInput>
     </div>
-    <hr />
   </div>
 </template>
 
@@ -188,7 +174,7 @@ import ShadowInput from "./ShadowInput";
 import fonts from "@/assets/fonts.json";
 import FontFaceObserver from "fontfaceobserver";
 
-const fontNames = fonts.items.map(f => f.family);
+const fontNames = fonts.items.map(f => f.family).sort();
 const mixBlendModes = [
   "normal",
   "multiply",
@@ -320,26 +306,21 @@ export default {
 <style lang="scss">
 @import "@/assets/variables.scss";
 .style-input-container {
+  margin: 10px 0;
   display: flex;
   .label {
     flex: 4;
   }
   .input {
     flex: 1;
-    input {
-      margin: 0;
-      padding: 0;
-      text-align: center;
-      outline: 0;
-      border: 0;
-      border-bottom: 1px solid rgba($black, 0.2);
-    }
-  }
-  .unit {
-    flex: 1;
+    display: flex;
+    min-width: 120px;
   }
   .color {
     flex: 4;
+  }
+  &.box-shadow {
+    flex-direction: column;
   }
 }
 </style>

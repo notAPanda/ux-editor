@@ -1,51 +1,52 @@
 <template>
-  <div class="d-flex">
-    <div class="one">
-      <input
-        type="checkbox"
-        value="1"
-        :checked="values.show"
-        @change="set('show', $event.target.checked)"
-      />
+  <div>
+    <div class="d-flex">
+      <div class="label">box-shadow</div>
+      <div class="one">
+        <input
+          type="checkbox"
+          value="1"
+          :checked="values.show"
+          @change="set('show', $event.target.checked)"
+        />
+      </div>
     </div>
-    <div class="one">
-      <input
-        type="number"
-        :value="values.offsetX"
-        :disabled="!values.show"
-        @input="set('offsetX', $event.target.value)"
-      />
-    </div>
-    <div class="one">
-      <input
-        type="number"
-        :value="values.offsetY"
-        :disabled="!values.show"
-        @input="set('offsetY', $event.target.value)"
-      />
-    </div>
-    <div class="one">
-      <input
-        type="number"
-        :value="values.blurRadius"
-        :disabled="!values.show"
-        @input="set('blurRadius', $event.target.value)"
-      />
-    </div>
-    <div class="one">
-      <input
-        type="number"
-        :value="values.spreadRadius"
-        :disabled="!values.show"
-        @input="set('spreadRadius', $event.target.value)"
-      />
-    </div>
-    <div class="one">
-      <ColorPicker
-        :value="values.color"
-        name="color"
-        @update="changeColor"
-      ></ColorPicker>
+    <div class="d-flex" v-show="values.show">
+      <div class="two">
+        <input
+          type="number"
+          :value="values.offsetX"
+          @input="set('offsetX', $event.target.value)"
+        />
+      </div>
+      <div class="two">
+        <input
+          type="number"
+          :value="values.offsetY"
+          @input="set('offsetY', $event.target.value)"
+        />
+      </div>
+      <div class="two">
+        <input
+          type="number"
+          :value="values.blurRadius"
+          @input="set('blurRadius', $event.target.value)"
+        />
+      </div>
+      <div class="two">
+        <input
+          type="number"
+          :value="values.spreadRadius"
+          @input="set('spreadRadius', $event.target.value)"
+        />
+      </div>
+      <div class="two">
+        <ColorPicker
+          :value="values.color"
+          name="color"
+          @update="changeColor"
+        ></ColorPicker>
+      </div>
     </div>
   </div>
 </template>
@@ -108,13 +109,10 @@ export default {
 .d-flex {
   display: flex;
 }
-.flex-row {
-  flex-direction: row;
-}
 .one {
   flex: 1;
-  input {
-    width: 100%;
-  }
+}
+.two {
+  flex: 2;
 }
 </style>

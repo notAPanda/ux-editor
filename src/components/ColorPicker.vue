@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="colorpicker-container">
     <button
       class="colorpicker-button"
       @click="showColorpicker"
@@ -53,14 +53,16 @@ export default {
 </script>
 
 <style lang="scss">
+@import "@/assets/variables.scss";
+
 .colorpicker {
   position: fixed;
 }
 .colorpicker-button {
-  border: 1px solid #666666;
+  border: 1px solid rgba($black, 0.1);
+  border-radius: 2px;
   outline: 0;
-  width: 20px;
+  width: 100%;
   height: 20px;
-  margin-left: 10px;
 }
 </style>

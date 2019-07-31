@@ -3,7 +3,8 @@
     <input
       :type="type"
       :value="val"
-      :class="className"
+      class="coord"
+      max="999999"
       @change="submit"
       :disabled="disabled"
     />{{ unit }}
@@ -15,7 +16,7 @@ import numeral from "numeral";
 
 export default {
   name: "OneWayInput",
-  props: ["type", "value", "className", "name", "disabled", "unit"],
+  props: ["type", "value", "name", "disabled", "unit"],
   computed: {
     val() {
       return numeral(this.value)._value;
@@ -41,3 +42,9 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+input.coord {
+  max-width: 50px;
+}
+</style>

@@ -1,7 +1,29 @@
 <template>
   <div class="properties">
+    <div class="alignment row mb" v-if="selectedElementsCount > 1">
+      <ul class="alignment-list">
+        <li class="alignment-list-item" @click="alignElements('left')">
+          <fa-icon :icon="['fas', 'long-arrow-alt-left']"></fa-icon>
+        </li>
+        <li class="alignment-list-item" @click="alignElements('center')">
+          <fa-icon :icon="['fas', 'arrows-alt-h']"></fa-icon>
+        </li>
+        <li class="alignment-list-item" @click="alignElements('right')">
+          <fa-icon :icon="['fas', 'long-arrow-alt-right']"></fa-icon>
+        </li>
+        <li class="alignment-list-item" @click="alignElements('top')">
+          <fa-icon :icon="['fas', 'long-arrow-alt-up']"></fa-icon>
+        </li>
+        <li class="alignment-list-item" @click="alignElements('middle')">
+          <fa-icon :icon="['fas', 'arrows-alt-v']"></fa-icon>
+        </li>
+        <li class="alignment-list-item" @click="alignElements('bottom')">
+          <fa-icon :icon="['fas', 'long-arrow-alt-down']"></fa-icon>
+        </li>
+      </ul>
+    </div>
     <div v-if="selectedElementsCount === 1">
-      <div v-if="selectedElement.type === 'canvas'">
+      <div v-if="selectedElement.type === 'canvas'" class="coordinates">
         <div class="row mt mb">
           <div class="col">
             <label class="label">W</label>
@@ -9,7 +31,6 @@
               :value="selectedElement.width"
               name="width"
               type="number"
-              className=""
               @valueChanged="set"
             ></OneWayInput>
           </div>
@@ -25,7 +46,7 @@
           </div>
         </div>
       </div>
-      <div v-if="selectedElement.type === 'text'">
+      <div v-if="selectedElement.type === 'text'" class="coordinates">
         <div class="row mb mt">
           <div class="col">
             <label class="label">W</label>
@@ -33,7 +54,6 @@
               :value="selectedElement.width"
               name="width"
               type="number"
-              className=""
               @valueChanged="set"
             ></OneWayInput>
           </div>
@@ -56,7 +76,6 @@
               :value="selectedElement.x"
               name="x"
               type="number"
-              className="input is-small"
               @valueChanged="set"
             ></OneWayInput>
           </div>
@@ -66,7 +85,6 @@
               :value="selectedElement.y"
               name="y"
               type="number"
-              className="input is-small"
               @valueChanged="set"
             ></OneWayInput>
           </div>
@@ -80,16 +98,17 @@
               type="number"
               min="0"
               max="359"
-              className="input is-small"
               @valueChanged="set"
             ></OneWayInput>
           </div>
           <div class="col"></div>
         </div>
         <hr />
-        <Styles :element="selectedElement"></Styles>
       </div>
-      <div v-if="['box', 'oval', 'line'].includes(selectedElement.type)">
+      <div
+        v-if="['box', 'oval', 'line'].includes(selectedElement.type)"
+        class="coordinates"
+      >
         <div class="row mb mt">
           <div class="col">
             <label class="label">W</label>
@@ -107,7 +126,6 @@
               :value="selectedElement.height"
               name="height"
               type="number"
-              className="input is-small"
               @valueChanged="set"
             ></OneWayInput>
           </div>
@@ -119,7 +137,6 @@
               :value="selectedElement.x"
               type="number"
               name="x"
-              className="input is-small"
               @valueChanged="set"
             ></OneWayInput>
           </div>
@@ -129,7 +146,6 @@
               :value="selectedElement.y"
               name="y"
               type="number"
-              className="input is-small"
               @valueChanged="set"
             ></OneWayInput>
           </div>
@@ -143,25 +159,14 @@
               type="number"
               min="0"
               max="359"
-              className="input is-small"
               @valueChanged="set"
             ></OneWayInput>
           </div>
           <div class="col"></div>
         </div>
         <hr />
-        <Styles :element="selectedElement"></Styles>
       </div>
-    </div>
-    <div v-if="selectedElementsCount > 1">
-      <div class="row mb">
-        <button @click="alignElements('left')">L</button>
-        <button @click="alignElements('center')">C</button>
-        <button @click="alignElements('right')">R</button>
-        <button @click="alignElements('top')">T</button>
-        <button @click="alignElements('middle')">M</button>
-        <button @click="alignElements('bottom')">B</button>
-      </div>
+      <Styles :element="selectedElement"></Styles>
     </div>
   </div>
 </template>
@@ -269,6 +274,64 @@ export default {
 <style lang="scss">
 @import "@/assets/variables.scss";
 .properties {
+  line-height: 20px;
+  input {
+    width: 100%;
+    line-height: 20px;
+    margin: 0;
+    padding: 0;
+    text-align: right;
+    outline: 0;
+    border: 0;
+    border-bottom: 1px solid rgba($black, 0.2);
+  }
+  select {
+    line-height: 20px;
+    width: 100%;
+    text-align-last: right;
+    border: 0;
+    border-bottom: 1px solid rgba($black, 0.2);
+  }
+  .label {
+    color: rgba($black, 0.6);
+    text-transform: uppercase;
+    font-size: 10px;
+  }
+  .coordinates {
+    padding: 5px 20px;
+  }
+  .alignment {
+    padding: 5px 10px;
+
+    .alignment-list {
+      margin: 0;
+      padding: 0;
+      list-style-type: none;
+      display: flex;
+      width: 100%;
+
+      .alignment-list-item {
+        flex: 1;
+        flex-grow: 1;
+        height: 30px;
+        cursor: pointer;
+        vertical-align: middle;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &.rotate90 {
+          svg {
+            transform: rotate(90deg);
+          }
+        }
+
+        &:hover {
+          background: rgba($black, 0.1);
+        }
+      }
+    }
+  }
   hr {
     border: none;
     color: rgba($black, 0.1);
@@ -288,21 +351,6 @@ export default {
       flex: 1;
       display: flex;
       align-items: center;
-      justify-content: center;
-      label {
-        color: rgba($black, 0.6);
-        margin: 0 5px 1px 0;
-        width: 15px;
-      }
-      input {
-        margin: 0;
-        padding: 0;
-        width: 50%;
-        text-align: center;
-        outline: 0;
-        border: 0;
-        border-bottom: 1px solid rgba($black, 0.2);
-      }
     }
   }
 }

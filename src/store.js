@@ -25,7 +25,7 @@ export default new Vuex.Store({
     canvas: {
       type: "canvas",
       width: 1024,
-      height: 10000,
+      height: 3000,
       marginX: 400,
       marginY: 400,
       selected: false
@@ -68,12 +68,12 @@ export default new Vuex.Store({
         text: "<p>Text...</p>",
         height: 25,
         styles: {
-          color: "rgba(50, 50, 50, 1)",
           "font-family": "sans-serif",
-          "font-style": "normal",
           "font-weight": "normal",
-          "text-align": "left",
           "font-size": "20px",
+          color: "rgba(50, 50, 50, 1)",
+          "text-align": "left",
+          "font-style": "normal",
           opacity: 1,
           "mix-blend-mode": "normal",
           "z-index": 2
