@@ -31,7 +31,7 @@
           :class="className"
           :disabled="disabled"
           @change="submit($event.target.value)"
-        />px
+        />{{ unit }}
       </div>
     </div>
     <div class="style-input-container" v-if="['opacity'].includes(name)">
@@ -220,9 +220,24 @@ export default {
       if (this.name === "opacity") {
         return numeral(this.value)._value * 100;
       }
+      if (this.unit === "%") {
+        return numeral(this.value)._value * 100;
+      }
       return numeral(this.value)._value;
+    },
+    unit() {
+      if (typeof this.value === "string" && this.value.indexOf("px") > 0) {
+        return "px";
+      } else if (
+        typeof this.value === "string" &&
+        this.value.indexOf("%") > 0
+      ) {
+        return "%";
+      }
+      return null;
     }
   },
+  mounted() {},
   methods: {
     loadFont(value) {
       const font = new FontFaceObserver(value);
@@ -235,7 +250,7 @@ export default {
     },
     format(value) {
       if (["font-size", "border-radius", "border-width"].includes(this.name)) {
-        return `${value}px`;
+        return `${value}${this.unit || "px"}`;
       }
 
       if (["opacity"].includes(this.name)) {
