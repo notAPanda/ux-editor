@@ -4,13 +4,16 @@
     <section id="toolbar-panel">
       <ul class="nav">
         <li @click="addElement({ type: 'text' })">
-          <span><fa-icon :icon="['fas', 'font']"></fa-icon></span>
+          <span><i class="fas fa-font"></i></span>
         </li>
         <li @click="addElement({ type: 'box' })">
-          <span><fa-icon :icon="['far', 'square']"></fa-icon></span>
+          <span><i class="far fa-square"></i></span>
         </li>
         <li @click="addElement({ type: 'oval' })">
-          <span><fa-icon :icon="['far', 'circle']"></fa-icon></span>
+          <span><i class="far fa-circle"></i></span>
+        </li>
+        <li @click="addElement({ type: 'icon' })">
+          <span><i class="fas fa-heart"></i></span>
         </li>
       </ul>
     </section>
@@ -42,7 +45,7 @@ export default {
 </script>
 
 <style lang="scss">
-$black: #000000;
+@import "@/assets/variables.scss";
 
 .editor {
   flex: 1;

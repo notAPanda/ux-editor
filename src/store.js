@@ -95,6 +95,18 @@ export default new Vuex.Store({
           "z-index": 1,
           "box-shadow": "none"
         }
+      },
+      icon: {
+        ...defaults,
+        type: "icon",
+        classPrefix: "icon",
+        text: '{"set":"fas","key":"faArchive"}',
+        styles: {
+          color: "rgba(50, 50, 50, 1)",
+          opacity: 1,
+          "mix-blend-mode": "normal",
+          "z-index": 1
+        }
       }
     },
     elements: []

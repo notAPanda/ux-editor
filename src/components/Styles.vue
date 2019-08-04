@@ -8,16 +8,25 @@
       :label="name"
       @valueChanged="set"
     ></StyleInput>
+    <IconInput v-if="element.type === 'icon'" @update="submit">
+    </IconInput>
   </div>
 </template>
 
 <script>
 import StyleInput from "@/components/StyleInput.vue";
+import IconInput from "@/components/IconInput.vue";
 
 export default {
   name: "Styles",
   props: ["element"],
   methods: {
+    submit (icon) {
+      this.$store.commit("updateElement", {
+        ...this.element,
+        text: JSON.stringify(icon)
+      });
+    },
     set(payload) {
       this.$store.commit("updateElement", {
         ...this.element,
@@ -29,7 +38,8 @@ export default {
     }
   },
   components: {
-    StyleInput
+    StyleInput,
+    IconInput
   }
 };
 </script>

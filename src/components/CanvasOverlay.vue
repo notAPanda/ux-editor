@@ -79,8 +79,6 @@ export default {
       const newElements = elements.map(element => ({
         ...element,
         selected: true,
-        x: element.x,
-        y: element.y + element.height + 10,
         id: chance.hash()
       }));
       this.$store.commit("addElements", newElements);

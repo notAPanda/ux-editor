@@ -11,6 +11,11 @@
       :style="getElementStyles(element)"
       :ref="`element${element.id}`"
     >
+      <div 
+      v-if="element.type === 'icon'"
+      v-html="svg(element.text)"
+      >
+      </div>
       <div
         v-if="element.type === 'text'"
         :ref="`element${element.id}p`"
@@ -26,6 +31,8 @@
 
 <script>
 import { roundTo } from "@/helpers/styler";
+import far from '@/assets/icons/far'
+import fas from '@/assets/icons/fas'
 
 const selectElementContents = el => {
   var range = document.createRange();
@@ -44,7 +51,9 @@ export default {
       editor: null
     };
   },
-  mounted() {},
+  mounted() {
+
+  },
   computed: {
     elements() {
       return this.$store.state.elements;
@@ -63,6 +72,15 @@ export default {
     }
   },
   methods: {
+    svg (text) {
+      const icon = JSON.parse(text)
+      if (icon.set === 'fas') {
+        return fas[icon.key]
+      }
+      if (icon.set === 'far') {
+        return far[icon.key]
+      }
+    },
     onInput(element) {
       this.$store.commit("updateElement", {
         ...element,
@@ -119,6 +137,10 @@ export default {
   &.element-text {
     overflow-wrap: break-word;
     cursor: default;
+  }
+  svg {
+    width: 100% !important;
+    height: 100% !important;
   }
   p {
     margin: 0;

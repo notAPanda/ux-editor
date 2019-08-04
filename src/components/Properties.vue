@@ -3,22 +3,22 @@
     <div class="alignment row mb" v-if="selectedElementsCount > 1">
       <ul class="alignment-list">
         <li class="alignment-list-item" @click="alignElements('left')">
-          <fa-icon :icon="['fas', 'long-arrow-alt-left']"></fa-icon>
+          <i class="fas fa-long-arrow-alt-left"></i>
         </li>
         <li class="alignment-list-item" @click="alignElements('center')">
-          <fa-icon :icon="['fas', 'arrows-alt-h']"></fa-icon>
+          <i class="fas fa-arrows-alt-h"></i>
         </li>
         <li class="alignment-list-item" @click="alignElements('right')">
-          <fa-icon :icon="['fas', 'long-arrow-alt-right']"></fa-icon>
+          <i class="fas fa-long-arrow-alt-right"></i>
         </li>
         <li class="alignment-list-item" @click="alignElements('top')">
-          <fa-icon :icon="['fas', 'long-arrow-alt-up']"></fa-icon>
+          <i class="fas fa-long-arrow-alt-up"></i>
         </li>
         <li class="alignment-list-item" @click="alignElements('middle')">
-          <fa-icon :icon="['fas', 'arrows-alt-v']"></fa-icon>
+          <i class="fas fa-arrows-alt-v"></i>
         </li>
         <li class="alignment-list-item" @click="alignElements('bottom')">
-          <fa-icon :icon="['fas', 'long-arrow-alt-down']"></fa-icon>
+          <i class="fas fa-long-arrow-alt-down"></i>
         </li>
       </ul>
     </div>

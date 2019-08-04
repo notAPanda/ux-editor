@@ -84,7 +84,10 @@ export default {
         e => e.styles["z-index"]
       );
       if (el) {
-        this.$store.commit("selectElement", el);
+        if (event.shiftKey) {
+          return this.$store.commit("addToSelectedElements", el);
+        }
+        return this.$store.commit("selectElement", el);
       }
 
       const drag = select(
