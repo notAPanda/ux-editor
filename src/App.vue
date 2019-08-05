@@ -5,8 +5,12 @@
         <div class="navbar-start">
           <router-link class="navbar-item" to="/">Editor</router-link>
           <a href="" @click.prevent="exportFile" class="navbar-item">Export</a>
-          <a href="" @click.prevent="handleImportClick" class="navbar-item">Import</a>
-          <a href="" @click.prevent="importIcons" class="navbar-item">ImportIcons</a>
+          <a href="" @click.prevent="handleImportClick" class="navbar-item"
+            >Import</a
+          >
+          <a href="" @click.prevent="importIcons" class="navbar-item"
+            >ImportIcons</a
+          >
           <input
             ref="fileInput"
             type="file"

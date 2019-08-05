@@ -1,27 +1,39 @@
 <template>
   <div>
     <ul class="icon-list">
-        <li @click="set('fas', key)" class="icon-list-item" v-for="(icon, key, index) in fas" :key="`fas-${index}`" v-html="icon"></li>
-        <li @click="set('far', key)" class="icon-list-item" v-for="(icon, key, index) in far" :key="`far-${index}`" v-html="icon"></li>
+      <li
+        @click="set('fas', key)"
+        class="icon-list-item"
+        v-for="(icon, key, index) in fas"
+        :key="`fas-${index}`"
+        v-html="icon"
+      ></li>
+      <li
+        @click="set('far', key)"
+        class="icon-list-item"
+        v-for="(icon, key, index) in far"
+        :key="`far-${index}`"
+        v-html="icon"
+      ></li>
     </ul>
   </div>
 </template>
 
 <script>
-import fas from '@/assets/icons/fas'
-import far from '@/assets/icons/far'
+import fas from "@/assets/icons/fas";
+import far from "@/assets/icons/far";
 
 export default {
   name: "IconInput",
-  data () {
+  data() {
     return {
       fas,
       far
-    }
+    };
   },
   methods: {
-    set (set, key) {
-      this.$emit('update', {set, key})
+    set(set, key) {
+      this.$emit("update", { set, key });
     }
   }
 };

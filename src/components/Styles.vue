@@ -8,8 +8,7 @@
       :label="name"
       @valueChanged="set"
     ></StyleInput>
-    <IconInput v-if="element.type === 'icon'" @update="submit">
-    </IconInput>
+    <IconInput v-if="element.type === 'icon'" @update="submit"> </IconInput>
   </div>
 </template>
 
@@ -21,7 +20,7 @@ export default {
   name: "Styles",
   props: ["element"],
   methods: {
-    submit (icon) {
+    submit(icon) {
       this.$store.commit("updateElement", {
         ...this.element,
         text: JSON.stringify(icon)
