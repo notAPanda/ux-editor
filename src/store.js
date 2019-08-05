@@ -20,6 +20,86 @@ const defaults = {
   disableScale: true
 };
 
+const base = {
+  oval: {
+    ...defaults,
+    type: "oval",
+    classPrefix: "oval",
+    text: "",
+    styles: {
+      background: "rgba(220, 220, 220, 1)",
+      "border-radius": "50%",
+      opacity: 1,
+      "mix-blend-mode": "normal",
+      "border-width": 0,
+      "border-color": "rgba(50, 50, 50, 1)",
+      "border-style": "solid",
+      "z-index": 1,
+      "box-shadow": "none"
+    }
+  },
+  line: {
+    ...defaults,
+    height: 1,
+    type: "line",
+    classPrefix: "line",
+    text: "",
+    styles: {
+      background: "rgba(220, 220, 220, 1)",
+      opacity: 1,
+      "mix-blend-mode": "normal",
+      "z-index": 1
+    }
+  },
+  text: {
+    ...defaults,
+    type: "text",
+    classPrefix: "text",
+    text: "<p>Text...</p>",
+    height: 25,
+    styles: {
+      "font-family": "sans-serif",
+      "font-weight": "normal",
+      "font-size": "20px",
+      color: "rgba(50, 50, 50, 1)",
+      "text-align": "left",
+      "font-style": "normal",
+      opacity: 1,
+      "mix-blend-mode": "normal",
+      "z-index": 2
+    }
+  },
+  box: {
+    ...defaults,
+    type: "box",
+    classPrefix: "box",
+    text: "",
+    styles: {
+      background: "rgba(220, 220, 220, 1)",
+      "border-radius": 0,
+      "border-width": 0,
+      "border-color": "rgba(50, 50, 50, 1)",
+      "border-style": "solid",
+      opacity: 1,
+      "mix-blend-mode": "normal",
+      "z-index": 1,
+      "box-shadow": "none"
+    }
+  },
+  icon: {
+    ...defaults,
+    type: "icon",
+    classPrefix: "icon",
+    text: '{"set":"fas","key":"faArchive"}',
+    styles: {
+      color: "rgba(50, 50, 50, 1)",
+      opacity: 1,
+      "mix-blend-mode": "normal",
+      "z-index": 1
+    }
+  }
+};
+
 export default new Vuex.Store({
   state: {
     canvas: {
@@ -29,85 +109,6 @@ export default new Vuex.Store({
       marginX: 400,
       marginY: 400,
       selected: false
-    },
-    base: {
-      oval: {
-        ...defaults,
-        type: "oval",
-        classPrefix: "oval",
-        text: "",
-        styles: {
-          background: "rgba(220, 220, 220, 1)",
-          "border-radius": "50%",
-          opacity: 1,
-          "mix-blend-mode": "normal",
-          "border-width": 0,
-          "border-color": "rgba(50, 50, 50, 1)",
-          "border-style": "solid",
-          "z-index": 1,
-          "box-shadow": "none"
-        }
-      },
-      line: {
-        ...defaults,
-        height: 1,
-        type: "line",
-        classPrefix: "line",
-        text: "",
-        styles: {
-          background: "rgba(220, 220, 220, 1)",
-          opacity: 1,
-          "mix-blend-mode": "normal",
-          "z-index": 1
-        }
-      },
-      text: {
-        ...defaults,
-        type: "text",
-        classPrefix: "text",
-        text: "<p>Text...</p>",
-        height: 25,
-        styles: {
-          "font-family": "sans-serif",
-          "font-weight": "normal",
-          "font-size": "20px",
-          color: "rgba(50, 50, 50, 1)",
-          "text-align": "left",
-          "font-style": "normal",
-          opacity: 1,
-          "mix-blend-mode": "normal",
-          "z-index": 2
-        }
-      },
-      box: {
-        ...defaults,
-        type: "box",
-        classPrefix: "box",
-        text: "",
-        styles: {
-          background: "rgba(220, 220, 220, 1)",
-          "border-radius": 0,
-          "border-width": 0,
-          "border-color": "rgba(50, 50, 50, 1)",
-          "border-style": "solid",
-          opacity: 1,
-          "mix-blend-mode": "normal",
-          "z-index": 1,
-          "box-shadow": "none"
-        }
-      },
-      icon: {
-        ...defaults,
-        type: "icon",
-        classPrefix: "icon",
-        text: '{"set":"fas","key":"faArchive"}',
-        styles: {
-          color: "rgba(50, 50, 50, 1)",
-          opacity: 1,
-          "mix-blend-mode": "normal",
-          "z-index": 1
-        }
-      }
     },
     elements: []
   },
@@ -175,9 +176,9 @@ export default new Vuex.Store({
       state.elements = [
         ...[...state.elements].map(e => ({ ...e, selected: false })),
         {
-          ...state.base[payload.type],
+          ...base[payload.type],
           styles: {
-            ...state.base[payload.type].styles,
+            ...base[payload.type].styles,
             "z-index": state.elements.length + 5
           },
           selected: true,
