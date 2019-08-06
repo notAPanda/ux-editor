@@ -18,7 +18,7 @@
       </ul>
     </section>
     <div id="workbench" ref="workbench">
-      <FreeCanvas></FreeCanvas>
+      <FreeCanvas ref="freeCanvas"></FreeCanvas>
     </div>
     <section id="properties-panel">
       <Properties></Properties>
@@ -38,7 +38,14 @@ export default {
   },
   methods: {
     addElement(payload) {
-      this.$store.commit("addElement", payload);
+      const scrollTop = Math.abs(
+        this.$refs.freeCanvas.$el.getBoundingClientRect().y
+      );
+      this.$store.commit("addElement", {
+        ...payload,
+        y: scrollTop + 10,
+        x: 100
+      });
     }
   }
 };
