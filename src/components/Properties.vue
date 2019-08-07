@@ -46,6 +46,8 @@
           </div>
         </div>
       </div>
+    </div>
+    <div v-if="selectedElementsCount === 1">
       <div v-if="selectedElement.type === 'text'" class="coordinates">
         <div class="row mb mt">
           <div class="col">
