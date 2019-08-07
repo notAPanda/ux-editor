@@ -1,6 +1,6 @@
 <template>
   <div class="properties">
-    <div class="alignment row mb" v-if="selectedElementsCount > 1">
+    <div class="alignment row mb" v-if="selectedElementsCount >= 1">
       <ul class="alignment-list">
         <li class="alignment-list-item" @click="alignElements('left')">
           <i class="fas fa-long-arrow-alt-left"></i>
@@ -22,26 +22,26 @@
         </li>
       </ul>
     </div>
-    <div v-if="selectedElementsCount === 1">
-      <div v-if="selectedElement.type === 'canvas'" class="coordinates">
+    <div v-if="selectedElementsCount === 0">
+      <div class="coordinates">
         <div class="row mt mb">
           <div class="col">
             <label class="label">W</label>
             <OneWayInput
-              :value="selectedElement.width"
+              :value="canvas.width"
               name="width"
               type="number"
-              @valueChanged="set"
+              @valueChanged="setCanvas"
             ></OneWayInput>
           </div>
           <div class="col">
             <label class="label">H</label>
             <OneWayInput
-              :value="selectedElement.height"
+              :value="canvas.height"
               name="height"
               type="number"
               className="input is-small"
-              @valueChanged="set"
+              @valueChanged="setCanvas"
             ></OneWayInput>
           </div>
         </div>
@@ -185,6 +185,9 @@ export default {
     Styles
   },
   computed: {
+    canvas() {
+      return this.$store.state.canvas;
+    },
     selectedElement() {
       if (this.selectedElementsCount) {
         return this.selectedElements[0];
@@ -200,38 +203,66 @@ export default {
   },
   methods: {
     alignElements(side) {
-      switch (side) {
-        case "left":
-          let xmin = _.min(this.selectedElements.map(el => minMax(el).xmin));
-          this.$store.commit("alignLeftSelectedElements", { x: xmin });
-          break;
-        case "right":
-          let xmax = _.max(this.selectedElements.map(el => minMax(el).xmax));
-          this.$store.commit("alignRightSelectedElements", { x: xmax });
-          break;
-        case "center":
-          xmin = _.min(this.selectedElements.map(el => minMax(el).xmin));
-          xmax = _.max(this.selectedElements.map(el => minMax(el).xmax));
-          this.$store.commit("alignCenterSelectedElements", {
-            x: (xmin + xmax) / 2
-          });
-          break;
-        case "top":
-          let ymin = _.min(this.selectedElements.map(el => minMax(el).ymin));
-          this.$store.commit("alignTopSelectedElements", { y: ymin });
-          break;
-        case "bottom":
-          let ymax = _.max(this.selectedElements.map(el => minMax(el).ymax));
-          this.$store.commit("alignBottomSelectedElements", { y: ymax });
-          break;
-        case "middle":
-          ymin = _.min(this.selectedElements.map(el => minMax(el).ymin));
-          ymax = _.max(this.selectedElements.map(el => minMax(el).ymax));
-          this.$store.commit("alignMiddleSelectedElements", {
-            y: (ymin + ymax) / 2
-          });
-          break;
+      if (this.selectedElementsCount === 1) {
+        switch (side) {
+          case "left":
+            this.$store.commit("alignLeftSelectedElement");
+            break;
+          case "right":
+            this.$store.commit("alignRightSelectedElement");
+            break;
+          case "center":
+            this.$store.commit("alignCenterSelectedElement");
+            break;
+          case "top":
+            this.$store.commit("alignTopSelectedElement");
+            break;
+          case "bottom":
+            this.$store.commit("alignBottomSelectedElement");
+            break;
+          case "middle":
+            this.$store.commit("alignMiddleSelectedElement");
+            break;
+        }
+      } else {
+        switch (side) {
+          case "left":
+            let xmin = _.min(this.selectedElements.map(el => minMax(el).xmin));
+            this.$store.commit("alignLeftSelectedElements", { x: xmin });
+            break;
+          case "right":
+            let xmax = _.max(this.selectedElements.map(el => minMax(el).xmax));
+            this.$store.commit("alignRightSelectedElements", { x: xmax });
+            break;
+          case "center":
+            xmin = _.min(this.selectedElements.map(el => minMax(el).xmin));
+            xmax = _.max(this.selectedElements.map(el => minMax(el).xmax));
+            this.$store.commit("alignCenterSelectedElements", {
+              x: (xmin + xmax) / 2
+            });
+            break;
+          case "top":
+            let ymin = _.min(this.selectedElements.map(el => minMax(el).ymin));
+            this.$store.commit("alignTopSelectedElements", { y: ymin });
+            break;
+          case "bottom":
+            let ymax = _.max(this.selectedElements.map(el => minMax(el).ymax));
+            this.$store.commit("alignBottomSelectedElements", { y: ymax });
+            break;
+          case "middle":
+            ymin = _.min(this.selectedElements.map(el => minMax(el).ymin));
+            ymax = _.max(this.selectedElements.map(el => minMax(el).ymax));
+            this.$store.commit("alignMiddleSelectedElements", {
+              y: (ymin + ymax) / 2
+            });
+            break;
+        }
       }
+    },
+    setCanvas(load) {
+      this.$store.commit("updateCanvas", {
+        [load.name]: load.value
+      });
     },
     set(load) {
       const payload = {

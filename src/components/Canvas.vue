@@ -15,7 +15,8 @@
       <div
         v-if="element.type === 'text'"
         :ref="`element${element.id}p`"
-        :contenteditable="element.type === 'text'"
+        class="element-text"
+        :contenteditable="element.type === 'text' && element.selected"
         @blur="endEditing(element, $event)"
         @input="onInput(element)"
         spellcheck="false"
@@ -128,9 +129,9 @@ export default {
 
 .element {
   position: absolute;
-  &.element-text {
-    overflow-wrap: break-word;
+  .element-text {
     cursor: default;
+    overflow-wrap: break-word;
   }
   svg {
     width: 100% !important;

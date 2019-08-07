@@ -113,6 +113,12 @@ export default new Vuex.Store({
     elements: []
   },
   mutations: {
+    updateCanvas(state, payload) {
+      state.canvas = {
+        ...state.canvas,
+        ...payload
+      };
+    },
     editElement(state, payload) {
       state.elements = [
         ...state.elements.filter(element => element.id !== payload.id),
@@ -302,6 +308,92 @@ export default new Vuex.Store({
             return {
               ...e,
               y: payload.y + (e.y - center)
+            };
+          })
+      ];
+    },
+    alignLeftSelectedElement(state) {
+      state.elements = [
+        ...state.elements.filter(e => !e.selected),
+        ...state.elements
+          .filter(e => e.selected)
+          .map(e => {
+            let xmin = minMax(e).xmin;
+            return {
+              ...e,
+              x: 0 + (e.x - xmin)
+            };
+          })
+      ];
+    },
+    alignTopSelectedElement(state) {
+      state.elements = [
+        ...state.elements.filter(e => !e.selected),
+        ...state.elements
+          .filter(e => e.selected)
+          .map(e => {
+            let ymin = minMax(e).ymin;
+            return {
+              ...e,
+              y: 0 + (e.y - ymin)
+            };
+          })
+      ];
+    },
+    alignRightSelectedElement(state) {
+      state.elements = [
+        ...state.elements.filter(e => !e.selected),
+        ...state.elements
+          .filter(e => e.selected)
+          .map(e => {
+            let xmax = minMax(e).xmax;
+            return {
+              ...e,
+              x: state.canvas.width + (e.x - xmax)
+            };
+          })
+      ];
+    },
+    alignBottomSelectedElement(state) {
+      state.elements = [
+        ...state.elements.filter(e => !e.selected),
+        ...state.elements
+          .filter(e => e.selected)
+          .map(e => {
+            let ymax = minMax(e).ymax;
+            return {
+              ...e,
+              y: state.canvas.height + (e.y - ymax)
+            };
+          })
+      ];
+    },
+    alignCenterSelectedElement(state) {
+      state.elements = [
+        ...state.elements.filter(e => !e.selected),
+        ...state.elements
+          .filter(e => e.selected)
+          .map(e => {
+            let mm = minMax(e);
+            let center = (mm.xmin + mm.xmax) / 2;
+            return {
+              ...e,
+              x: state.canvas.width / 2 + (e.x - center)
+            };
+          })
+      ];
+    },
+    alignMiddleSelectedElement(state) {
+      state.elements = [
+        ...state.elements.filter(e => !e.selected),
+        ...state.elements
+          .filter(e => e.selected)
+          .map(e => {
+            let mm = minMax(e);
+            let center = (mm.ymin + mm.ymax) / 2;
+            return {
+              ...e,
+              y: state.canvas.height / 2 + (e.y - center)
             };
           })
       ];
