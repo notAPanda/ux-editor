@@ -16,6 +16,7 @@
             style="display:none"
             @change="handleFiles"
           />
+          <router-link class="navbar-item" to="/about">About 99drafts</router-link>
         </div>
       </div>
     </nav>
@@ -51,6 +52,9 @@ export default {
     },
     exportFile() {
       const fileName = prompt("File name:", "ux-project");
+      if (!fileName) {
+        return null;
+      }
       download(
         JSON.stringify(this.data),
         `${fileName}.json`,
@@ -85,12 +89,6 @@ body,
   font-size: 12px;
   display: flex;
   flex-direction: column;
-
-  h2 {
-    font-size: 12px;
-    margin: 0;
-    font-weight: normal;
-  }
 }
 
 #nav {
@@ -99,6 +97,7 @@ body,
   border-bottom: 1px solid rgba($black, 0.1);
   display: flex;
   align-items: center;
+  flex: none;
 
   .navbar-menu {
     margin: 0 10px;

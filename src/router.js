@@ -10,6 +10,12 @@ export default new Router({
       name: "home",
       component: () =>
         import(/* webpackChunkName: "editor" */ "./views/Editor.vue")
+    },
+    {
+      path: "/about",
+      name: "about",
+      component: () =>
+        import(/* webpackChunkName: "editor" */ "./views/About.vue")
     }
   ]
 });
