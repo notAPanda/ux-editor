@@ -2,20 +2,35 @@
   <div class="about">
     <h1>About 99drafts</h1>
     <p>Hi, I'm Maciek. 👋</p>
-    [tutaj jakieś zdjęcie]
-    <p>This is me while working on 99drafts.com.</p>
-    [tutaj zdjęcie jak pracuje nad projektem]
-    <p>I have a dream… I want to build the best, free for everyone prototyping tool on the planet.</p>
-    <p>There’s just one problem. Maybe two tiny, little problems called time and money.</p>
-    <p>It turns out building free projects after hours is hard and bad for your health. Who would have thought of that 😅.</p>
-    <p><b>I need your help🙏.</b></p> 
-    <p>I think it is possible to turn this side project into a full time job.</p>
+    <img class="img-fluid" :src="require('@/assets/me.jpg')" />
+    <p>
+      I have a dream… I want to build the best, free for everyone prototyping
+      tool on the planet.
+    </p>
+    <p>
+      There’s just one problem. Maybe two tiny, little problems called time and
+      money.
+    </p>
+    <p>
+      It turns out building free projects after hours is hard and bad for your
+      health. Who would have thought of that 😅.
+    </p>
+    <p><b>I need your help🙏.</b></p>
+    <p>
+      I think it is possible to turn this side project into a full time job.
+    </p>
     <p>Just give me all your money 😎.</p>
     <p>If not - fine. I woudn't 😁.</p>
     <p>There are some other ways you can contribute:</p>
     <ul>
       <li>🔥Share 99drafts on social media.</li>
-      <li>🔥🔥🔥Join the <a href="https://www.facebook.com/groups/2359937920992485/">Facebook group</a>, share your thoughts, bugs, suggestions and talk with other UX enthusiasts.</li>
+      <li>
+        🔥🔥🔥Join the
+        <a href="https://www.facebook.com/groups/2359937920992485/"
+          >Facebook group</a
+        >, share your thoughts, bugs, suggestions and talk with other UX
+        enthusiasts.
+      </li>
       <li>🔥🔥Buy me a coffee.</li>
     </ul>
     <p>If you have any other ideas - feel free to message me.</p>
@@ -24,7 +39,12 @@
 </template>
 
 <style lang="scss">
-@import url('https://fonts.googleapis.com/css?family=Lato:400,700|Lora|Playfair+Display:700i,900');
+@import url("https://fonts.googleapis.com/css?family=Lato:400,700|Lora|Playfair+Display:700i,900");
+
+.img-fluid {
+  max-width: 100%;
+}
+
 .about {
   font-family: "Lora";
   font-size: 21px;
@@ -64,7 +84,9 @@
     letter-spacing: -0.45px;
   }
 
-  p, i, a {
+  p,
+  i,
+  a {
     margin-top: 21px;
   }
 

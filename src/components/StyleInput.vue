@@ -140,7 +140,7 @@
           <option
             v-for="(mode, index) in this.fontNames"
             :key="`ta-${index}`"
-            :selected="value === mode"
+            :selected="value == `'${mode}', sans-serif`"
             :value="mode"
             >{{ mode }}</option
           >

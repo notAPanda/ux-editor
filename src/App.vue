@@ -3,8 +3,13 @@
     <nav id="nav" class="navbar has-shadow">
       <div class="navbar-menu">
         <div class="navbar-start">
-          <router-link class="navbar-item" to="/">Editor</router-link>
-          <a href="" @click.prevent="exportFile" class="navbar-item">Export</a>
+          <router-link class="navbar-item" to="/">Home</router-link>
+          <router-link class="navbar-item" to="/editor">Editor</router-link>
+          <router-link class="navbar-item" to="/about"
+            >About 99drafts</router-link
+          >
+        </div>
+        <div class="navbar-end" v-if="['editor'].indexOf($route.name) > -1">
           <a href="" @click.prevent="handleImportClick" class="navbar-item"
             >Import</a
           >
@@ -16,7 +21,7 @@
             style="display:none"
             @change="handleFiles"
           />
-          <router-link class="navbar-item" to="/about">About 99drafts</router-link>
+          <a href="" @click.prevent="exportFile" class="navbar-item">Export</a>
         </div>
       </div>
     </nav>
@@ -49,6 +54,7 @@ export default {
     },
     loadData(json) {
       this.$store.replaceState(json);
+      this.$router.push({ name: "editor" });
     },
     exportFile() {
       const fileName = prompt("File name:", "ux-project");
@@ -101,6 +107,12 @@ body,
 
   .navbar-menu {
     margin: 0 10px;
+    display: flex;
+    width: 100%;
+
+    .navbar-end {
+      margin-left: auto;
+    }
 
     .navbar-item:not(:first-child) {
       margin: 0 0 0 10px;

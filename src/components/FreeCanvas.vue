@@ -64,10 +64,10 @@ export default {
       //
     },
     handleSelection(event) {
+      event.stopPropagation();
       if (this.isEditing) {
         return null;
       }
-      event.stopPropagation();
       event.preventDefault();
       const offsetX = this.$refs.freeCanvas.getBoundingClientRect().x;
       const offsetY = this.$refs.freeCanvas.getBoundingClientRect().y;
@@ -83,12 +83,15 @@ export default {
         this.elements.filter(e => doOverlap(pos, e)),
         e => e.styles["z-index"]
       );
+
       if (el) {
         if (event.shiftKey) {
           return this.$store.commit("addToSelectedElements", el);
         }
         return this.$store.commit("selectElement", el);
       }
+
+      window.getSelection().empty();
 
       const drag = select(
         {

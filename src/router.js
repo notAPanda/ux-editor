@@ -8,6 +8,11 @@ export default new Router({
     {
       path: "/",
       name: "home",
+      component: () => import(/* webpackChunkName: "home" */ "./views/Home.vue")
+    },
+    {
+      path: "/editor",
+      name: "editor",
       component: () =>
         import(/* webpackChunkName: "editor" */ "./views/Editor.vue")
     },
@@ -15,7 +20,7 @@ export default new Router({
       path: "/about",
       name: "about",
       component: () =>
-        import(/* webpackChunkName: "editor" */ "./views/About.vue")
+        import(/* webpackChunkName: "about" */ "./views/About.vue")
     }
   ]
 });
