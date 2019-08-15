@@ -2,9 +2,14 @@
   <div class="home">
     <div class="center middle text-center">
       <div class="mb-3">
-        <router-link class="btn btn-block" to="/editor"
-          >Start a new project</router-link
-        >
+        <button @click.prevent="loadNewProject" class="btn btn-block">
+          Start a new project
+        </button>
+      </div>
+      <div class="mb-3">
+        <button @click.prevent="loadSampleProject" class="btn btn-block">
+          Load a sample project
+        </button>
       </div>
       <div class="mb-3">
         <button @click.prevent="handleImportClick" class="btn btn-block">
@@ -20,13 +25,16 @@
         />
       </div>
       <div class="mb-3">
-        <button @click.prevent="loadSampleProject" class="btn btn-block">
-          Load a sample project
-        </button>
-      </div>
-      <div class="mb-3">
         <router-link class="btn btn-block" to="/about"
           >About 99drafts</router-link
+        >
+      </div>
+      <div class="mb-3">
+        <a
+          class="btn btn-block"
+          href="https://www.buymeacoffee.com/99drafts"
+          target="_blank"
+          >Buy me a coffee</a
         >
       </div>
     </div>
@@ -58,6 +66,20 @@ export default {
     loadSampleProject() {
       this.$store.replaceState(sample);
       this.$router.push({ name: "editor" });
+    },
+    loadNewProject() {
+      this.$store.replaceState({
+        canvas: {
+          type: "canvas",
+          width: 1024,
+          height: 3000,
+          marginX: 400,
+          marginY: 400,
+          selected: false
+        },
+        elements: []
+      });
+      this.$router.push({ name: "editor" });
     }
   }
 };
@@ -82,6 +104,7 @@ export default {
   }
 
   .btn {
+    font-size: $font-size;
     /* default for <button>, but useful for <a> */
     display: inline-block;
     text-align: center;
@@ -92,14 +115,14 @@ export default {
 
     /* invisible border (will be colored on hover/focus) */
     border: solid 1px transparent;
-    border-radius: 4px;
 
     /* size comes from text & padding (no width/height) */
-    padding: 0.5em 1em;
+    padding: 1.5em 3em;
 
     /* make sure colors have enough contrast! */
     color: $white;
     background-color: $primary;
+    cursor: pointer;
 
     &:active {
       transform: translateY(1px);

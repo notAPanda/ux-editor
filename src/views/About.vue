@@ -31,7 +31,11 @@
         >, share your thoughts, bugs, suggestions and talk with other UX
         enthusiasts.
       </li>
-      <li>🔥🔥Buy me a coffee.</li>
+      <li>
+        🔥🔥<a href="https://www.buymeacoffee.com/99drafts" target="_blank"
+          >Buy me a coffe</a
+        >
+      </li>
     </ul>
     <p>If you have any other ideas - feel free to message me.</p>
     <p>Cheers!</p>

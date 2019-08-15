@@ -54,7 +54,7 @@ export default {
     this.offsetX = this.$refs.canvasOverlay.getBoundingClientRect().x;
     this.offsetY = this.$refs.canvasOverlay.getBoundingClientRect().y;
 
-    hotkeys("command+backspace, delete", (e, handler) => {
+    hotkeys("command+backspace, delete, backspace", (e, handler) => {
       if (this.selectedElementsCount === 1) {
         this.$store.commit("removeElement", this.selectedElement);
       } else if (this.selectedElementsCount > 1) {
@@ -63,6 +63,7 @@ export default {
       this.$store.commit("selectElement", { id: null, type: null });
     });
     hotkeys("command+c, ctrl+c", (e, handler) => {
+      e.preventDefault();
       if (this.selectedElementsCount) {
         localStorage.setItem(
           "clipboard",
@@ -71,6 +72,7 @@ export default {
       }
     });
     hotkeys("command+v, ctrl+v", (e, handler) => {
+      e.preventDefault();
       const clipboard = localStorage.getItem("clipboard");
       if (!clipboard) {
         return null;
@@ -95,6 +97,7 @@ export default {
       }
     });
     hotkeys("right", (e, handler) => {
+      e.preventDefault();
       if (this.selectedElementsCount) {
         const payload = [...this.selectedElements].map(e => ({
           ...e,
@@ -114,6 +117,7 @@ export default {
       }
     });
     hotkeys("left", (e, handler) => {
+      e.preventDefault();
       if (this.selectedElementsCount) {
         const payload = [...this.selectedElements].map(e => ({
           ...e,
@@ -132,6 +136,7 @@ export default {
       }
     });
     hotkeys("shift + right", (e, handler) => {
+      e.preventDefault();
       if (this.selectedElementsCount) {
         const payload = [...this.selectedElements].map(e => ({
           ...e,
@@ -141,6 +146,7 @@ export default {
       }
     });
     hotkeys("shift + down", (e, handler) => {
+      e.preventDefault();
       if (this.selectedElementsCount) {
         const payload = [...this.selectedElements].map(e => ({
           ...e,
