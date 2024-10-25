@@ -24,7 +24,7 @@
     "normalize.css": "^8.0.1",
     "numeral": "^2.0.6",
     "transformation-matrix": "^2.0.5",
-    "vue": "^2.6.10",
+    "vue": "^3.0.0",
     "vue-color": "^2.7.0",
     "vue-free-transform": "^1.0.11",
     "vue-router": "^3.0.3",
